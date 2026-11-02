@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspace>
+    <project>
+        <path>$WS_DIR$\AC78428_APP.ewp</path>
+    </project>
+    <project>
+        <path>$WS_DIR$\..\AC78428_BOOT\AC78428_BOOT.ewp</path>
+    </project>
+    <batchBuild />
+</workspace>

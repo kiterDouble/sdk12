@@ -1,0 +1,749 @@
+// SPDX-License-Identifier: GPL-2.0
+/*
+ *  Copyright (C) 2021 ASR Technology Group Ltd.
+ */
+
+#include "asr18xx-pinfunc.h"
+#include <dt-bindings/power/asr-pm.h>
+#include <dt-bindings/clock/asr,asr1803.h>
+#include <dt-bindings/clock/timer-mmp.h>
+#include <dt-bindings/mmc/asr_sdhci.h>
+#include <dt-bindings/phy/phy.h>
+#include <generated/autoconf.h>
+
+/ {
+	#address-cells = <1>;
+	#size-cells = <1>;
+
+	aliases {
+		serial0 = &uart1;
+		serial1 = &uart2;
+		serial2 = &uart3;
+		serial3 = &uart4;
+		i2c0 = &twsi0;
+		i2c1 = &twsi1;
+		i2c2 = &twsi2;
+	};
+
+	soc {
+		#address-cells = <1>;
+		#size-cells = <1>;
+		compatible = "simple-bus";
+		interrupt-parent = <&intc>;
+		ranges;
+		ddr@c0100000 {  /* DDR memory controller */
+			compatible = "marvell,devfreq-ddr";
+			reg = <0xc0100000 0x880>;
+			interrupts = <26>;
+			interrupt-names = "nezas-mc-irq";
+			marvell,qos;
+			clocks = <&soc_clocks ASR1803_CLK_DDR>;
+			clock-names = "ddr";
+			status = "okay";
+		};
+
+		pmu {
+			compatible = "arm,cortex-a7-pmu";
+			interrupts = <58>;
+		};
+
+		axi@d4200000 {	/* AXI */
+			compatible = "mrvl,axi-bus", "simple-bus";
+			#address-cells = <1>;
+			#size-cells = <1>;
+			reg = <0xd4200000 0x00200000>;
+			ranges;
+
+			intc: interrupt-controller@d4282000 {
+				compatible = "mrvl,mmp-intc";
+				interrupt-controller;
+				#interrupt-cells = <1>;
+				reg = <0xd4282000 0x1000>;
+				mrvl,intc-nr-irqs = <80>;
+			};
+			usbphy: usbphy@d4207000 {
+				compatible = "asr,usb2-phy-28hp";
+				reg = <0xd4207000 0x200>;
+				marvell,udc-name = "mv-udc";
+				marvell,ehci-name = "pxa-u2oehci";
+				marvell,otg-name = "mv-otg";
+				marvell,pll-lock-bypass;
+				clocks = <&soc_clocks ASR1803_CLK_USB>;
+				clock-names = "usb_clk";
+				status = "disabled";
+			};
+			usb: usb@c0000000 {
+				compatible = "asr,snps-dwc2";
+				reg = <0xc0000000 0x4000>;
+				interrupts = <44 53>;
+				lpm-qos = <PM_QOS_CPUIDLE_BLOCK_AXI>;
+				dr_mode = "peripheral";
+				g-np-tx-fifo-size = <0x20>;
+				g-rx-fifo-size = <0x200>;
+				g-tx-fifo-size = <0x200 0x200 0x200 0x200 0x200 0x200 0x200 0x200 0x100 0x100 0x100 0x80 0x80 0x80 0x80>;
+				clocks = <&soc_clocks ASR1803_CLK_USB>;
+				clock-names = "otg";
+				/* allow-suspend; */
+				status = "disabled";
+			};
+
+			sdh0: sdh@d4280000 {
+				compatible = "asr,sdhci";
+				reg = <0xd4280000 0x200>;
+				interrupts = <39>;
+				clocks = <&soc_clocks ASR1803_CLK_SDH0
+					  &soc_clocks ASR1803_CLK_SDH_AXI
+					  &soc_clocks ASR1803_CLK_SDH0_TUNE
+					  >;
+				clock-names = "sdh-io", "sdh-core", "sdh-fclk-tuned";
+				lpm-qos = <PM_QOS_CPUIDLE_BLOCK_AXI>;
+				status = "disabled";
+			 };
+			sdh1: sdh@d4280800 {
+				compatible = "asr,sdhci";
+				reg = <0xd4280800 0x200>;
+				interrupts = <39>;
+				clocks = <&soc_clocks ASR1803_CLK_SDH1
+					  &soc_clocks ASR1803_CLK_SDH_AXI
+					  &soc_clocks ASR1803_CLK_SDH1_TUNE
+					  >;
+				clock-names = "sdh-io", "sdh-core", "sdh-fclk-tuned";
+				lpm-qos = <PM_QOS_CPUIDLE_BLOCK_AXI>;
+				status = "disabled";
+			};
+
+			sram: squ@d1000000 {
+				compatible = "mmio-sram";
+				#address-cells = <1>;
+				#size-cells = <1>;
+				no-memory-wc;
+				reg = <0xd1000000 0x10000>;
+				ranges;
+
+				/* Add reserved area below */
+				sram@d100ff00 {
+					/* reserved for obm special flags */
+					reg = <0xd100ff00 0x100>;
+				};
+			};
+
+			qspi: spi@0xd420b000 {
+				#address-cells = <1>;
+				#size-cells = <0>;
+				compatible = "asr,qspi";
+				reg = <0xd420b000 0x1000>, <0x80000000 0x8000000>;
+				reg-names = "qspi-base", "qspi-mmap";
+				asr,qspi-sfa1ad = <0x8000000>;
+				asr,qspi-sfa2ad = <0x8000000>;
+				asr,qspi-sfb1ad = <0x8000000>;
+				asr,qspi-sfb2ad = <0x8000000>;
+				clocks = <&soc_clocks ASR1803_CLK_QSPI
+					  &soc_clocks ASR1803_CLK_QSPI_DTR
+					  &soc_clocks ASR1803_CLK_QSPI_BUS>;
+				clock-names = "qspi_clk", "qspi_clk_dtr", "qspi_bus_clk";
+				asr,qspi-pmuap-reg = <0xd4282860>;
+				/* asr,qspi-id = <0>; */
+				asr,qspi-lpm-qos = <PM_QOS_CPUIDLE_BLOCK_AXI>;
+				interrupts = <45>;
+				dmas = <&pdma0 99 0x1c00>;
+				dma-names = "tx-dma";
+				asr,qspi-support-dqs = <1>;
+				asr,qspi-sram = <&sram>;
+				status = "disabled";
+			};
+			pcie0: pcie@0xd4288000{
+				compatible = "asr,falcon-pcie";
+				device_type = "pci";
+				#address-cells = <3>;
+				#size-cells = <2>;
+				bus-range = <0x00 0xff>;
+				linux,pci-domain = <0>;
+				reg = <0xd4206000 0x800>,	/* Falcon PCIe PHY registers */
+					  <0xd4288000 0x1000>;	/* Falcon PCIe config space */
+				reg-names = "pciephy", "pciectrl";
+				phys = <&pcieport0 0>;
+				phy-names = "pcie-phy";
+				ranges =  <0x81000000 0 0 0xE0010000 0 0x00010000			/* downstream I/O */
+						0x82000000 0 0xE0020000 0xE0020000 0 0x04000000>;	/* memory */
+				lpm-qos = <PM_QOS_CPUIDLE_BLOCK_AXI>;
+				num-lanes = <1>;
+				interrupts = <18>;
+				#interrupt-cells = <1>;
+				interrupt-parent = <&intc>;
+				interrupt-map-mask = <0 0 0 0>;
+				interrupt-map = <0 0 0 0 &intc 18>;
+				clocks = <&soc_clocks ASR1803_CLK_PCIE0>;
+				status = "disabled";
+			};
+
+			pciephy0: pcie-phy@d4206000 {
+				compatible = "asr,falcon-pcie-phy";
+				reg = <0xd4206000 0x800>;
+				#address-cells = <1>;
+				#size-cells = <1>;
+				ranges;
+				status = "disabled";
+				pcieport0: pcie-phy@d4206000 {
+					reg = <0xd4206000 0x800>;
+					#phy-cells = <1>;
+					status = "okay";
+				};
+			};
+	
+			debug: debug@d42a0000 {
+				compatible = "mrvl,mmp-debug";
+				reg = <0xd42a0000 0x800>;
+			};
+			geu: geu {
+				compatible = "asr,asr-geu";
+				reg = <0xD4201000 0x900>;
+				asr,asr-aes;
+				asr,asr-fuse;
+				asr,asr-hwrng;
+				interrupts = <40>;
+				asr,aes-int-mode;
+				dmas = <&pdma0 68 1
+					&pdma0 69 1>;
+				dma-names = "tx", "rx";
+				clocks = <&soc_clocks ASR1803_CLK_GEU>;
+				lpm-qos = <PM_QOS_CPUIDLE_BLOCK_AXI>;
+				status = "okay";
+			};
+		};
+
+		apb@d4000000 {	/* APB */
+			compatible = "mrvl,apb-bus", "simple-bus";
+			#address-cells = <1>;
+			#size-cells = <1>;
+			reg = <0xd4000000 0x00200000>;
+			ranges;
+
+			pdma0: pdma@d4000000 {
+				compatible = "asr,pdma-1.0";
+				reg = <0xd4000000 0x10000>;
+				interrupts = <47>;
+				#dma-cells= <2>;
+				#dma-channels = <32>;
+				#dma-channels-tz = <30>;
+				#dma-channels-dedicated = <0x10000000>;
+				#dma-channels-tz-reserved = <0x0000C000>;
+				lpm-qos = <PM_QOS_CPUIDLE_BLOCK_AXI>;
+				status = "okay";
+			};
+
+			thermal: thermal@d4013300 {
+				compatible = "asr,asr1806-thermal";
+				reg = <0xd4013300 0x3C>;
+				interrupts = <33>;
+				clocks = <&soc_clocks ASR1803_CLK_TSEN>;
+				clock-names = "tsen_clk";
+				polling-mode;
+				polling-interval-ms = <50>;
+				status = "okay";
+			};
+
+			timer0: timer@d4014000 {
+				compatible = "mrvl,mmp-timer";
+				reg = <0xd4014000 0x100>;
+				marvell,timer-id = <0>;
+				marvell,timer-flag = <0>;
+				marvell,timer-fastclk-frequency = <3250000>;
+				marvell,timer-apb-frequency = <104000000>;
+				clocks = <&soc_clocks ASR1803_CLK_TIMER0>;
+
+				counter0 {
+					interrupts = <13>;
+					marvell,timer-counter-id = <0>;
+					marvell,timer-counter-cpu = <0>;
+					marvell,timer-counter-frequency = <32787>;
+					marvell,timer-counter-usage = <MMP_TIMER_COUNTER_CLKEVT>;
+					marvell,timer-counter-rating = <200>;
+				};
+
+				counter1 {
+					interrupts = <14>;
+					marvell,timer-counter-id = <1>;
+					marvell,timer-counter-frequency = <32787>;
+					marvell,timer-counter-usage = <MMP_TIMER_COUNTER_CLKSRC>;
+					marvell,timer-counter-rating = <200>;
+				};
+
+				counter2 {
+					interrupts = <14>;
+					marvell,timer-counter-id = <2>;
+					marvell,timer-counter-frequency = <3250000>;
+					marvell,timer-counter-usage = <MMP_TIMER_COUNTER_DELAY>;
+				};
+			};
+
+			uart1: uart@d4017000 {
+				compatible = "asr,mmp-uart";
+				reg = <0xd4017000 0x1000>;
+				interrupts = <27>;
+				uart-drcmr-rx = <21>;
+				uart-drcmr-tx = <22>;
+				dmas = <&pdma0 21 1
+					&pdma0 22 1>;
+				dma-names = "rx", "tx";
+				asr,debug-console-port;
+				clocks = <&soc_clocks ASR1803_CLK_APUART1>;
+				resets = <&soc_clocks ASR1803_CLK_APUART1>;
+				lpm-qos = <PM_QOS_CPUIDLE_BLOCK_AXI>;
+				status = "disabled";
+			};
+
+			uart2: uart@d4036000 {
+				compatible = "asr,mmp-uart";
+				reg = <0xd4036000 0x1000>;
+				interrupts = <59>;
+				uart-drcmr-rx = <4>;
+				uart-drcmr-tx = <5>;
+				dmas = <&pdma0 4 1
+					&pdma0 5 1>;
+				dma-names = "rx", "tx";
+				clocks = <&soc_clocks ASR1803_CLK_CPUART>;
+				resets = <&soc_clocks ASR1803_CLK_CPUART>;
+				lpm-qos = <PM_QOS_CPUIDLE_BLOCK_AXI>;
+				status = "disabled";
+			};
+
+			uart3: uart@d4018000 {
+				compatible = "asr,mmp-uart";
+				reg = <0xd4018000 0x1000>;
+				interrupts = <28>;
+				uart-drcmr-rx = <23>;
+				uart-drcmr-tx = <24>;
+				dmas = <&pdma0 23 1
+					&pdma0 24 1>;
+				dma-names = "rx", "tx";
+				clocks = <&soc_clocks ASR1803_CLK_APUART2>;
+				resets = <&soc_clocks ASR1803_CLK_APUART2>;
+				lpm-qos = <PM_QOS_CPUIDLE_BLOCK_AXI>;
+				status = "disabled";
+			};
+
+			uart4: uart@d401f000 {
+				compatible = "asr,mmp-uart";
+				reg = <0xd401f000 0x1000>;
+				interrupts = <19>;
+				// uart-drcmr-rx = <19>;
+				// uart-drcmr-tx = <20>;
+				// dmas = <&pdma0 19 1
+				// 	&pdma0 20 1>;
+				// dma-names = "rx", "tx";
+				clocks = <&soc_clocks ASR1803_CLK_APUART3>;
+				resets = <&soc_clocks ASR1803_CLK_APUART3>;
+				lpm-qos = <PM_QOS_CPUIDLE_BLOCK_AXI>;
+				status = "disabled";
+			};
+
+			gpio: gpio@d4019000 {
+				compatible = "marvell,mmp-gpio";
+				#address-cells = <1>;
+				#size-cells = <1>;
+				reg = <0xd4019000 0x1000>;
+				gpio-controller;
+				#gpio-cells = <2>;
+				interrupt-parent = <&intc>;
+				interrupts = <49>;
+				interrupt-controller;
+				#interrupt-cells = <2>;
+				interrupt-names = "gpio_mux";
+				clocks = <&soc_clocks ASR1803_CLK_GPIO>;
+				resets = <&soc_clocks ASR1803_CLK_GPIO>;
+				status = "okay";
+				gpio-ranges = <&pmx 0 55 32>, <&pmx 0 87 23>,
+							<&pmx 3 110 29>, <&pmx 0 139 3 >,
+							<&pmx 28 51 3>;
+			};
+
+			mfpr: mfpr@d401e000 {
+				compatible = "marvell,mmp-mfp-leftover";
+				pinctrl-names = "default";
+				reg = <0xd401e000 0x280>;
+				/* pinctrl-0 = <&mfp_pins_group_0 &mfp_pins_group_1 &mfp_pins_group_2 >;*/				
+				status = "disabled";
+			};
+
+			edgewakeup: edgewakeup@d4019800 {
+				compatible = "mrvl,mmp-edge-wakeup";
+				reg = <0xd4019800 0x10>;
+				status = "okay";
+			};
+
+			twsi0: i2c@d4011000 {
+				compatible = "mrvl,mmp-twsi";
+				#address-cells = <1>;
+				#size-cells = <0>;
+				reg = <0xd4011000 0x60>;
+				interrupts = <7>;
+				lpm-qos = <PM_QOS_CPUIDLE_BLOCK_DDR>;
+				mrvl,i2c-fast-mode;
+				/*
+				 *ilcr: fast mode b17~9=0x23, 390k
+				 *      standard mode b8~0=0x9f, 97k
+				 *iwcr: b5~0=b01010 recommended value from spec
+				 */
+				marvell,i2c-ilcr = <0x82c469f>;
+				marvell,i2c-iwcr = <0x142a>;
+				pinctrl-names = "default","gpio";
+				pinctrl-0 = <&twsi0_pmx_func>;
+				pinctrl-1 = <&twsi0_pmx_gpio>;
+				i2c-gpio = <&gpio 49 0 &gpio 50 0>;
+				clocks = <&soc_clocks ASR1803_CLK_TWSI0>;
+				clock-names = "twsi0_clk";
+				status = "disabled";
+			};
+
+			twsi1: i2c@d4010800 {
+				compatible = "mrvl,mmp-twsi";
+				#address-cells = <1>;
+				#size-cells = <0>;
+				reg = <0xd4010800 0x60>;
+				interrupts = <15>;
+				lpm-qos = <PM_QOS_CPUIDLE_BLOCK_DDR>;
+				mrvl,i2c-fast-mode;
+				marvell,i2c-ilcr = <0x82c469f>;
+				marvell,i2c-iwcr = <0x142a>;
+				clocks = <&soc_clocks ASR1803_CLK_TWSI1>;
+				clock-names = "twsi1_clk";
+				status = "disabled";
+			};
+
+			twsi2: i2c@d4037000 {
+				compatible = "mrvl,mmp-twsi";
+				#address-cells = <1>;
+				#size-cells = <0>;
+				reg = <0xd4037000 0x60>,
+				      <0xd403d300 0x10>;
+				interrupts = <54>;
+				lpm-qos = <PM_QOS_CPUIDLE_BLOCK_DDR>;
+				marvell,i2c-always-on;
+				mrvl,i2c-fast-mode;
+				marvell,i2c-ilcr = <0x82c469f>;
+				marvell,i2c-iwcr = <0x142a>;
+				soc-bus-reset;
+				clocks = <&soc_clocks ASR1803_CLK_TWSI2>;
+				clock-names = "twsi2_clk";
+				status = "disabled";
+			};
+
+			twsi3: i2c@d4010c00 {
+				compatible = "mrvl,mmp-twsi";
+				#address-cells = <1>;
+				#size-cells = <0>;
+				reg = <0xd4010c00 0x60>;
+				interrupts = <67>;
+				lpm-qos = <PM_QOS_CPUIDLE_BLOCK_DDR>;
+				mrvl,i2c-fast-mode;
+				marvell,i2c-ilcr = <0x82c469f>;
+				marvell,i2c-iwcr = <0x142a>;
+				/* implement this part in board file
+				pinctrl-names = "default","gpio";
+				pinctrl-0 = <&twsi3_pmx_func>;
+				pinctrl-1 = <&twsi3_pmx_gpio>;
+				i2c-gpio = <&gpio 41 0 &gpio 42 0>; */
+				clocks = <&soc_clocks ASR1803_CLK_TWSI3>;
+				clock-names = "twsi3_clk";
+				status = "disabled";
+			};
+
+			rtc: rtc@d4010000 {
+				compatible = "mrvl,mmp-rtc";
+				reg = <0xd4010000 0x100>;
+				interrupts = <5 6>;
+				interrupt-names = "rtc 1Hz", "rtc alarm";
+				clocks = <&soc_clocks ASR1803_CLK_RTC>;
+				resets = <&soc_clocks ASR1803_CLK_RTC>;
+				status = "disabled";
+			};
+
+			tsc: tsc@d4013500 {
+				compatible = "asr,tsc";
+				reg = <0xd4013500 0x100>;
+				interrupts = <69 70 71>;
+				interrupt-names = "tsc down", "tsc ready", "tsc up";
+				clocks = <&soc_clocks ASR1806_CLK_TSC>;
+				resets = <&soc_clocks ASR1806_CLK_TSC>;
+				status = "disabled";
+			};
+
+			pmx: pinmux@d401e000 {
+				compatible = "pinconf-single";
+				reg = <0xd401e000 0x330>;
+				#address-cells = <1>;
+				#size-cells = <1>;
+				#pinctrl-cells = <1>;
+				#gpio-range-cells = <3>;
+				ranges;
+
+				pinctrl-single,register-width = <32>;
+				pinctrl-single,function-mask = <7>;
+
+				range: gpio-range {
+					#pinctrl-single,gpio-range-cells = <3>;
+				};
+			};
+
+			ssp0: spi@d401b000 {
+				compatible = "asr,asr-spi";
+				#address-cells = <1>;
+				#size-cells = <0>;
+				reg = <0xd401b000 0x30>;
+
+				/* DMA: change 0x10000 to 0x0 in SPI slave mode */
+				dmas = <&pdma0 52 0x10000
+					&pdma0 53 0x10000>;
+				dma-names = "rx", "tx";
+
+				asr,ssp-lpm-qos = <PM_QOS_CPUIDLE_BLOCK_AXI>;
+				asr,ssp-clock-rate = <13000000>;
+				asr,ssp-id = <1>;
+				interrupts = <3>;
+				asr,ssp-enhancement;
+				asr,ssp-disable-dma;
+				/* asr,ssp-slave-mode; */
+				/* asr,slave-rxtimer-to-ms = <0>; */
+				/* asr,ssp-hold-frame-low; */
+				/* asr,spi-master-rxto = <8000>; */
+				/* asr,spi-slave-rxto = <262144>; */
+				/* asr,spi-pio-interval = <5>; */
+				/* asr,spi-1-cycle-delay; */
+				clocks = <&soc_clocks ASR1803_CLK_SSP0>;
+				status = "disabled";
+			};
+
+#if 0
+			ssp1_spi: spi@d401b800 {
+				compatible = "asr,asr-spi";
+				#address-cells = <1>;
+				#size-cells = <0>;
+				reg = <0xd401b800 0x30>;
+
+				/* DMA: change 0x10000 to 0x0 in SPI slave mode */
+				dmas = <&pdma0 54 0x10000
+					&pdma0 55 0x10000>;
+				dma-names = "rx", "tx";
+
+				asr,ssp-lpm-qos = <PM_QOS_CPUIDLE_BLOCK_AXI>;
+				asr,ssp-clock-rate = <13000000>;
+				asr,ssp-id = <2>;
+				interrupts = <2>;
+				asr,ssp-enhancement;
+				/* asr,ssp-disable-dma; */
+				/* asr,ssp-slave-mode; */
+				/* asr,slave-rxtimer-to-ms = <0>; */
+				/* asr,ssp-hold-frame-low; */
+				/* asr,spi-master-rxto = <8000>; */
+				/* asr,spi-slave-rxto = <262144>; */
+				/* asr,spi-pio-interval = <5>; */
+				/* asr,spi-1-cycle-delay; */
+				clocks = <&soc_clocks ASR1803_CLK_SSP1>;
+				status = "disabled";
+			};
+
+			ssp1_ssp: ssp@d401b800 {
+				status = "disabled";
+				compatible = "asr,pxa910-ssp";
+				reg = <0xd401b800 0x90>;
+
+				ssp1-drcmr-rx = <54>;
+				ssp1-drcmr-tx = <55>;
+
+				ssp-id = <2>;
+				interrupts = <2>;
+				clocks = <&soc_clocks ASR1803_CLK_SSP1>;
+				clock-names = "ssp1_mclk";
+			};
+#endif
+
+			ssp2: spi@d401c000 {
+				compatible = "asr,asr-spi";
+				#address-cells = <1>;
+				#size-cells = <0>;
+				reg = <0xd401c000 0x30>;
+
+				/* DMA: change 0x10000 to 0x0 in SPI slave mode */
+				dmas = <&pdma0 60 0x10000
+					&pdma0 61 0x10000>;
+				dma-names = "rx", "tx";
+
+				asr,ssp-lpm-qos = <PM_QOS_CPUIDLE_BLOCK_AXI>;
+				asr,ssp-clock-rate = <13000000>;
+				asr,ssp-id = <3>;
+				interrupts = <1>;
+				asr,ssp-enhancement;
+				/* asr,ssp-disable-dma; */
+				/* asr,ssp-slave-mode; */
+				/* asr,slave-rxtimer-to-ms = <0>; */
+				/* asr,ssp-hold-frame-low; */
+				/* asr,spi-master-rxto = <8000>; */
+				/* asr,spi-slave-rxto = <262144>; */
+				/* asr,spi-pio-interval = <5>; */
+				/* asr,spi-1-cycle-delay; */
+				clocks = <&soc_clocks ASR1803_CLK_SSP2>;
+				status = "disabled";
+			};
+
+			acipc: acipc@d401d000 {
+				compatible = "mrvl,mmp-acipc";
+				reg = <0xd401d000 0x100>;
+				interrupts = <20>;
+				interrupt-names = "IPC_AP_MUX";
+				status = "okay";
+			};
+
+			seh {
+				compatible = "mrvl,seh";
+				/* <0xd403d300 0x4> is RIPC status register for RIPC lock
+				* when AP-CP sharing PI2C
+				* The CP timer interrupt is not routed to AP on 1802s,
+				* CP use AP timer2@0xD4016000
+				*/
+				reg = <0xd4016000 0xD0>, <0xd403d300 0x4>, <0xd403d000 0x4>;
+				interrupts = <30 56>;
+				interrupt-names = "AP_TIMER2_3", "RIPC0_WAKEUP";
+				watchdog-type = <1>; /* wdt AP timer1 */
+				timer-num = <2>; /* timer num */
+				match-num = <0>; /* match num */
+				status = "okay";
+			};
+			sulog: ripc1@d403d100 {
+				compatible = "mrvl,mmp-sulog";
+				#address-cells = <1>;
+				#size-cells = <0>;
+				reg = <0xd403d100 0x20> ,
+				      <0xd4050210 0x4>;
+				interrupts = <56>;
+				interrupt-names = "RIPC1_INT";
+				status = "okay";
+			};
+			cp-load {
+				compatible = "marvell,cp_load";
+				cp-type = <0x30393838>; /* NZ_MODEM */
+				lpm-qos = <PM_QOS_CPUIDLE_BLOCK_AXI>;
+				status = "okay";
+			};
+
+			data-path {
+				compatible = "marvell,data-path";
+				version = <1>;			
+				status = "okay";
+			};
+
+			pwm0: pwm@d401a000 {
+				compatible = "marvell,pxa250-pwm";
+				reg = <0xd401a000 0x10>;
+				#pwm-cells = <1>;
+				clocks = <&soc_clocks ASR1803_CLK_PWM0>;
+				clock-names = "pwm0_clk";
+				status = "disabled";
+			};
+
+			pwm1: pwm@d401a400 {
+				compatible = "marvell,pxa250-pwm";
+				reg = <0xd401a400 0x10>;
+				#pwm-cells = <1>;
+				clocks = <&soc_clocks ASR1803_CLK_PWM1>;
+				clock-names = "pwm1_clk";
+				status = "disabled";
+			};
+
+			pwm2: pwm@d401a800 {
+				compatible = "marvell,pxa250-pwm";
+				reg = <0xd401a800 0x10>;
+				#pwm-cells = <1>;
+				clocks = <&soc_clocks ASR1803_CLK_PWM2>;
+				clock-names = "pwm2_clk";
+				status = "disabled";
+			};
+
+			pwm3: pwm@d401ac00 {
+				compatible = "marvell,pxa250-pwm";
+				reg = <0xd401ac00 0x10>;
+				#pwm-cells = <1>;
+				clocks = <&soc_clocks ASR1803_CLK_PWM3>;
+				clock-names = "pwm3_clk";
+				status = "disabled";
+			};
+			auxadc: auxadc@d4013380 {
+				compatible = "asr,auxadc";
+				reg = <0xd4013380 0x80>;
+				clocks = <&soc_clocks ASR1803_CLK_TSEN>;
+				clock-names = "tsen_clk";
+				status = "okay";
+			};
+		};
+
+		soc_clocks: clocks{
+			compatible = "asr,asr1803-clock";
+			reg = <0xd4050000 0x1000>,
+			      <0xd4282800 0x400>,
+			      <0xd4015000 0x1000>,
+			      <0xd403b000 0x1000>,
+			      <0xd4090000 0x1000>,
+			      <0xd4282c00 0x400>,
+			      <0xc0100000 0x5000>;
+			reg-names = "mpmu", "apmu", "apbc", "apbcp", "apbs", "ciu", "ddrc";
+			#clock-cells = <1>;
+			#reset-cells = <1>;
+		};
+	};
+	shared-timer {
+		compatible = "marvell,timer1";
+		dev_name = "timer1_TS";
+		version = "build1";
+		reg = <0xD403A000 0xD0>;
+		status = "okay";
+	};
+	regs_addr_ioremap {
+		#address-cells = <1>;
+		#size-cells = <1>;
+		ranges;
+
+		mpmu: pmu@d4050000 {
+			compatible = "marvell,mmp-pmu-mpmu";
+			reg = <0xd4050000 0x2000>;
+		};
+		apmu: pmu@d4282800 {
+			compatible = "marvell,mmp-pmu-apmu";
+			reg = <0xd4282800 0x400>;
+		};
+		apbc: pmu@d4015000 {
+			compatible = "marvell,mmp-pmu-apbc";
+			reg = <0xd4015000 0x100>;
+		};
+		apbs: pmu@d4090000 {
+			compatible = "marvell,mmp-apb-spare";
+			reg = <0xd4090000 0x200>;
+		};
+		ciu: ciu@d4282c00 {
+			compatible = "marvell,mmp-ciu";
+			reg = <0xd4282c00 0x300>;
+		};
+		squ: squ@0xd42a0000 {
+			compatible = "marvell,mmp-squ";
+			reg = <0xd42a0000 0x1000>;
+		};
+		mcu: mcu@0xc0100000 {
+			compatible = "marvell,mmp-mcu";
+			reg = <0xc0100000 0x5000>;
+		};
+	};
+	profile {
+		compatible = "marvell,profile";
+		marvell,profile-number = <0>;
+	};
+
+	mmplog {
+		compatible = "marvell,mmplog-heap";
+		mmplog-base = <0x01f00000>;
+		mmplog-size = <0x8000>;
+		status = "okay";
+	};
+
+	optee-loglevel {
+		compatible = "asr,log-level";
+		status = "ok";
+	};
+};

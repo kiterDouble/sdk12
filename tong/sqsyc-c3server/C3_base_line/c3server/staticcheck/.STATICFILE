@@ -1,0 +1,68 @@
+{
+  "REANALYZE": false,
+  "STATIC_SERVER_ADDRESS": "172.22.27.134",
+  "STATIC_SERVER_PORT": 80,
+  "TOOLCHAIN_FILENAME": "parser.sconf",
+  "PROJECT_KEY": "C3SERVERLIUJILIN",
+  "WORKING_DIR": "/builds/TBox/c3/server/build/.staticdata",
+  "COMMAND": [],
+  "STATICFILE_DIR_PATH": "/builds/TBox/c3/server/build",
+  "PARSING": {
+    "C": {
+      "include": [],
+      "conf": [
+      "c11"
+      ],
+      "removes": []
+    },
+    "CPP": {
+      "include": [],
+      "conf": [
+      "c++11"
+      ],
+      "removes": []
+    }
+  },
+  "COMPILER_INSTALLATION_PATH": [],
+  "USER_DEFINED_EXTENSIONS": {
+    "header": [],
+    "source": [],
+    "object": []
+  },
+  "ALIGN_PATH_MODE": "ALL",
+  "INCLUDE_GNU_PREINCLUDE": false,
+  "EXCLUSIONS": [
+    "**/opt/ql_crosstools/**",
+    "**/builds/TBox/c3/thrid-lib/thrid-lib-out/include/**",
+    "**/builds/TBox/c3/utils/utils-out/include/utils_inc/**",
+    "**/builds/TBox/c3/server/service/ecall/ecall_msd_asn/**",
+    "**/builds/TBox/c3/server/service/signalServer/json/**",
+    "**/builds/TBox/c3/server/service/pm/src/cJSON.c",
+    "**/builds/TBox/c3/thrid-lib/thrid-lib-out/include/**",
+    "**/builds/TBox/c3/utils/utils-out/include/utils_inc/**"
+  ],
+  "EXTRA_OPTIONS": {
+    "ASSIGN_TO_COMMITTER": {
+      "enable": false,
+      "path_replace_map": [
+        {
+          "from": "",
+          "to": ""
+        }
+      ]
+    },
+    "TOOLCHAIN_COMPILER_PREFIX": "",
+    "MODULE_WHITELIST_FOR_ANALYZE": [],
+    "USER_DEFINED_ENVIRONMENTS": {
+      "CSBUILD_ENVIRONMENT_EXAMPLE": "EXAMPLE"
+    },
+    "LANGUAGE_EXTENSION_PAIR": {
+      "C": [],
+      "CPP": []
+    },
+    "SPECIFIED_ANALYSIS_AGENT_VERSION": "",
+    "USE_CAPTURE_BATCH": true,
+    "split_project_mode": false,
+    "ALIGN_PATH_MODE": "ALL"
+  }
+}

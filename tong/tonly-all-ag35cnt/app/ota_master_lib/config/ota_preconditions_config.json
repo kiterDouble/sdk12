@@ -1,0 +1,55 @@
+{
+    "battery_voltage": {
+        "enabled": true,
+        "description": "蓄电池电压要求: U >= 12.0V",
+        "min_voltage": 12.0
+    },
+ 
+    "gear_position": {
+        "enabled": true,
+        "description": "要求当前档位为P挡,value = 0",
+        "required_gear": 0
+    },
+ 
+    "vehicle_speed": {
+        "enabled": true,
+        "description": "车速要求为 0 km/h",
+        "required_speed": 0
+    },
+ 
+    "vcu_hv_not_ready": {
+        "enabled": true,
+        "description": "要求动力系统就绪状态为未就绪 (Not Ready);"
+    },
+ 
+    "bms_real_soc": {
+        "enabled": true,
+        "description": "动力电池 SOC 大于 20%",
+        "min_soc": 20
+    },
+ 
+    "required_vehicle_no_fault": {
+        "enabled": false,
+        "description": "整车故障要求为无故障 (VCU_VehicleFault_Sts = 0x0)"
+    },
+ 
+    "required_plug_off": {
+        "enabled": true,
+        "description": "充电枪连接状态要求为未连接"
+    },
+ 
+    "required_no_remote_ctrl_executing": {
+        "enabled": true,
+        "description": "无远程指令正在执行"
+    },
+ 
+    "no_obd_diagnostic_dev_conn": {
+        "enabled": true,
+        "description": "OBD诊断口应无诊断设备连接运行"
+    },
+ 
+    "bcm_anti_theft_auth_passed": {
+        "enabled": true,
+        "description": "需通过BCM防盗认证"
+    }
+}

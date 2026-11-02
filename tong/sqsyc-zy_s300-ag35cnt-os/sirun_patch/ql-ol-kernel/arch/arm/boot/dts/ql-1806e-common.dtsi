@@ -1,0 +1,1246 @@
+// SPDX-License-Identifier: GPL-2.0
+/*
+ *  Copyright (C) 2023 Quectel
+ */
+
+/ {
+	chosen {
+		bootargs = "root=/dev/mtdblock5 rootfstype=squashfs init=/etc/preinit noinitrd console=ttyS0,115200 mem=128M";
+	};
+
+	aliases {
+		serial2 = &uart3;
+		serial3 = &uart4;
+	};
+
+	firmware {
+		optee {
+			compatible = "linaro,optee-tz";
+			method = "smc";
+		};
+	};
+
+	memory {
+		reg = <0x00000000 0x10000000>;
+	};
+
+	soc {
+		axi@d4200000 {	/* AXI */
+
+			/* qspi boot flash */
+			qspi: spi@0xd420b000 {
+				asr,qspi-freq = <78000000>;
+				asr,qspi-support-dtr = <1>;
+				asr,qspi-dtr-tx-delay = <0>;
+				asr,qspi-dtr-rx-delay = <5>;
+				status = "okay";
+				spinand: spinand@0 {
+					#address-cells = <1>;
+					#size-cells = <1>;
+					compatible = "spi-nand", "asr,sdtim-partitions";
+					spi-max-frequency = <78000000>;
+					reg = <0>;
+					status = "okay";
+				};
+			};
+
+			usbphy: usbphy@d4207000 {
+				status = "okay";
+			};
+
+#ifdef CONFIG_USB_DWC2_ASR_OTG /* otg mode */
+			usb: usb@c0000000 {
+				dr_mode = "otg";
+				pinctrl-names = "default","sleep";
+				pinctrl-0 = <&usb_id_pinmux>;
+				pinctrl-1 = <&usb_id_pinmux_slp>;
+				allow-suspend;
+				snps,no-acchg-det;
+				status = "okay";
+			};
+#else
+			usb: usb@c0000000 {
+				allow-suspend;
+				snps,no-acchg-det;
+				status = "okay";
+			};
+#endif
+
+			eth0: asr-eth@0xd4281800 {
+				status = "okay";
+				compatible = "asr,asr-eth";
+				pinctrl-names = "default", "rgmii-pins";
+				pinctrl-0 = <&emac_pmx_func0 &emac_pmx_func2 &emac_pmx_func3>;
+				pinctrl-1 = <&emac_pmx_func0 &emac_pmx_func1 &emac_pmx_func2 &emac_pmx_func3>;
+				reg = <0xd4281800 0x200>;
+				interrupts = <10 11>;
+				lpm-qos = <PM_QOS_CPUIDLE_BLOCK_AXI>;
+				clocks = <&soc_clocks ASR1803_CLK_EMAC
+					  &soc_clocks ASR1803_CLK_EMAC_PTP>;
+				clock-names = "emac-clk", "ptp-clk";
+				ptp-support;
+				ptp-clk-rate = <100000000>;
+				clk-tuning-enable;
+
+				/* clk-config(32bit)
+				 *
+				 * clk_sel(clk-config[23:16])
+				 * RGMII:
+				 *  tx | clk_sel: 0 - from external RX clock
+				 *                1 - from inverted external RX clock
+				 *  rx | clk_sel: 0 - from external RX clock
+				 *                1 - from inverted external RX clock
+				 *
+				 * RMII:
+				 *  tx | clk_sel: 0 - RMII clock
+				 *                1 - Inverted RMII clock
+				 *  rx | clk_sel: 0 - RMII clock
+				 *                1 - Inverted RMII clock
+				 *
+				 */
+				tx-clk-config = <0x0>;
+				rx-clk-config = <0x0>;
+
+				/* enable 1000M phy*/
+				3v3-enable = <0>; /* IO voltage, 1 - 3.3v, 0 - 1.8v */
+				phy-handle = <&phy0>;
+				reset-gpio = <&gpio 20 0>;
+				reset-active-low;
+				reset-delays-us = <0 100000 100000>;
+				enable-suspend;
+				suspend-not-keep-power;
+				magic-packet-wakeup;
+				ldo-gpio = <&gpio 37 0>;	//The gpio117 is power enable pin.
+				ldo-active-low;
+				ldo-delays-us = <0 10000 10000>;
+				flow-control-threshold = <60 90>;
+
+				/* enable fix link for ethernet switch */
+				/*
+					fixed-link {
+						speed = <100>;
+						full-duplex;
+						phy-mode = "rmii";
+					};
+				*/
+
+				mdio: mdio-bus {
+					#address-cells = <0x1>;
+					#size-cells = <0x0>;
+					/* YT8521 10M/100M/1000M 1.8V RGMII PHY */
+					phy0: phy@0 {
+						compatible = "ethernet-phy-ieee802.3-c22";
+						device_type = "ethernet-phy";
+						reg = <0x0>; /* set phy address*/
+						phy-mode = "rgmii";
+						tx_rx_delay = <0xb 0x0>; /* 150ps per step*/
+					};
+
+				};
+			};
+
+			/* SDIO for emmc/SDcard */
+			sdh0: sdh@d4280000 {
+				status = "okay";
+				pinctrl-names = "default", "slow", "fast";
+				pinctrl-0 = <&sdh0_pmx_func1 &sdh0_pmx_func2 &sdh0_pmx_func3>;
+				pinctrl-1 = <&sdh0_pmx_func1_slow &sdh0_pmx_func2_slow &sdh0_pmx_func3>;
+				pinctrl-2 = <&sdh0_pmx_func1_fast &sdh0_pmx_func2_fast &sdh0_pmx_func3>;
+				/*
+				 * Genernal use, juse set vmmc-supply and vqmmc-supply
+				 * 	vmmc-supply = <&supply1>
+				 * 	vqmmc-supply = <&supply2>
+				 *
+				 * For compatibility, to select one from two supply source
+				 *	vmmc-supply = <&supply1 &supply1_backup>;
+				 *	vqmmc-supply = <&supply2 &supply2_backup>;
+				 *	vmmc2-supply = <&supply1_backup &supply1>;
+				 *	vqmmc2-supply = <&supply2_backup &supply2>;
+				 */
+				//vmmc-supply = <&vcc_sdh1>;
+				//vqmmc-supply = <&pm802ldo6 &pm803ldo8>;
+				vqmmc-supply = <&pm802ldo6>;
+				//vmmc2-supply = <&vcc_sdh1 &pm802ldo4>;
+				//vqmmc2-supply = <&pm803ldo8 &pm802ldo6>;
+				bus-width = <4>;
+				no-mmc;
+				no-sdio;
+				non-removable;
+				broken-cd;
+				wp-inverted;
+				asr,sdh-pm-runtime-en;
+				asr,sdh-host-caps-disable = <(MMC_CAP_UHS_SDR104)>;
+				asr,sdh-quirks = <(
+					SDHCI_QUIRK_BROKEN_CARD_DETECTION |
+					SDHCI_QUIRK_BROKEN_TIMEOUT_VAL
+					)>;
+				asr,sdh-quirks2 = <(
+					SDHCI_QUIRK2_SET_AIB_MMC |
+					SDHCI_QUIRK2_PRESET_VALUE_BROKEN
+					)>;
+				/* prop "sdh-dtr-data":
+				   <timing preset_rate src_rate tx_delay rx_delay tx_dline_reg rx_dline_reg> */
+				asr,sdh-dtr-data =
+					<PXA_MMC_TIMING_LEGACY PXA_SDH_DTR_26M PXA_SDH_DTR_104M 0 0 0 0>,
+					<PXA_MMC_TIMING_SD_HS PXA_SDH_DTR_52M PXA_SDH_DTR_104M 0 0 0 0>,
+					<PXA_MMC_TIMING_UHS_DDR50 PXA_SDH_DTR_52M PXA_SDH_DTR_104M 0 0 0 3>,
+					<PXA_MMC_TIMING_UHS_SDR50 PXA_SDH_DTR_104M PXA_SDH_DTR_208M 0 0 0 0>,
+					<PXA_MMC_TIMING_UHS_SDR104 PXA_SDH_DTR_208M PXA_SDH_DTR_208M 0 0 0 0>,
+					<PXA_MMC_TIMING_MAX PXA_SDH_DTR_PS_NONE PXA_SDH_DTR_104M 0 0 0 0>;
+				reset-gpio = <&gpio 90 0>;
+				reset-active-low;
+				reset-delays-us = <0 10 300>;
+			};
+
+			/* SDIO for wlan */
+			sdh1: sdh@d4280800 {
+				pinctrl-names = "default", "fast", "sleep";
+				pinctrl-0 = <&sdh1_pmx_func1 &sdh1_pmx_func2 &sdh1_pmx_func3>;
+				pinctrl-1 = <&sdh1_pmx_func1_fast &sdh1_pmx_func2_fast &sdh1_pmx_func3>;
+				pinctrl-2 = <&sdh1_pmx_edge_wakeup>;
+				bus-width = <4>;
+				no-mmc;
+				no-sd;
+				non-removable;
+				keep-power-in-suspend;
+				enable-sdio-wakeup;
+				/* clk-scaling-config:
+				   <up_threshold down_threshold polling_interval> */
+				clk-scaling-config = <25 12 200>;
+				min-ddr-qos = <156000 312000 400000>;
+				asr,sdh-pm-runtime-en;
+				asr,sdh-quirks = <(
+					SDHCI_QUIRK_BROKEN_CARD_DETECTION |
+					SDHCI_QUIRK_BROKEN_TIMEOUT_VAL
+					)>;
+				asr,sdh-quirks2 = <(
+					SDHCI_QUIRK2_NO_TIMER_RETUNING |
+					SDHCI_QUIRK2_PRESET_VALUE_BROKEN |
+					SDHCI_QUIRK2_BASE_CLOCK_ALWAYS_ON
+					)>;
+				asr,sdh-pm-caps = <(MMC_PM_KEEP_POWER)>;
+				asr,sdh-host-caps2 = <(
+					MMC_CAP2_ONLY_1_8V |
+					MMC_CAP2_DISABLE_PROBE_CDSCAN |
+					MMC_CAP2_CLK_SCALE |
+					MMC_CAP2_BUS_CLK_NO_SCALE
+					)>;
+				/* prop "sdh-dtr-data":
+				   <timing preset_rate src_rate tx_delay rx_delay tx_dline_reg rx_dline_reg> */
+				asr,sdh-dtr-data =
+					<PXA_MMC_TIMING_LEGACY PXA_SDH_DTR_26M PXA_SDH_DTR_104M 0 0 0 0>,
+					<PXA_MMC_TIMING_SD_HS PXA_SDH_DTR_45M PXA_SDH_DTR_89M 0 0 0 0>,
+					<PXA_MMC_TIMING_UHS_DDR50 PXA_SDH_DTR_52M PXA_SDH_DTR_104M 0 0 0 3>,
+					<PXA_MMC_TIMING_UHS_SDR50 PXA_SDH_DTR_83M PXA_SDH_DTR_83M 0 0 0 3>,
+					<PXA_MMC_TIMING_UHS_SDR104 PXA_SDH_DTR_208M PXA_SDH_DTR_208M 0 0 0 0>,
+					<PXA_MMC_TIMING_MAX PXA_SDH_DTR_PS_NONE PXA_SDH_DTR_89M 0 0 0 0>;
+				status = "okay";
+			};
+
+			pcie0: pcie@0xd4288000{
+				reset-gpios = <&gpio 42 0 >;
+				status = "disabled";
+			};
+
+			pciephy0: pcie-phy@d4206000 {
+				status = "disabled";
+			};
+		};
+
+		apb@d4000000 {    /* APB */
+
+			watchdog: watchdog@d4080000 {
+				compatible = "marvell,pxa-wdt";
+				reg = <0xd4080000 0xff>,
+					<0xd4050000 0x1024>;
+				/* marvell,pxa-wdt-disabled; */
+				status = "okay";
+			};
+
+			mfpr: mfpr@d401e000 {
+				status = "okay";
+			};
+
+			timer0: timer@d4014000 {
+				status = "okay";
+			};
+
+			rtc: rtc@d4010000 {
+				status = "okay";
+			};
+
+			//gabriel add 20230526 add spi_0 spi_2 config
+			ssp0: spi@d401b000 {
+				status = "okay";
+				dmas = <&pdma0 52 0x10000
+					&pdma0 53 0x10000>;
+				dma-names = "rx", "tx";
+				pinctrl-names = "default";
+				pinctrl-0 = <&ssp0_pmx_func>;
+				/delete-property/asr,ssp-disable-dma;
+				asr,ssp-hold-frame-low;
+				asr,spi-inc-mode;
+			};
+
+#if (CONFIG_USE_I2S)
+			ssp1_ssp: ssp@d401b800 {
+				status = "okay";
+				compatible = "asr,pxa910-ssp";
+				reg = <0xd401b800 0x90>;
+
+				ssp1-drcmr-rx = <54>;
+				ssp1-drcmr-tx = <55>;
+
+				ssp-id = <2>;
+				interrupts = <2>;
+				clocks = <&soc_clocks ASR1803_CLK_SSP1>;
+				clock-names = "ssp1_mclk";
+			};
+
+			ssp_dai1: pxa-ssp-dai@1 {
+				compatible = "asr,pxa-ssp-dai";
+				reg = <0x1 0x0>;
+
+				port = <&ssp1_ssp>;
+				pinctrl-names = "default","ssp";
+				pinctrl-0 = <&i2s_gpio>;
+				pinctrl-1 = <&i2s_func>;
+				ssp-gpio = <&gpio 25 0 &gpio 26 0 &gpio 27 0 &gpio 28 0>;
+
+				dmas = <&pdma0 54 1
+					&pdma0 55 1>;
+				dma-names = "rx", "tx";
+
+				platform_driver_name = "pdma_platform";
+				burst_size = <4>;
+				playback_period_bytes = <2048>;
+				playback_buffer_bytes = <4096>;
+				capture_period_bytes = <2048>;
+				capture_buffer_bytes = <4096>;
+			};
+#else
+			ssp1_spi: spi@d401b800 {
+				status = "okay";
+				compatible = "asr,asr-spi";
+				#address-cells = <1>;
+				#size-cells = <0>;
+				reg = <0xd401b800 0x30>;
+
+				dmas = <&pdma0 54 0x10000
+					&pdma0 55 0x10000>;
+				dma-names = "rx", "tx";
+
+				asr,ssp-lpm-qos = <PM_QOS_CPUIDLE_BLOCK_AXI>;
+				asr,ssp-clock-rate = <13000000>;
+				asr,ssp-id = <2>;
+				interrupts = <2>;
+				asr,ssp-enhancement;
+				/* asr,ssp-disable-dma; */
+				/* asr,ssp-slave-mode; */
+				/* asr,slave-rxtimer-to-ms = <0>; */
+				asr,ssp-hold-frame-low;
+				/* asr,spi-master-rxto = <8000>; */
+				/* asr,spi-slave-rxto = <262144>; */
+				/* asr,spi-pio-interval = <5>; */
+				/* asr,spi-1-cycle-delay; */
+				clocks = <&soc_clocks ASR1803_CLK_SSP1>;
+				pinctrl-names = "default";
+				pinctrl-0 = <&ssp1_pmx_func>;
+				asr,spi-inc-mode;
+
+				spidev: spidev@0 {
+					compatible = "spidev";
+					reg = <0>;
+					spi-max-frequency = <13000000>;
+					status = "okay";
+				};
+			};
+#endif
+
+			ssp2: spi@d401c000 {
+				status= "disabled";
+				asr,ssp-id = <3>;
+				dmas = <&pdma0 60 0x10000
+					&pdma0 61 0x10000>;
+				dma-names = "rx", "tx";
+				pinctrl-names = "default";
+				pinctrl-0 = <&ssp2_pmx_func>;
+				asr,spi-inc-mode;
+			};
+			//end
+
+			/* I2C1 for codec */
+			twsi0: i2c@d4011000 {
+				status= "ok";
+				/*
+				tlv320aic3104@18{
+					compatible = "quectel,tlv320aic3104";
+					reg = <0x18>;
+					ai3x-micbias-vg = <2>;
+					status= "disabled";
+				};
+				*/
+
+				rt5616@1b{
+					compatible = "quectel,rt5616";
+					reg = <0x1b>;
+					status= "disabled";
+				};
+
+				nau8810@1a {
+					compatible = "quectel,nau8810";
+					reg = <0x1a>;
+					interrupt-parent = <&gpio>;
+					interrupts = <124 0x1>;
+					marvell,88pm805-irq-write-clear;
+					status= "disabled";
+				};
+
+				es8311@18 {
+					compatible = "quectel,es8311";
+					//when CE pin is equal to low level ,it is 0x18 ,high level equal 0x19
+					reg = <0x18>;
+					status= "ok";
+				};
+			};
+
+			/* I2C2 for user */
+			twsi1: i2c@d4010800 {
+				status= "disabled";
+				pinctrl-names = "default","gpio";
+				pinctrl-0 = <&twsi1_pmx_func>;
+				pinctrl-1 = <&twsi1_pmx_gpio>;
+			};
+
+			/* I2c for PMIC, internal use only */
+			twsi2: i2c@d4037000 {
+				status = "okay";
+				pmic5: pm802@0 {
+					compatible = "asr,pm802";
+					reg = <0x00>;
+					interrupts = <4>;
+					interrupt-parent = <&intc>;
+					interrupt-controller;
+					#interrupt-cells = <1>;
+					chg_irq_from_exton;
+					scs-int-active-high;
+					scs-irq-from-exton1;
+					usb {
+						status = "disabled";
+						vbus_gpio = <0xff>; /* set_vbus */
+						id-gpadc = <0xff>; /* usb-id */
+						vchg-from-exton = <1>;
+						vbus-detect = <1>; /* vbus-irq */
+						get-vbus = <1>; /* get-vbus */
+					};
+				};
+			};
+
+			//gabriel add 20230525 I2C_3 drive
+			twsi3: i2c@d4010c00 {
+				status = "disabled";
+				pinctrl-names = "default","gpio";
+				pinctrl-0 = <&twsi3_pmx_func>;
+				pinctrl-1 = <&twsi3_pmx_gpio>;
+				i2c-gpio = <&gpio 41 0 &gpio 42 0>;
+			};
+
+			pmx: pinmux@d401e000 {
+				/* pin base = base_addr / 4, nr pins & gpio function */
+				pinctrl-single,gpio-range = <
+					/*
+					 * GPIO number is hardcoded for range at here.
+					 * In gpio chip, GPIO number is not hardcoded for range.
+					 * Since one gpio pin may be routed to multiple pins,
+					 * define these gpio range in pxa910-dkb.dts not pxa910.dtsi.
+					 */
+					/*&range 80 4 0 */	/* GPIO25 ~ GPIO28 */
+					&range 55 32 0	/* GPIO0 ~ GPIO31 */
+					&range 87 32 0	/* GPIO32 ~ GPIO63 */
+					&range 119 32 0  /* GPIO64 ~ GPIO95 */
+					&range 151 32 0  /* GPIO96 ~ GPIO127 */
+				>;
+
+				ssp0_pmx_func: ssp0_pmx_func {
+					pinctrl-single,pins = <
+						GPIO36 AF1 /* TXD */
+						GPIO35 AF1 /* RXD */
+						GPIO34 AF1 /* FRM */
+						GPIO33 AF1 /* SCLK */
+					>;
+					DS_MEDIUM;PULL_NONE;EDGE_NONE;SL_NORMAL;
+				};
+				//gabriel add 20230629 add spi_1 config
+				ssp1_pmx_func: ssp1_pmx_func {
+					pinctrl-single,pins = <
+						GPIO23 AF7 /* TXD */
+						GPIO24 AF7 /* RXD */
+						GPIO22 AF7 /* FRM */
+						GPIO21 AF7 /* SCLK */
+					>;
+					DS_MEDIUM;PULL_NONE;EDGE_NONE;SL_NORMAL;
+				};
+				//gabriel add 20230526 add spi_0 spi_2 config
+				ssp2_pmx_func: ssp2_pmx_func {
+					pinctrl-single,pins = <
+						GPIO37 AF3 /* TXD */
+						GPIO40 AF3 /* RXD */
+						GPIO39 AF3 /* FRM */
+						GPIO38 AF3 /* SCLK */
+					>;
+					DS_MEDIUM;PULL_NONE;EDGE_NONE;SL_NORMAL;
+				};
+				//end
+				uart1_pmx_func1: uart1_pmx_func1 {
+					pinctrl-single,pins = <
+						GPIO29 AF1
+					>;
+					MFP_DEFAULT;
+				};
+
+				uart1_pmx_func2: uart1_pmx_func2 {
+					pinctrl-single,pins = <
+						GPIO30 AF1
+					>;
+					MFP_DEFAULT;
+				};
+
+				uart1_pmx_func1_sleep: uart1_pmx_func1_sleep {
+					pinctrl-single,pins = <
+						GPIO29 AF1
+					>;
+					DS_MEDIUM;PULL_NONE;EDGE_BOTH;SL_NORMAL;
+				};
+
+				twsi0_pmx_func: twsi0_pmx_func {
+					pinctrl-single,pins = <
+						GPIO49 AF1
+						GPIO50 AF1
+					>;
+					MFP_LPM_FLOAT;
+				};
+
+				twsi0_pmx_gpio: twsi0_pmx_gpio {
+					pinctrl-single,pins = <
+						GPIO49 AF0
+						GPIO50 AF0
+					>;
+					MFP_LPM_FLOAT;
+				};
+
+				twsi1_pmx_func: twsi1_pmx_func {
+					pinctrl-single,pins = <
+						GPIO10 AF1
+						GPIO11 AF1
+					>;
+					MFP_LPM_FLOAT;
+				};
+
+				twsi1_pmx_gpio: twsi1_pmx_gpio {
+					pinctrl-single,pins = <
+						GPIO10 AF0
+						GPIO11 AF0
+					>;
+					MFP_LPM_FLOAT;
+				};
+
+				//gabriel add 20230525 I2C_3 drive
+				twsi3_pmx_func: twsi3_pmx_func {
+					pinctrl-single,pins = <
+						GPIO41 AF3
+						GPIO42 AF3
+					>;
+					MFP_LPM_FLOAT;
+				};
+
+				twsi3_pmx_gpio: twsi3_pmx_gpio {
+					pinctrl-single,pins = <
+						GPIO41 AF0
+						GPIO42 AF0
+					>;
+					MFP_LPM_FLOAT;
+				};
+				/* no pull, no LPM */
+				dvc_pmx_func: dvc_pmx_func {
+					/* hw-dvc */
+					pinctrl-single,pins = <
+						TDS_DIO0 AF0
+						TDS_DIO1 AF0
+					>;
+					DS_MEDIUM;PULL_FLOAT;EDGE_NONE;SL_NORMAL;
+				};
+
+				ql_leds_pmx_func:ql_leds_pmx_func {
+					pinctrl-single,pins = <
+						GPIO08 AF0
+						GPIO47 AF0
+					>;
+					DS_MEDIUM;PULL_FLOAT;EDGE_NONE;SL_NORMAL;
+				};
+
+				gps_pmx_onoff: gps_pmx_onoff {
+					pinctrl-single,pins = <
+						TDS_TXREV AF1
+					>;
+					DS_MEDIUM;PULL_DOWN;EDGE_NONE;SL_NORMAL;
+				};
+
+				gps_pmx_reset: gps_pmx_reset {
+					pinctrl-single,pins = <
+						TDS_RXON AF1
+					>;
+					DS_MEDIUM;PULL_DOWN;EDGE_NONE;SL_NORMAL;
+				};
+
+				gps_pmx_uart_rxd: gps_pmx_uart_rxd {
+					/* gps dedicated uart */
+					pinctrl-single,pins = <
+						GPIO51 AF1
+						/* GPIO32 AF1 */
+					>;
+					MFP_DEFAULT;
+				};
+
+				gps_pmx_uart_txd: gps_pmx_uart_txd {
+					/* gps dedicated uart */
+					pinctrl-single,pins = <
+						GPIO52 AF1
+						/* GPIO31 AF1 */
+					>;
+					MFP_DEFAULT;
+				};
+
+				sd_ldo_en: sd_ldo_en {
+					pinctrl-single,pins = <
+						GPIO45 AF0
+					>;
+					MFP_PULL_DOWN;
+				};
+
+				/*emmc*/
+				/*add emmc by gabriel.li 20230524 start */
+				sdh0_pmx_func1: sdh0_pmx_func1 {
+					pinctrl-single,pins = <
+						MMC1_DAT3 AF0
+						MMC1_DAT2 AF0
+						MMC1_DAT1 AF0
+						MMC1_DAT0 AF0
+						MMC1_CMD AF0
+					>;
+					DS_FAST1;PULL_NONE;EDGE_NONE;SL_NORMAL;
+				};
+
+				sdh0_pmx_func2: sdh0_pmx_func2 {
+					pinctrl-single,pins = <
+						MMC1_CLK AF0
+					>;
+					DS_FAST1;PULL_NONE;EDGE_NONE;
+				};
+
+				sdh0_pmx_func3: sdh0_pmx_func3 {
+					pinctrl-single,pins = <
+						MMC1_CD AF1
+					>;
+					DS_MEDIUM;PULL_UP;EDGE_NONE;SL_NORMAL;
+				};
+
+				sdh0_pmx_func1_slow: sdh0_pmx_func1_slow {
+					pinctrl-single,pins = <
+							MMC1_DAT3 AF0
+							MMC1_DAT2 AF0
+							MMC1_DAT1 AF0
+							MMC1_DAT0 AF0
+							MMC1_CMD AF0
+					>;
+					DS_FAST0;PULL_NONE;EDGE_NONE;SL_NORMAL;
+				};
+
+				sdh0_pmx_func2_slow: sdh0_pmx_func2_slow {
+					pinctrl-single,pins = <
+							MMC1_CLK AF0
+					>;
+					DS_FAST0;PULL_NONE;EDGE_NONE;
+				};
+
+				sdh0_pmx_func1_fast: sdh0_pmx_func1_fast {
+					pinctrl-single,pins = <
+						MMC1_DAT3 AF0
+						MMC1_DAT2 AF0
+						MMC1_DAT1 AF0
+						MMC1_DAT0 AF0
+						MMC1_CMD AF0
+					>;
+					DS_FAST1;PULL_NONE;EDGE_NONE;SL_NORMAL;
+				};
+
+				sdh0_pmx_func2_fast: sdh0_pmx_func2_fast {
+					pinctrl-single,pins = <
+						MMC1_CLK AF0
+					>;
+					DS_FAST1;PULL_NONE;EDGE_NONE;
+				};
+				/*add emmc by gabriel.li 20230524 end */
+
+				sdh1_pmx_func1_fast: sdh1_pmx_func1_fast {
+					pinctrl-single,pins = <
+						TDS_DIO13 AF0 /* WLAN_DAT3 */
+						TDS_DIO14 AF0 /* WLAN_DAT2 */
+						TDS_DIO15 AF0 /* WLAN_DAT1 */
+						TDS_DIO16 AF0 /* WLAN_DAT0 */
+						TDS_DIO17 AF0 /* WLAN_CMD */
+					>;
+					DS_FAST0;PULL_NONE;EDGE_NONE;SL_NORMAL;
+				};
+
+				sdh1_pmx_func2_fast: sdh1_pmx_func2_fast {
+					pinctrl-single,pins = <
+						TDS_DIO18 AF0 /* WLAN_CLK */
+					>;
+					DS_FAST0;PULL_DOWN;EDGE_NONE;SL_NORMAL;
+				};
+
+				sdh1_pmx_func1: sdh1_pmx_func1 {
+					pinctrl-single,pins = <
+						TDS_DIO13 AF0 /* WLAN_DAT3 */
+						TDS_DIO14 AF0 /* WLAN_DAT2 */
+						TDS_DIO15 AF0 /* WLAN_DAT1 */
+						TDS_DIO16 AF0 /* WLAN_DAT0 */
+						TDS_DIO17 AF0 /* WLAN_CMD */
+					>;
+					DS_MEDIUM;PULL_NONE;EDGE_NONE;SL_LOW;
+				};
+
+				sdh1_pmx_func2: sdh1_pmx_func2 {
+					pinctrl-single,pins = <
+						TDS_DIO18 AF0 /* WLAN_CLK */
+					>;
+					DS_MEDIUM;PULL_DOWN;EDGE_NONE;SL_LOW;
+				};
+
+				sdh1_pmx_func3: sdh1_pmx_func3 {
+					pinctrl-single,pins = <
+						GPIO127 AF1 /* VCXO_REQ AF1 WLAN_WAKE_HOST */
+					>;
+					MFP_PULL_DOWN;
+				};
+
+				sdh1_pmx_edge_wakeup: sdh1_pmx_edge_wakeup {
+					pinctrl-single,pins = <
+						GPIO127 AF1 /* VCXO_REQ AF1 */
+					>;
+					DS_MEDIUM;PULL_DOWN;EDGE_RISE;SL_NORMAL;
+				};
+
+				sdh1_pmx_pd_rst_off: sdh1_pmx_pd_rst_off {
+					pinctrl-single,pins = <
+						GPIO19 AF0 /* GPIO19  AF0 WLAN_PDn */
+						GPIO123 AF1 /* GPIO123  AF1 LDO_EN */
+					>;
+					MFP_PULL_DOWN;
+				};
+				sdh1_pmx_pd_rst_on: sdh1_pmx_pd_rst_on {
+					pinctrl-single,pins = <
+						GPIO19 AF0 /* GPIO19  AF0 WLAN_PDn */
+						GPIO123 AF1 /* GPIO123  AF1 LDO_EN */
+					>;
+					MFP_PULL_UP;
+				};
+				alc5616_pmx_func1: alc5616_pmx_func1 {
+					pinctrl-single,pins = <
+						GPIO20   AF7 /* MCLK:I2S_SYSCLK */
+					>;
+					MFP_DEFAULT;
+				};
+				alc5616_pmx_func2: alc5616_pmx_func2 {
+					pinctrl-single,pins = <
+						GPIO20   AF0 /* MCLK:I2S_SYSCLK */
+					>;
+					MFP_DEFAULT;
+				};
+
+				ecall_pmx_func: ecall_pmx_func {
+					pinctrl-single,pins = <
+						GPIO08 AF0  /* auto mode ecall */
+						GPIO09 AF0  /* manual mode ecall */
+					>;
+					MFP_DEFAULT;
+				};
+
+				otg_vbus_func: otg_vbus_func {
+					pinctrl-single,pins = <
+						VBUS_DRV AF1 /* GPIO[122] */
+					>;
+					DS_MEDIUM;PULL_DOWN;EDGE_NONE;
+				};
+
+				usb_id_pinmux: usb_id_pinmux {
+					pinctrl-single,pins = <
+						USB_ID AF1/* usbid-gpio99 */
+					>;
+					DS_MEDIUM;PULL_UP;EDGE_NONE;LPM_NONE;
+				};
+				usb_id_pinmux_slp: usb_id_pinmux_slp {
+					pinctrl-single,pins = <
+						USB_ID AF1 /* usbid-gpio99 */
+					>;
+					DS_MEDIUM;PULL_UP;EDGE_BOTH;LPM_NONE;
+				};
+				usb_host_pinmux: usb_host_pinmux {
+					pinctrl-single,pins = <
+						VBUS_DRV AF1 /* gpio-122 */
+					>;
+					DS_MEDIUM;PULL_FLOAT;EDGE_NONE;LPM_NONE;
+				};
+
+				emac_pmx_func0: emac_pmx_func0 {
+					pinctrl-single,pins = <
+						GPIO00 AF1 /* GMAC1_RX_DV */
+						GPIO01 AF1 /* GMAC1_RX_D0 */
+						GPIO02 AF1 /* GMAC1_RX_D1 */
+						GPIO03 AF1 /* GMAC1_RX_CLK */
+						/* GPIO04 AF1 GMAC1_RX_D2 */
+						/* GPIO05 AF1 GMAC1_RX_D3 */
+						GPIO06 AF1 /* GMAC1_TX_D0 */
+						GPIO07 AF1 /* GMAC1_TX_D1 */
+						/* GPIO12 AF1 GMAC1_TX_CLK */
+						/* GPIO13 AF1 GMAC1_TX_D2 */
+						/* GPIO14 AF1 GMAC1_TX_D3 */
+						GPIO15 AF1 /* GMAC1_TX_EN */
+						GPIO16 AF1 /* GMAC1_TX_MDC */
+						/* GPIO17 AF1 GMAC1_TX_MDIO */
+					>;
+					DS_MEDIUM;PULL_DOWN;EDGE_NONE;SL_NORMAL;
+				};
+				emac_pmx_func1: emac_pmx_func1 {
+					pinctrl-single,pins = <
+						GPIO04 AF1 /* GMAC1_RX_D2 */
+						GPIO05 AF1 /* GMAC1_RX_D3 */
+						GPIO12 AF1 /* GMAC1_TX_CLK */
+						GPIO13 AF1 /* GMAC1_TX_D2 */
+						GPIO14 AF1 /* GMAC1_TX_D3 */
+					>;
+					DS_MEDIUM;PULL_DOWN;EDGE_NONE;SL_NORMAL;
+				};
+				emac_pmx_func2: emac_pmx_func2 {
+					pinctrl-single,pins = <
+						GPIO17 AF1 /* GMAC1_TX_MDIO */
+						GPIO18 AF1 /* GMAC1_TX_INT_N */
+					>;
+					DS_MEDIUM;PULL_UP;EDGE_NONE;SL_NORMAL;
+				};
+				emac_pmx_func3: emac_pmx_func3 {
+					pinctrl-single,pins = <
+						GPIO20 AF0 	/* RESET */
+						/* GPIO123 AF1	POWER EN*/
+						/* GPIO54 AF0 LDO_EN */
+					>;
+					DS_SLOW0;PULL_FLOAT;EDGE_NONE;SL_NORMAL;
+				};
+				usim1_pmx_func: usim1_pmx_func {
+					pinctrl-single,pins = <
+						GPIO119 AF1
+					>;
+					DS_MEDIUM;PULL_UP;EDGE_NONE;SL_NORMAL;
+				};
+				usim1_pmx_func_sleep: usim1_pmx_func_sleep {
+					pinctrl-single,pins = <
+						GPIO119 AF1
+					>;
+					DS_MEDIUM;PULL_UP;EDGE_BOTH;SL_NORMAL;
+				};
+				usim2_pmx_func: usim2_pmx_func {
+					pinctrl-single,pins = <
+						GPIO44 AF0
+					>;
+					DS_MEDIUM;PULL_UP;EDGE_NONE;SL_NORMAL;
+				};
+				usim2_pmx_func_sleep: usim2_pmx_func_sleep {
+					pinctrl-single,pins = <
+						GPIO44 AF0
+					>;
+					DS_MEDIUM;PULL_UP;EDGE_BOTH;SL_NORMAL;
+				};
+				pcie_pmx_pd_rst_off: pcie_pmx_pd_rst_off {
+					pinctrl-single,pins = <
+						GPIO42 AF0	/* PERST_N */
+						GPIO24 AF0 	/* DC_EN */
+					>;
+					MFP_PULL_DOWN;
+				};
+				pcie_pmx_pd_rst_on: pcie_pmx_pd_rst_on {
+					pinctrl-single,pins = <
+						GPIO42 AF0	/* PERST_N */
+						GPIO24 AF0	/* DC_EN */
+					>;
+					MFP_PULL_UP;
+				};
+				gpiokey_pmx_func: gpiokey_pmx_func {
+					pinctrl-single,pins = <
+						GPIO09 AF0
+					>;
+					DS_MEDIUM;PULL_UP;EDGE_NONE;SL_NORMAL;
+				};
+
+
+				/* gabriel 20230517:add lpm function */
+				wakeup_in_pin:wakeup_in_pin {
+					pinctrl-single,pins = <
+						GPIO118 AF1	/* gpio118 */
+					>;
+					DS_MEDIUM;PULL_UP;EDGE_NONE;LPM_NONE;
+				};
+
+				wakeup_in_pin_sleep:wakeup_in_pin_sleep {
+					pinctrl-single,pins = <
+						GPIO118 AF1	/* gpio118 */
+					>;
+					DS_MEDIUM;PULL_UP;EDGE_BOTH;LPM_NONE;
+				};
+
+				sleep_sys_ind:sleep_sys_ind {
+					pinctrl-single,pins = <
+						GPIO38 AF0	/* gpio38 */
+					>;
+					DS_MEDIUM;PULL_DOWN;EDGE_NONE;SL_NORMAL;
+				};
+
+				/* gabriel-20230519:use BT_UART	function */
+				uart3_pmx_uart_rxd: uart3_pmx_uart_rxd {
+					/* uart3 rx */
+					pinctrl-single,pins = <
+						GPIO53 AF1	/* gpio53 */
+						/* GPIO47 AF1   gpio47 */
+					>;
+					MFP_DEFAULT;
+				};
+				uart3_pmx_uart_txd: uart3_pmx_uart_txd {
+					/* uart3 tx*/
+					pinctrl-single,pins = <
+						GPIO54 AF1	/* gpio54 */
+						/* GPIO46 AF1   gpio46 */
+					>;
+					MFP_DEFAULT;
+				};
+				uart3_pmx_uart_rx_sleep: uart3_pmx_uart_rx_sleep
+				{
+					/* uart3 rx */
+					pinctrl-single,pins = <
+						GPIO53 AF1 /* gpio53 */
+					>;
+					DS_MEDIUM;PULL_NONE;EDGE_BOTH;SL_NORMAL;
+				};
+				//end
+
+				//gabriel add 20230523 gnss drive
+				gnss_gpio_power: gnss_gpio_power {
+					pinctrl-single,pins = <
+						GPIO125 AF1	/* gpio125 */
+					>;
+					DS_MEDIUM;PULL_DOWN;EDGE_NONE;LPM_NONE;
+				};
+				//end
+				/* gabriel-20230526:use GNSS_UART  function */
+				uart4_pmx_uart_rxd: uart4_pmx_uart_rxd {
+					/* uart4 rx */
+					pinctrl-single,pins = <
+						GPIO44 AF1	/* gpio44 */
+					>;
+					MFP_DEFAULT;
+				};
+				uart4_pmx_uart_txd: uart4_pmx_uart_txd {
+					/* uart4 tx*/
+					pinctrl-single,pins = <
+						GPIO45 AF1	/* gpio45 */
+					>;
+					MFP_DEFAULT;
+				};
+				//end
+/*
+				i2s_func: i2s_func {
+					pinctrl-single,pins = <
+						GPIO21 AF7
+						GPIO22 AF7
+						GPIO23 AF7
+						GPIO24 AF7
+					>;
+					MFP_DEFAULT;
+				};
+				i2s_gpio: i2s_gpio {
+					pinctrl-single,pins = <
+						GPIO21 AF0
+						GPIO22 AF0
+						GPIO23 AF0
+						GPIO24 AF0
+					>;
+					MFP_LPM_FLOAT;
+				};
+*/
+				i2s_func: i2s_func {
+					pinctrl-single,pins = <
+						GPIO25 AF2
+						GPIO26 AF2
+						GPIO27 AF2
+						GPIO28 AF2
+					>;
+					MFP_DEFAULT;
+				};
+				i2s_gpio: i2s_gpio {
+					pinctrl-single,pins = <
+						GPIO25 AF0
+						GPIO26 AF0
+						GPIO27 AF0
+						GPIO28 AF0
+					>;
+					MFP_LPM_FLOAT;
+				};
+
+				pps_pmx_func: pps_pmx_func {
+					pinctrl-single,pins = <
+						GPIO122 AF1
+					>;
+					DS_MEDIUM;PULL_FLOAT;EDGE_NONE;LPM_NONE;
+				};
+
+			};
+
+			/* Debug UART */
+			uart1: uart@d4017000 {
+				pinctrl-names = "default","sleep";
+				pinctrl-0 = <&uart1_pmx_func1 &uart1_pmx_func2>;
+				pinctrl-1 = <&uart1_pmx_func1_sleep &uart1_pmx_func2>;
+				status = "okay";
+			};
+
+			/* Main UART */
+			uart2: uart@d4036000 {
+				pinctrl-names = "default";
+				pinctrl-0 = <&gps_pmx_uart_rxd &gps_pmx_uart_txd>;
+				status = "okay";
+			};
+
+			/* gabriel-20230519:use BT_UART function */
+			uart3: uart@d4018000 {
+				compatible = "asr,mmp-uart";
+				reg = <0xd4018000 0x1000>;
+				interrupts = <28>;
+				uart-drcmr-rx = <23>;
+				uart-drcmr-tx = <24>;
+				dmas = <&pdma0 23 1
+					  &pdma0 24 1>;
+				dma-names = "rx", "tx";
+				clocks = <&soc_clocks ASR1803_CLK_UART1>;
+				resets = <&soc_clocks ASR1803_CLK_UART1>;
+				pinctrl-names = "default", "sleep";
+				pinctrl-0 = <&uart3_pmx_uart_rxd &uart3_pmx_uart_txd>;
+				pinctrl-1 = <&uart3_pmx_uart_rx_sleep &uart3_pmx_uart_txd>;
+				lpm-qos = <PM_QOS_CPUIDLE_BLOCK_AXI>;
+				edge-wakeup-gpio = <&gpio 53 0>;
+				status = "okay";
+			};
+			/* gabriel-20230526:use GNSS_UART function */
+			uart4: uart@d401f000 {
+				compatible = "asr,mmp-uart";
+				reg = <0xd401f000 0x1000>;
+				interrupts = <19>;
+				// uart-drcmr-rx = <19>;
+				// uart-drcmr-tx = <20>;
+				// dmas = <&pdma0 19 1
+				//     &pdma0 20 1>;
+				// dma-names = "rx", "tx";
+				clocks = <&soc_clocks ASR1803_CLK_UART3>;
+				resets = <&soc_clocks ASR1803_CLK_UART3>;
+				lpm-qos = <PM_QOS_CPUIDLE_BLOCK_AXI>;
+				pinctrl-names = "default";
+				pinctrl-0 = <&uart4_pmx_uart_rxd &uart4_pmx_uart_txd>;
+				status = "okay";
+			    };
+		};
+	};
+
+	vcc_sdh1: sd-regulator {
+		compatible = "regulator-fixed";
+		pinctrl-names = "default";
+		pinctrl-0 = <&sd_ldo_en>;
+		regulator-name = "SDH1 VCC";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+		gpio = <&gpio 45 0>;
+		enable-active-high;
+		status = "disabled";
+	};
+
+	asr-rfkill {
+		compatible = "asr,asr-rfkill";
+		pinctrl-names = "off", "on";
+		pinctrl-0 = <&sdh1_pmx_pd_rst_off>;
+		pinctrl-1 = <&sdh1_pmx_pd_rst_on>;
+		sd-host = <&sdh1>;
+		pd-gpio = <&gpio 19 0>;
+		3v3-ldo-gpio = <&gpio 123 0>;
+		edge-wakeup-gpio = <&gpio 127 0>;
+		status = "okay";
+	};
+
+	sprd_marlin3:sprd-marlin3 {
+		compatible = "sprd,marlin3";
+		sprd,btwf-file-name = "/oemdata/wcnmodem.bin";
+		sdhci-name = <&sdh0>;
+		keep-power-on;
+		pinctrl-names = "gpio_func";
+		pinctrl-0 = <&twsi1_pmx_gpio &twsi0_pmx_gpio>;
+		m2-wakeup-ap-gpios = <&gpio 122 0>;
+		reset-gpios = <&gpio 11 0>;
+		enable-gpios = <&gpio 19 0>;
+		m2-to-ap-irq-gpios = <&gpio 49 0>;
+		status = "disabled";
+	};
+
+	sprd_wlan:sprd-wlan {
+		compatible = "sprd,sc2355-wifi";
+		status = "disabled";
+	};
+
+	ecall {
+		compatible = "asr,ecall-event";
+		pinctrl-names = "default";
+		pinctrl-0 = <&ecall_pmx_func>;
+		gpio-auto-ecall = <8>;
+		gpio-manual-ecall = <9>;
+		status = "disabled";
+	};
+
+	usim1: usim1 {
+		compatible = "asr,usim1";
+		pinctrl-names = "default", "sleep";
+		pinctrl-0 = <&usim1_pmx_func>;
+		pinctrl-1 = <&usim1_pmx_func_sleep>;
+		edge_detect_gpio = <119>; /* SIM detect pin */
+		status = "disabled";
+	};
+	/* set okay for this node if usim2 is needed */
+	usim2: usim2 {
+		compatible = "asr,usim2";
+		pinctrl-names = "default", "sleep";
+		pinctrl-0 = <&usim2_pmx_func>;
+		pinctrl-1 = <&usim2_pmx_func_sleep>;
+		edge_detect_gpio = <44>; /* GPIO44: SIM detect pin */
+		status = "disabled";
+	};
+
+	audio_regs {
+		compatible = "ASRMICRO,audio-registers";
+		reg = <0xD4050044 0x4>;
+		status = "okay";
+	};
+
+	sound {
+		compatible = "ASRMICRO,asrmicro-snd-card";
+#if (CONFIG_USE_I2S)
+		ssp-controllers = <&ssp_dai1>;
+#endif
+	};
+
+	//gabriel add 20230629 add spi_1 config
+	regs_addr_ioremap {
+		squ: squ@0xd42a0000 {
+			compatible = "marvell,mmp-squ";
+			reg = <0xd42a0000 0x800>;
+		};
+	};
+	//end
+	quectel-cpu {
+		compatible = "quectel,platform";
+		status = "ok";
+	};
+
+	quectel-codec {
+		compatible = "quectel,codec";
+		status = "ok";
+	};
+
+	quec_gpio_lpm: quec,gpio_lpm {								//gabriel20230517:wakeup driver.
+		compatible = "quec,ql_lpm";
+		pinctrl-names = "default","sleep";
+		pinctrl-0 = <&wakeup_in_pin &sleep_sys_ind>;
+		pinctrl-1 = <&wakeup_in_pin_sleep>;
+		gpios = <&gpio 118 0>,
+				<&gpio 38 0>;
+		ql,gpio-names = "wakeup_in","sleep_sys_ind";
+		ql,sleep-sys-ind-enable;
+		ql,sleep-sys-ind-state = <0>;
+		status = "ok";
+	};
+
+	quec,gpio_gnss{								//gabriel add 20230523 gnss drive
+		compatible = "quec,ql_gnss";
+		pinctrl-names = "default";
+		pinctrl-0 = <&gnss_gpio_power>;
+		gpios = <&gpio 125 0>;
+		ql,gpio-names = "gnss_gpio_power";
+		//ql,gnss_early_power_on;		//Enable gnss positioning in advance
+		status = "ok";
+	};
+
+	quec,leds{	                               //larry.zhang:add status led function.
+		#address-cells = <1>;
+		#size-cells = <0>;
+		compatible = "gpio-leds";
+		status = "disabled";
+		pinctrl-names = "default";
+		pinctrl-0 = <&ql_leds_pmx_func>;
+		led@1 {
+			label = "status-led";
+			gpios = <&gpio 8 0>;
+			default-state = "off";
+			reg = <0>;
+			retain-state-suspended;
+		};
+		led@2 {
+			label = "gnss-led";
+			gpios = <&gpio 47 0>;
+			default-state = "off";
+			reg = <0>;
+			retain-state-suspended;
+		};
+	};
+
+	quec,smd {
+		compatible = "quec,smd";
+		status = "okay";
+	};
+
+	pps {
+		compatible = "pps-gpio";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pps_pmx_func>;
+		gpios=<&gpio 122 0>;
+		status = "disabled";
+	};
+
+	lpm-board-cfg {
+		compatible = "asr,lpm-board-cfg";
+		wakeup-state-d1pp = <0x1>;
+		udr-mfpr-config = <
+#if 0			//RGMII sleep pull down
+			0x0DC 0xA040 0x0	//00
+			0x0E0 0xA040 0x0	//1
+			0x0E4 0xA040 0x0	//2
+			0x0E8 0xA040 0x0	//3
+			0x0EC 0xA040 0x0	//4
+			0x0F0 0xA040 0x0	//5
+			0x0F4 0xA040 0x0	//6
+			0x0F8 0xA040 0x0	//7
+			0x10C 0xA040 0x0	//12
+			0x110 0xA040 0x0	//13
+			0x114 0xA040 0x0	//14
+			0x118 0xA040 0x0	//15
+			0x11C 0xA040 0x0	//16
+			0x120 0xA040 0x0	//17
+			0x124 0xA040 0x0	//18
+#endif
+			//GNSS UART sleep pull down
+			0x18C 0xA040 0x0	//44
+			0x190 0xA040 0x0	//45
+		>;
+	};
+};

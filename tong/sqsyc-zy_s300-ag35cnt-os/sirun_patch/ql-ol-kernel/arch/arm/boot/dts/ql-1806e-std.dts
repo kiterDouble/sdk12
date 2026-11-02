@@ -1,0 +1,320 @@
+// SPDX-License-Identifier: GPL-2.0
+/*
+ *  Copyright (C) 2023 ASR Microelectronics Co., Ltd.
+ */
+/* I2S */
+#define CONFIG_USE_I2S    0
+#define	CONFIG_USE_MCLK	  0
+/dts-v1/;
+#include "asr1806.dtsi"
+#include "ql-1806e-common.dtsi"
+#include "asr_pm802.dtsi"
+#include "ql-1806e-flash-layout.dtsi"
+
+/* Motorcomm YT8010A 100Base-T1 PHY RMII */
+#define CONFIG_USE_YT8010A    0
+
+/* For 1 to support emmc(default), for 0 to support SD card */
+#define CONFIG_USE_EMMC    1
+#define CONFIG_USE_EMMC_SD_ADAPTIVE    0
+
+/* Config codecs */
+#define CONFIG_USE_TLV320AIC3104    0
+#define CONFIG_USE_NAU8810    0
+#define CONFIG_USE_RT5616    0
+#define CONFIG_USE_ES8311    0
+#define CONFIG_USE_SA55621   0
+
+/* Config spi1 or spi2 slave mode */
+#define CONFIG_SPI1_SLAVE    0
+#define CONFIG_SPI2_SLAVE    0
+
+
+#define CONFIG_USE_FCS950U    0
+
+#define CONFIG_USE_FC20    0
+
+#define CONFIG_USE_AF20    0
+
+#define CONFIG_USE_FCS960K    0
+#define CONFIG_USE_BW2232	1
+
+/* Config USB OTG */
+#define CONFIG_USB_OTG_ENABLE		0
+#define CONFIG_VBUS_POWER_ENABLE	0
+
+/* Config USE SPI NAND */
+#define CONFIG_USE_SPINAND_GD5F1GM7RE	0
+
+/* Config USE SWITCH FOR FIXED-LINK */
+#define CONFIG_USE_MAC_SWITCH		0
+
+#define CONFIG_NO_USE_BBM_MANAGES_UBIFS_PARTITIONS 0
+
+/* Config HSM */
+#define CONFIG_USE_HSM_CIU98B		1
+
+/* Main entry of device tree */
+/ {
+	model = "AG35CET (ASR 1806) Module";
+	compatible = "asr,1803-evb", "asr,1803";
+};
+
+
+//gabriel.li 20230523 add, If using YT8010A
+#if (CONFIG_USE_YT8010A)
+&eth0 {
+	3v3-enable = <1>;		
+	mdio: mdio-bus {
+		phy0: phy@0 {
+                        phy-mode = "rmii";	//Setting interface mode to "rgmii" or "rmii"
+		};
+	};
+};
+#endif
+
+#if (CONFIG_USE_MAC_SWITCH)
+&eth0 {
+	reset-gpio = <0>;
+	/delete-property/ reset-active-low;
+	/delete-property/ reset-delays-us;
+
+	ldo-gpio = <0>;
+	/delete-property/ ldo-active-low;
+	/delete-property/ ldo-delays-us;
+};
+&phy0 {
+	switch,use-virtual-phy;
+	speed = <100>;
+};
+#endif
+
+
+#if (CONFIG_USE_FC20)
+&sdh1 {
+	/delete-property/ asr,sdh-dtr-data;
+	asr,sdh-dtr-data =
+		<PXA_MMC_TIMING_LEGACY PXA_SDH_DTR_26M PXA_SDH_DTR_104M 0 0 0 0>,
+		<PXA_MMC_TIMING_SD_HS PXA_SDH_DTR_45M PXA_SDH_DTR_89M 0 0 0 0>,
+		<PXA_MMC_TIMING_UHS_DDR50 PXA_SDH_DTR_52M PXA_SDH_DTR_104M 0 0 0 3>,
+		<PXA_MMC_TIMING_UHS_SDR50 PXA_SDH_DTR_83M PXA_SDH_DTR_83M 0 0 0 3>,
+		<PXA_MMC_TIMING_UHS_SDR104 PXA_SDH_DTR_83M PXA_SDH_DTR_83M 0 0 0 3>,
+		<PXA_MMC_TIMING_MAX PXA_SDH_DTR_PS_NONE PXA_SDH_DTR_89M 0 0 0 0>;
+};
+#endif
+
+#if (CONFIG_USE_FCS950U) || (CONFIG_USE_AF20) || (CONFIG_USE_FCS960K)
+&sdh1 {
+    /delete-property/ asr,sdh-dtr-data;
+    asr,sdh-dtr-data =
+        <PXA_MMC_TIMING_LEGACY PXA_SDH_DTR_26M PXA_SDH_DTR_104M 0 0 0 0>,
+        <PXA_MMC_TIMING_SD_HS PXA_SDH_DTR_45M PXA_SDH_DTR_89M 0 0 0 0>,
+        <PXA_MMC_TIMING_UHS_DDR50 PXA_SDH_DTR_52M PXA_SDH_DTR_104M 0 0 0 3>,
+        <PXA_MMC_TIMING_UHS_SDR50 PXA_SDH_DTR_83M PXA_SDH_DTR_83M 0 0 0 3>,
+        <PXA_MMC_TIMING_UHS_SDR104 PXA_SDH_DTR_83M PXA_SDH_DTR_83M 0 0 0 3>,
+        <PXA_MMC_TIMING_MAX PXA_SDH_DTR_PS_NONE PXA_SDH_DTR_89M 0 0 0 0>;
+};
+
+&sprd_marlin3{
+	status= "okay";
+};
+
+&sprd_wlan {
+	status= "disabled";
+};
+
+#endif
+
+//gabriel.li modefied 20230524
+#if (CONFIG_USE_EMMC)
+&sdh0 {
+	pinctrl-0 = <&sdh0_pmx_func1 &sdh0_pmx_func2 &sdh0_pmx_func3>;
+	pinctrl-1 = <&sdh0_pmx_func1_slow &sdh0_pmx_func2_slow &sdh0_pmx_func3>;
+	pinctrl-2 = <&sdh0_pmx_func1_fast &sdh0_pmx_func2_fast &sdh0_pmx_func3>;
+	/delete-property/ no-mmc;
+	no-sd;
+	asr,sdh-host-caps2 = <(
+		MMC_CAP2_ONLY_1_8V 
+		)>;
+
+	/* prop "sdh-dtr-data":<timing preset_rate src_rate tx_delay rx_delay tx_dline_reg rx_dline_reg> */
+	asr,sdh-dtr-data = <PXA_MMC_TIMING_LEGACY PXA_SDH_DTR_26M PXA_SDH_DTR_104M 0 0 0 0>,
+			<PXA_MMC_TIMING_MMC_HS PXA_SDH_DTR_52M PXA_SDH_DTR_104M 0 0 0 0>,
+			<PXA_MMC_TIMING_UHS_DDR50 PXA_SDH_DTR_52M PXA_SDH_DTR_104M 0 0 0 3>,
+			<PXA_MMC_TIMING_MMC_HS200 PXA_SDH_DTR_52M PXA_SDH_DTR_52M 0 0 0 0>,
+			<PXA_MMC_TIMING_MAX PXA_SDH_DTR_PS_NONE PXA_SDH_DTR_104M 0 0 0 0>;
+
+	/* Enable the emmc and SD adaptive functions */
+	#if (CONFIG_USE_EMMC_SD_ADAPTIVE)
+	/delete-property/ no-sd;
+	quec-emmc-sd-gpio =  <&gpio 43 0>;
+	/*GPIO43 is used as the eth power enable pin by default. Customers need to select a proper pin*/
+	asr,sdh-dtr-data-sd = <PXA_MMC_TIMING_LEGACY PXA_SDH_DTR_26M PXA_SDH_DTR_104M 0 0 0 0>,
+			<PXA_MMC_TIMING_SD_HS PXA_SDH_DTR_52M PXA_SDH_DTR_104M 0 0 0 0>,
+			<PXA_MMC_TIMING_UHS_DDR50 PXA_SDH_DTR_52M PXA_SDH_DTR_104M 0 0 0 3>,
+			<PXA_MMC_TIMING_UHS_SDR50 PXA_SDH_DTR_104M PXA_SDH_DTR_208M 0 0 0 0>,
+			<PXA_MMC_TIMING_UHS_SDR104 PXA_SDH_DTR_208M PXA_SDH_DTR_208M 0 0 0 0>,
+			<PXA_MMC_TIMING_MAX PXA_SDH_DTR_PS_NONE PXA_SDH_DTR_104M 0 0 0 0>;
+	#endif
+};
+#endif
+
+&twsi0{
+#if (CONFIG_USE_FCS950U)
+	status= "disabled";
+#endif
+	#if (CONFIG_USE_TLV320AIC3104)
+	tlv320aic3104@18{
+		status= "okay";
+	};
+	#endif
+
+	#if (CONFIG_USE_RT5616)
+	rt5616@1b{
+		#if (CONFIG_USE_MCLK)
+		pinctrl-names = "default", "sleep";
+		pinctrl-0 = <&alc5616_pmx_func1>;
+		pinctrl-1 = <&alc5616_pmx_func2>;
+		clocks = <&soc_clocks ASR1803_CLK_I2S_SYSCLK>;
+		clock-names = "i2s_sys_clk";
+		mclk-enable;
+		#endif
+
+		#if (CONFIG_USE_I2S)
+		i2s-enable;
+		#endif
+
+		status= "okay";
+	};
+	#endif
+
+	#if (CONFIG_USE_NAU8810)
+	nau8810@1a {
+		status= "okay";
+	};
+	#endif
+
+	#if (CONFIG_USE_ES8311)
+	//when CE pin is equal to low level ,it is 0x18 ,high level equal 0x19
+	es8311@18 {
+		reg = <0x18>;
+		status= "okay";
+	};
+	#endif
+
+	#if (CONFIG_USE_SA55621)
+	sa55621@4C {
+		compatible = "silergy,sa55621";
+		reg = <0x4C>;
+		status= "okay";
+	};
+
+	sa51500@6C {
+		compatible = "silergy,sa51500";
+		reg = <0x6C>;
+		status= "okay";
+
+		/* 0x00:20dB, 0x01:26dB, 0x02:32dB, 0x03:36dB */
+		silergy,sa51500-gain   = /bits/ 8 <0x01>;
+
+		/* 0x00:3.4V, 0x01:4.2V, 0x02:4.9V,  0x03:6.1V
+		* 0x04:7.5V, 0x05:9.6V, 0x06:11.5V, 0x07:disable
+		*/
+		silergy,sa51500-plimit = /bits/ 8 <0x06>;
+
+		/* 0:400kHz, 1:500kHz */
+		silergy,sa51500-frequency = /bits/ 8 <0>;
+
+		/* 0:disable, 1:enable */
+		silergy,sa51500-psgpspn-enable = /bits/ 8 <0>;
+
+		/*
+		* 0x00:No Spread Spectrum,
+		* 0x01:22.5kHz fm with ±25kHz range,
+		* 0x02:12.7kHz fm with ±25kHz range,
+		* 0x03: 6.4kHz fm with ±25kHz range,
+		*/
+		silergy,sa51500-ssmode = /bits/ 8 <0x00>;
+
+		/*
+		* 0x00 : Medium fast edge
+		* 0x01 : fast edge
+		* 0x02 : slow edge
+		* 0x03 : Medium slow edge
+		*/
+		silergy,sa51500_edge = /bits/ 8 <0x01>;
+	};
+	#endif
+};
+
+#if (CONFIG_SPI2_SLAVE)
+&ssp0 {
+	asr,ssp-slave-mode;
+	asr,slave-rxtimer-to-ms = <0>;
+};
+#endif
+
+#if (CONFIG_SPI1_SLAVE)
+&ssp1_spi {
+	asr,ssp-slave-mode;
+	asr,slave-rxtimer-to-ms = <0>;
+};
+#endif
+
+&usb {
+#if (CONFIG_USB_OTG_ENABLE)
+#if (CONFIG_VBUS_POWER_ENABLE)
+	pinctrl-0 = <&usb_id_pinmux &usb_host_pinmux>;
+	pinctrl-1 = <&usb_id_pinmux_slp &usb_host_pinmux>;
+	otg,use-gpio-vbus;
+	gpio-num = <122>;
+#endif
+	usbid_gpio = <99>;
+	edge_detect_gpio = <99>;
+#else
+	otg-force-dev-mode = <1>;
+#endif
+};
+
+#if (CONFIG_USE_SPINAND_GD5F1GM7RE)
+&ssp1_spi {
+	/delete-property/asr,ssp-disable-dma;
+	asr,ssp-hold-frame-low;
+    	giga_spinand@0 {
+        	#address-cells = <1>;
+        	#size-cells = <1>;
+        	compatible = "spi-nand";
+        	spi-max-frequency = <13000000>;
+        	reg = <0>;
+        	partition@0 {
+            		label = "giga_spinand";
+            		reg = <0x0 0x8000000>;
+        	};
+	};
+};
+#endif
+
+#if (CONFIG_NO_USE_BBM_MANAGES_UBIFS_PARTITIONS)
+&qspi {
+	spinand: spinand@0 {
+		low_piro_enable = <1>;
+		low_piro_threshold = <0>;
+		low_piro_start = <0xA2E0000>;
+		low_piro_len = <0x05000000>;
+	};
+};
+#endif
+
+#if (CONFIG_USE_HSM_CIU98B)
+&ssp1_spi {
+	/delete-property/asr,ssp-disable-dma;
+	asr,ssp-hold-frame-low;
+    	ciu98b_hsm@0 {
+        	#address-cells = <1>;
+        	#size-cells = <1>;
+        	spi-max-frequency = <13000000>;
+        	reg = <0>;
+	};
+};
+#endif
+

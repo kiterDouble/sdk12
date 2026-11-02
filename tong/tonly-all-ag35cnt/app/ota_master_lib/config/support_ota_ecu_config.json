@@ -1,0 +1,328 @@
+{
+    "fota_ecu": [
+        {
+            "name": "VCU",
+            "ecu_id": "0x7DC",
+            "ecu_type": 3,
+            "can_port": 3,
+            "physical_id": "0x07DC",
+            "function_id": "0x07DF",
+            "response_id": "0x07D4",
+            "power_mode": 0,
+            "rollback": [
+                {
+                    "supplier_id": "DEFAULT",
+                    "succ_roll_back_mode": 1,
+                    "failed_roll_back_mode": 2,
+                    "rollback_timeout": 300
+                }
+            ]
+        },
+        {
+            "name": "TMS_A",
+            "ecu_id": "0x67C",
+            "ecu_type": 4,
+            "can_port": 1,
+            "physical_id": "0x067C",
+            "function_id": "0x067C",
+            "response_id": "0x0674",
+            "power_mode": 1,
+            "rollback": [
+                {
+                    "supplier_id": "DEFAULT",
+                    "succ_roll_back_mode": 1,
+                    "failed_roll_back_mode": 2,
+                    "rollback_timeout": 300
+                }
+            ]
+        },
+        {
+            "name": "TMS_B",
+            "ecu_id": "0x68C",
+            "ecu_type": 4,
+            "can_port": 1,
+            "physical_id": "0x068C",
+            "function_id": "0x068C",
+            "response_id": "0x0684",
+            "power_mode": 1,
+            "rollback": [
+                {
+                    "supplier_id": "DEFAULT",
+                    "succ_roll_back_mode": 1,
+                    "failed_roll_back_mode": 2,
+                    "rollback_timeout": 300
+                }
+            ]
+        },
+        {
+            "name": "TCU",
+            "ecu_id": "0x03F1",
+            "ecu_type": 4,
+            "can_port": 3,
+            "physical_id": "0x18DA03F1",
+            "function_id": "0x18DBFFF1",
+            "response_id": "0x18DAF103",
+            "power_mode": 0,
+            "rollback": [
+                {
+                    "supplier_id": "DEFAULT",
+                    "succ_roll_back_mode": 1,
+                    "failed_roll_back_mode": 2,
+                    "rollback_timeout": 300
+                }
+            ]
+        },
+        {
+            "name": "MCU1_TM1",
+            "ecu_id": "0xD2FA",
+            "ecu_type": 4,
+            "can_port": 3,
+            "physical_id": "0x18DAD2FA",
+            "function_id": "0x18DBFFFA",
+            "response_id": "0x18DAFAD2",
+            "power_mode": 0,
+            "rollback": [
+                {
+                    "supplier_id": "DEFAULT",
+                    "succ_roll_back_mode": 1,
+                    "failed_roll_back_mode": 2,
+                    "rollback_timeout": 300
+                }
+            ]
+        },
+        {
+            "name": "MCU1_TM2",
+            "ecu_id": "0xD9FA",
+            "ecu_type": 4,
+            "can_port": 3,
+            "physical_id": "0x18DAD9FA",
+            "function_id": "0x18DBFFFA",
+            "response_id": "0x18DAFAD9",
+            "power_mode": 0,
+            "rollback": [
+                {
+                    "supplier_id": "DEFAULT",
+                    "succ_roll_back_mode": 1,
+                    "failed_roll_back_mode": 2,
+                    "rollback_timeout": 300
+                }
+            ]
+        },
+        {
+            "name": "MCU1_PDU",
+            "ecu_id": "0xD6FA",
+            "ecu_type": 4,
+            "can_port": 1,
+            "physical_id": "0x18DAD6FA",
+            "function_id": "0x18DBFFFA",
+            "response_id": "0x18DAFAD6",
+            "power_mode": 0,
+            "rollback": [
+                {
+                    "supplier_id": "DEFAULT",
+                    "succ_roll_back_mode": 1,
+                    "failed_roll_back_mode": 2,
+                    "rollback_timeout": 300
+                }
+            ]
+        },
+        {
+            "name": "MCU1_EPS",
+            "ecu_id": "0xD4FA",
+            "ecu_type": 4,
+            "can_port": 1,
+            "physical_id": "0x18DAD4FA",
+            "function_id": "0x18DBFFFA",
+            "response_id": "0x18DAFAD4",
+            "power_mode": 0,
+            "rollback": [
+                {
+                    "supplier_id": "DEFAULT",
+                    "succ_roll_back_mode": 1,
+                    "failed_roll_back_mode": 2,
+                    "rollback_timeout": 300
+                }
+            ]
+        },
+        {
+            "name": "MCU1_ACM",
+            "ecu_id": "0xD5FA",
+            "ecu_type": 4,
+            "can_port": 1,
+            "physical_id": "0x18DAD5FA",
+            "function_id": "0x18DBFFFA",
+            "response_id": "0x18DAFAD5",
+            "power_mode": 0,
+            "rollback": [
+                {
+                    "supplier_id": "DEFAULT",
+                    "succ_roll_back_mode": 1,
+                    "failed_roll_back_mode": 2,
+                    "rollback_timeout": 300
+                }
+            ]
+        },
+        {
+            "name": "MCU1_DCDC",
+            "ecu_id": "0xD7FA",
+            "ecu_type": 4,
+            "can_port": 1,
+            "physical_id": "0x18DAD7FA",
+            "function_id": "0x18DBFFFA",
+            "response_id": "0x18DAFAD7",
+            "power_mode": 0,
+            "rollback": [
+                {
+                    "supplier_id": "DEFAULT",
+                    "succ_roll_back_mode": 1,
+                    "failed_roll_back_mode": 2,
+                    "rollback_timeout": 300
+                }
+            ]
+        },
+        {
+            "name": "MCU2_TM1",
+            "ecu_id": "0xD2FB",
+            "ecu_type": 4,
+            "can_port": 3,
+            "physical_id": "0x18DAD2FB",
+            "function_id": "0x18DBFFFB",
+            "response_id": "0x18DAFBD2",
+            "power_mode": 0,
+            "rollback": [
+                {
+                    "supplier_id": "DEFAULT",
+                    "succ_roll_back_mode": 1,
+                    "failed_roll_back_mode": 2,
+                    "rollback_timeout": 300
+                }
+            ]
+        },
+        {
+            "name": "MCU2_TM2",
+            "ecu_id": "0xD9FB",
+            "ecu_type": 4,
+            "can_port": 3,
+            "physical_id": "0x18DAD9FB",
+            "function_id": "0x18DBFFFB",
+            "response_id": "0x18DAFBD9",
+            "power_mode": 0,
+            "rollback": [
+                {
+                    "supplier_id": "DEFAULT",
+                    "succ_roll_back_mode": 1,
+                    "failed_roll_back_mode": 2,
+                    "rollback_timeout": 300
+                }
+            ]
+        },
+        {
+            "name": "MCU2_PDU",
+            "ecu_id": "0xD6FB",
+            "ecu_type": 4,
+            "can_port": 1,
+            "physical_id": "0x18DAD6FB",
+            "function_id": "0x18DBFFFB",
+            "response_id": "0x18DAFBD6",
+            "power_mode": 0,
+            "rollback": [
+                {
+                    "supplier_id": "DEFAULT",
+                    "succ_roll_back_mode": 1,
+                    "failed_roll_back_mode": 2,
+                    "rollback_timeout": 300
+                }
+            ]
+        },
+        {
+            "name": "MCU2_EPS",
+            "ecu_id": "0xD4FB",
+            "ecu_type": 4,
+            "can_port": 1,
+            "physical_id": "0x18DAD4FB",
+            "function_id": "0x18DBFFFB",
+            "response_id": "0x18DAFBD4",
+            "power_mode": 0,
+            "rollback": [
+                {
+                    "supplier_id": "DEFAULT",
+                    "succ_roll_back_mode": 1,
+                    "failed_roll_back_mode": 2,
+                    "rollback_timeout": 300
+                }
+            ]
+        },
+        {
+            "name": "MCU2_ACM",
+            "ecu_id": "0xD5FB",
+            "ecu_type": 4,
+            "can_port": 1,
+            "physical_id": "0x18DAD5FB",
+            "function_id": "0x18DBFFFB",
+            "response_id": "0x18DAFBD5",
+            "power_mode": 0,
+            "rollback": [
+                {
+                    "supplier_id": "DEFAULT",
+                    "succ_roll_back_mode": 1,
+                    "failed_roll_back_mode": 2,
+                    "rollback_timeout": 300
+                }
+            ]
+        },
+        {
+            "name": "MCU2_DCDC",
+            "ecu_id": "0xD7FB",
+            "ecu_type": 4,
+            "can_port": 1,
+            "physical_id": "0x18DAD7FB",
+            "function_id": "0x18DBFFFB",
+            "response_id": "0x18DAFBD7",
+            "power_mode": 0,
+            "rollback": [
+                {
+                    "supplier_id": "DEFAULT",
+                    "succ_roll_back_mode": 1,
+                    "failed_roll_back_mode": 2,
+                    "rollback_timeout": 300
+                }
+            ]
+        },
+        {
+            "name": "MCU3_TM1",
+            "ecu_id": "0xD2FC",
+            "ecu_type": 4,
+            "can_port": 3,
+            "physical_id": "0x18DAD2FC",
+            "function_id": "0x18DBFFFC",
+            "response_id": "0x18DAFCD2",
+            "power_mode": 0,
+            "rollback": [
+                {
+                    "supplier_id": "DEFAULT",
+                    "succ_roll_back_mode": 1,
+                    "failed_roll_back_mode": 2,
+                    "rollback_timeout": 300
+                }
+            ]
+        },
+        {
+            "name": "MCU3_TM2",
+            "ecu_id": "0xD9FC",
+            "ecu_type": 4,
+            "can_port": 3,
+            "physical_id": "0x18DAD9FC",
+            "function_id": "0x18DBFFFC",
+            "response_id": "0x18DAFCD9",
+            "power_mode": 0,
+            "rollback": [
+                {
+                    "supplier_id": "DEFAULT",
+                    "succ_roll_back_mode": 1,
+                    "failed_roll_back_mode": 2,
+                    "rollback_timeout": 300
+                }
+            ]
+        }
+    ]
+}

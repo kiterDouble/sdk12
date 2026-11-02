@@ -1,0 +1,7 @@
+{
+    "modules": [
+    ],
+    "mcu_wake": 23,
+    "sms_wake_mode": 0
+}
+

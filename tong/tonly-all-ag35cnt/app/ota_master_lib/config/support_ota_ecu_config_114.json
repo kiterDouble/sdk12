@@ -1,0 +1,170 @@
+{
+    "fota_ecu": [
+        {
+            "name": "TBOX",
+            "ecu_id": "0x703",
+            "ecu_type": 0,
+            "can_port": 0,
+            "physical_id": "0x0703",
+            "function_id": "0x07DF",
+            "response_id": "0x0783",
+            "power_mode": 1,
+            "rollback": [
+                {
+                    "supplier_id": "DL03005",
+                    "succ_roll_back_mode" : 0,
+                    "failed_roll_back_mode" : 0,
+                    "rollback_timeout": 900
+                }
+            ]
+        },
+  
+        {
+            "name": "BCM",
+            "ecu_id": "0x727",
+            "ecu_type": 1,
+            "can_port": 0,
+            "physical_id": "0x0727",
+            "function_id": "0x07DF",
+            "response_id": "0x07A7",
+            "power_mode": 0,
+            "rollback": [
+                {
+                    "supplier_id": "DL03024",
+                    "succ_roll_back_mode" : 0,
+                    "failed_roll_back_mode" : 0,
+                    "rollback_timeout": 300
+                }
+            ]
+        },
+
+        {
+            "name": "BMS",
+            "ecu_id": "0x715",
+            "ecu_type": 2,
+            "can_port": 1,
+            "physical_id": "0x0715",
+            "function_id": "0x07DF",
+            "response_id": "0x0795",
+            "power_mode": 0,
+            "rollback": [
+                {
+                    "supplier_id": "DL01002",
+                    "succ_roll_back_mode" : 1,
+                    "failed_roll_back_mode" : 2,
+                    "rollback_timeout": 300
+                },
+
+                {
+                    "supplier_id": "DL01003",
+                    "succ_roll_back_mode" : 1,
+                    "failed_roll_back_mode" : 2,
+                    "rollback_timeout": 300
+                },
+
+                {
+                    "supplier_id": "DL01004",
+                    "succ_roll_back_mode" : 0,
+                    "failed_roll_back_mode" : 2,
+                    "rollback_timeout": 300
+                }
+            ]
+        },
+
+        {
+            "name": "VCU",
+            "ecu_id": "0x7E2",
+            "ecu_type": 3,
+            "can_port": 1,
+            "physical_id": "0x07E2",
+            "function_id": "0x07DF",
+            "response_id": "0x07EA",
+            "power_mode": 0,
+            "rollback": [
+                {
+                    "supplier_id": "DL30002",
+                    "succ_roll_back_mode" : 1,
+                    "failed_roll_back_mode" : 2,
+                    "rollback_timeout": 300
+                }
+            ]
+        },
+
+        {
+            "name": "FLR",
+            "ecu_id": "0x732",
+            "ecu_type": 4,
+            "can_port": 1,
+            "physical_id": "0x0732",
+            "function_id": "0x07DF",
+            "response_id": "0x07B2",
+            "power_mode": 1,
+            "rollback": [
+                {
+                    "supplier_id": "DL03022",
+                    "succ_roll_back_mode" : 0,
+                    "failed_roll_back_mode" : 0,
+                    "rollback_timeout": 300
+                }
+            ]
+        },
+
+        {
+            "name": "IPK",
+            "ecu_id": "0x725",
+            "ecu_type": 4,
+            "can_port": 2,
+            "physical_id": "0x0725",
+            "function_id": "0x07DF",
+            "response_id": "0x07A5",
+            "power_mode": 1,
+            "rollback": [
+                {
+                    "supplier_id": "DL03004",
+                    "succ_roll_back_mode" : 0,
+                    "failed_roll_back_mode" : 2,
+                    "rollback_timeout": 1800
+                }
+            ]
+        },
+
+        {
+            "name": "IPU",
+            "ecu_id": "0x716",
+            "ecu_type": 4,
+            "can_port": 1,
+            "physical_id": "0x0716",
+            "function_id": "0x07DF",
+            "response_id": "0x0796",
+            "power_mode": 0,
+            "rollback_timeout": 300,
+            "rollback": [
+                {
+                    "supplier_id": "DL01001",
+                    "succ_roll_back_mode" : 0,
+                    "failed_roll_back_mode" : 2,
+                    "rollback_timeout": 300
+                }
+            ]
+        },
+
+        {
+            "name": "ADCU",
+            "ecu_id": "0x731",
+            "ecu_type": 4,
+            "can_port": 2,
+            "physical_id": "0x0731",
+            "function_id": "0x07DF",
+            "response_id": "0x07B1",
+            "power_mode": 1,
+            "rollback": [
+                {
+                    "supplier_id": "DL03022",
+                    "succ_roll_back_mode" : 1,
+                    "failed_roll_back_mode" : 2,
+                    "rollback_timeout": 1200
+                }
+            ]
+        }
+    ]
+}

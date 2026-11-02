@@ -1,0 +1,8 @@
+#ifndef _PROPERTY_CONF_H
+#define _PROPERTY_CONF_H
+
+#define PROPERTY_KEY_MAX_SIZE 48
+#define PROPERTY_VALUE_MAX_SIZE 208
+
+
+#endif

@@ -1,0 +1,41 @@
+# 1、生成canIdFilter  
+# 2、找出合并DBC中相同CANID ,需要进行剔除一个,如果两个都不需要接收，则都删除
+import json
+
+def hex_to_specific_format(hex_str):
+    """
+    将十六进制字符串转换为特定格式（最长三位，不满补零）
+    """
+    hex_num = hex_str.lstrip('0x')
+    return "0x" + hex_num.zfill(3).upper()
+
+
+def process_dbc_json():
+    with open('dbc.json', 'r', encoding='utf-8') as f:
+        data = json.load(f)
+
+    can_id_set = set()
+    duplicate_can_ids = set()
+    all_can_ids = []
+    # 遍历数据中的每个 canItems 和 signals，查找can id 是否重复
+    for item in data['data']['canItems']: 
+        if'canId' in item:
+            hex_can_id = hex(item['canId']).lower()
+            if hex_can_id in can_id_set:
+                duplicate_can_ids.add(hex_can_id)
+            else:
+                can_id_set.add(hex_can_id)
+            all_can_ids.append(hex_can_id)
+
+    duplicate_can_ids_upper = {"0x" + id[2:].upper() for id in duplicate_can_ids}
+    print("重复的CAN ID（原始十六进制格式）:", list(duplicate_can_ids_upper))
+
+    unique_can_ids = list(set(all_can_ids))
+    unique_can_ids_specific_format = [hex_to_specific_format(hex_id) for hex_id in unique_can_ids]
+    sorted_unique_can_ids_specific_format = sorted(unique_can_ids_specific_format)
+    return sorted_unique_can_ids_specific_format
+
+
+if __name__ == "__main__":
+    result = process_dbc_json()
+    print(json.dumps(result, indent=4))

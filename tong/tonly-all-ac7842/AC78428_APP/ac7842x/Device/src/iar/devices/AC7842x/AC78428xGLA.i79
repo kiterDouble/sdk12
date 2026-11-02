@@ -1,0 +1,34 @@
+[FILEFORMAT]
+rev=1.6
+
+[CHIP]
+name=AC78428xGLA
+endiansupport=le
+thumbsupport=true
+armsupport=false
+fpu=VFPv4
+SIMD=false
+
+
+
+JTAG=true
+RTCK=false
+SWD=true
+SWO_TraceD0=false
+SWO_clock=120.0
+
+[EMUPARAMS]
+//Device specific parameters for I-jet
+DebugInReset=1
+
+[CORE]
+name=Cortex-M4
+
+[DDF FILE]
+name=AutoChips/AC78428xGLA.ddf
+
+[LINKER FILE]
+name=$TOOLKIT_DIR$/config/linker/AutoChips/AC78428xGLA.icf
+
+[FLASH LOADER]
+little=$TOOLKIT_DIR$/config/flashloader/AutoChips/FlashAC78428xGLA.board

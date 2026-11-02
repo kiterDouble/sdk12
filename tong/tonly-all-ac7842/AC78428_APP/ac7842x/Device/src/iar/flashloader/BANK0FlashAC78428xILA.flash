@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<flash_device>
+  <exe>$TOOLKIT_DIR$/config/flashloader/AutoChips/FlashAC7842xRAM16K.out</exe>
+  <page>8</page>
+  <block>128 0x2000</block>
+  <flash_base>0x00000000</flash_base>
+  <online>1</online>
+  <aggregate>1</aggregate>
+  <args_doc>"--skip_erase" -Don't erase blocks that read empty.</args_doc>
+</flash_device>

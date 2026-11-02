@@ -1,0 +1,694 @@
+<?xml version="1.0" encoding="utf-8"?>
+<nandboot>
+    <magic_numbers>
+        <usr_part_magic1>0xAA7D1B9A</usr_part_magic1>
+        <usr_part_magic2>0x1F7D48BC</usr_part_magic2>
+    </magic_numbers>
+    <partition_version length="4">0x4</partition_version>
+    <partitions>
+        <partition>
+            <name length="16" type="string">sbl</name>
+            <size_blks length="4">0x8</size_blks>
+            <pad_blks length="4">0x2</pad_blks>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFE</attr>
+            <img_name type="string">xbl_s_nand.melf</img_name>
+        </partition>
+        <partition>
+            <name length="16" type="string">sbl_b</name>
+            <size_blks length="4">0x8</size_blks>
+            <pad_blks length="4">0x2</pad_blks>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFE</attr>
+            <img_name type="string">xbl_s_nand.melf</img_name>
+        </partition>
+        <partition>
+            <name length="16" type="string">mibib</name>
+            <size_blks length="4">0x6</size_blks>
+            <pad_blks length="4">0x4</pad_blks>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0xFF</attr>
+            <attr>0xFE</attr>
+            <img_name type="string">partition.mbn</img_name>
+        </partition>
+        <partition>
+            <name length="16" type="string">efs2</name>
+            <size_kb length="4">21504</size_kb>
+            <pad_kb length="4">1024</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0xFF</attr>
+            <attr>0xFF</attr>
+            <img_name type="string">cefs.mbn</img_name>
+        </partition>
+        <partition>
+            <name length="16" type="string">efs_backup</name>
+            <size_kb length="4">9216</size_kb>
+            <pad_kb length="4">1024</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0xFF</attr>
+            <attr>0xFF</attr>
+        </partition>
+        <partition>
+            <name length="16" type="string">rawdata</name>
+            <size_kb length="4">2048</size_kb>
+            <pad_kb length="4">256</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+        </partition>
+        <partition>
+            <name length="16" type="string">sys_rev</name>
+            <size_kb length="4">3840</size_kb>
+            <pad_kb length="4">1280</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+        </partition>
+        <partition>
+            <name length="16" type="string">recoveryinfo</name>
+            <size_kb length="4">512</size_kb>
+            <pad_kb length="4">512</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+        </partition>
+        <partition>
+            <name length="16" type="string">keystore</name>
+            <size_kb length="4">1536</size_kb>
+            <pad_kb length="4">512</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+        </partition>
+        <partition>
+            <name length="16" type="string">ddr</name>
+            <size_kb length="4">1024</size_kb>
+            <pad_kb length="4">512</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0xFF</attr>
+            <attr>0xFF</attr>
+            <!-- confirmed : no image to be flashed in this partition -->
+        </partition>
+        <partition>
+            <name length="16" type="string">sec</name>
+            <size_kb length="4">512</size_kb>
+            <pad_kb length="4">512</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+            <img_name type="string">sec.elf</img_name>
+        </partition>
+        <partition>
+            <name length="16" type="string">secdata</name>
+            <size_kb length="4">512</size_kb>
+            <pad_kb length="4">512</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+        </partition>
+        <partition>
+            <name length="16" type="string">rawpersist</name>
+            <size_kb length="4">512</size_kb>
+            <pad_kb length="4">512</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+        </partition>
+        <partition>
+            <name length="16" type="string">apdp</name>
+            <size_kb length="4">512</size_kb>
+            <pad_kb length="4">512</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+        </partition>
+        <partition>
+            <name length="16" type="string">xbl_config</name>
+            <size_kb length="4">512</size_kb>
+            <pad_kb length="4">512</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+            <img_name type="string">xbl_config.elf</img_name>
+        </partition>
+        <partition>
+            <name length="16" type="string">xbl_ramdump</name>
+            <size_kb length="4">1280</size_kb>
+            <pad_kb length="4">1024</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+            <img_name type="string">xbl_ramdump.elf</img_name>
+        </partition>
+        <partition>
+            <name length="16" type="string">tz</name>
+            <size_kb length="4">4096</size_kb>
+            <pad_kb length="4">512</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+            <img_name type="string">tz.mbn</img_name>
+        </partition>
+        <partition>
+            <name length="16" type="string">tz_devcfg</name>
+            <size_kb length="4">512</size_kb>
+            <pad_kb length="4">512</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+            <img_name type="string">devcfg_auto.mbn</img_name>
+        </partition>
+        <partition>
+            <name length="16" type="string">keymaster</name>
+            <size_kb length="4">768</size_kb>
+            <pad_kb length="4">512</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+            <img_name type="string">km5virt.mbn</img_name>
+        </partition>
+        <partition>
+            <name length="16" type="string">cmnlib64</name>
+            <size_kb length="4">1280</size_kb>
+            <pad_kb length="4">512</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+            <img_name type="string">cmnlib64.mbn</img_name>
+        </partition>
+        <partition>
+            <name length="16" type="string">multi_oem</name>
+            <size_kb length="4">512</size_kb>
+            <pad_kb length="4">512</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+            <img_name type="string">multi_image.mbn</img_name>
+        </partition>
+        <partition>
+            <name length="16" type="string">multi_qti</name>
+            <size_kb length="4">512</size_kb>
+            <pad_kb length="4">512</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+            <img_name type="string">multi_image_qti.mbn</img_name>
+        </partition>
+        <partition>
+            <name length="16" type="string">aop</name>
+            <size_kb length="4">512</size_kb>
+            <pad_kb length="4">512</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+            <img_name type="string">aop.mbn</img_name>
+        </partition>
+        <partition>
+            <name length="16" type="string">aop_devcfg</name>
+            <size_kb length="4">512</size_kb>
+            <pad_kb length="4">512</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+            <img_name type="string">aop_devcfg.mbn</img_name>
+        </partition>
+        <partition>
+            <name length="16" type="string">qhee</name>
+            <size_kb length="4">2048</size_kb>
+            <pad_kb length="4">512</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+            <img_name type="string">hypvmperformance.mbn</img_name>
+        </partition>
+        <partition>
+            <name length="16" type="string">uefi</name>
+            <size_kb length="4">4096</size_kb>
+            <pad_kb length="4">512</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+            <img_name type="string">uefi.elf</img_name>
+        </partition>
+        <partition>
+            <name length="16" type="string">abl</name>
+            <size_kb length="4">512</size_kb>
+            <pad_kb length="4">512</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+            <img_name type="string">abl_userdebug.elf</img_name>
+        </partition>
+        <partition>
+            <name length="16" type="string">dtbo</name>
+            <size_kb length="4">512</size_kb>
+            <pad_kb length="4">512</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+            <img_name type="string">dtbo.img</img_name>
+        </partition>
+        <partition>
+            <name length="16" type="string">qupfw</name>
+            <size_kb length="4">512</size_kb>
+            <pad_kb length="4">512</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+            <img_name type="string">qupv3fw.elf</img_name>
+        </partition>
+        <partition>
+            <name length="16" type="string">shrm</name>
+            <size_kb length="4">512</size_kb>
+            <pad_kb length="4">512</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+            <img_name type="string">shrm.elf</img_name>
+        </partition>
+        <partition>
+            <name length="16" type="string">cpucpfw</name>
+            <size_kb length="4">512</size_kb>
+            <pad_kb length="4">512</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+            <img_name type="string">cpucp.elf</img_name>
+        </partition>
+        <partition>
+            <name length="16" type="string">loader_sti</name>
+            <size_kb length="4">512</size_kb>
+            <pad_kb length="4">512</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+            <!-- confirmed : no image to be flashed in this partition -->
+        </partition>
+        <partition>
+            <name length="16" type="string">devinfo</name>
+            <size_kb length="4">512</size_kb>
+            <pad_kb length="4">512</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+            <!-- confirmed : no image to be flashed in this partition -->
+        </partition>
+        <partition>
+            <name length="16" type="string">misc</name>
+            <size_kb length="4">512</size_kb>
+            <pad_kb length="4">512</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+            <!-- confirmed : no image to be flashed in this partition -->
+        </partition>
+        <partition>
+            <name length="16" type="string">emac</name>
+            <size_kb length="4">512</size_kb>
+            <pad_kb length="4">512</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+            <!-- confirmed : no image to be flashed in this partition -->
+        </partition>
+        <partition>
+            <name length="16" type="string">apdp_b</name>
+            <size_kb length="4">512</size_kb>
+            <pad_kb length="4">512</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+        </partition>
+        <partition>
+            <name length="16" type="string">xbl_config_b</name>
+            <size_kb length="4">512</size_kb>
+            <pad_kb length="4">512</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+            <img_name type="string">xbl_config.elf</img_name>
+        </partition>
+        <partition>
+            <name length="16" type="string">xbl_ramdump_b</name>
+            <size_kb length="4">1280</size_kb>
+            <pad_kb length="4">1024</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+            <img_name type="string">xbl_ramdump.elf</img_name>
+        </partition>
+        <partition>
+            <name length="16" type="string">tz_b</name>
+            <size_kb length="4">4096</size_kb>
+            <pad_kb length="4">512</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+            <img_name type="string">tz.mbn</img_name>
+        </partition>
+        <partition>
+            <name length="16" type="string">tz_devcfg_b</name>
+            <size_kb length="4">512</size_kb>
+            <pad_kb length="4">512</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+            <img_name type="string">devcfg_auto.mbn</img_name>
+        </partition>
+        <partition>
+            <name length="16" type="string">keymaster_b</name>
+            <size_kb length="4">768</size_kb>
+            <pad_kb length="4">512</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+            <img_name type="string">km5virt.mbn</img_name>
+        </partition>
+        <partition>
+            <name length="16" type="string">cmnlib64_b</name>
+            <size_kb length="4">1280</size_kb>
+            <pad_kb length="4">512</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+            <img_name type="string">cmnlib64.mbn</img_name>
+        </partition>
+        <partition>
+            <name length="16" type="string">multi_oem_b</name>
+            <size_kb length="4">512</size_kb>
+            <pad_kb length="4">512</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+            <img_name type="string">multi_image.mbn</img_name>
+        </partition>
+        <partition>
+            <name length="16" type="string">multi_qti_b</name>
+            <size_kb length="4">512</size_kb>
+            <pad_kb length="4">512</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+            <img_name type="string">multi_image_qti.mbn</img_name>
+        </partition>
+        <partition>
+            <name length="16" type="string">aop_b</name>
+            <size_kb length="4">512</size_kb>
+            <pad_kb length="4">512</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+            <img_name type="string">aop.mbn</img_name>
+        </partition>
+        <partition>
+            <name length="16" type="string">aop_devcfg_b</name>
+            <size_kb length="4">512</size_kb>
+            <pad_kb length="4">512</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+            <img_name type="string">aop_devcfg.mbn</img_name>
+        </partition>
+        <partition>
+            <name length="16" type="string">qhee_b</name>
+            <size_kb length="4">2048</size_kb>
+            <pad_kb length="4">512</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+            <img_name type="string">hypvmperformance.mbn</img_name>
+        </partition>
+        <partition>
+            <name length="16" type="string">uefi_b</name>
+            <size_kb length="4">4096</size_kb>
+            <pad_kb length="4">512</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+            <img_name type="string">uefi.elf</img_name>
+        </partition>
+        <partition>
+            <name length="16" type="string">abl_b</name>
+            <size_kb length="4">512</size_kb>
+            <pad_kb length="4">512</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+            <img_name type="string">abl_userdebug.elf</img_name>
+        </partition>
+        <partition>
+            <name length="16" type="string">dtbo_b</name>
+            <size_kb length="4">512</size_kb>
+            <pad_kb length="4">512</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+            <img_name type="string">dtbo.img</img_name>
+        </partition>
+        <partition>
+            <name length="16" type="string">qupfw_b</name>
+            <size_kb length="4">512</size_kb>
+            <pad_kb length="4">512</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+            <img_name type="string">qupv3fw.elf</img_name>
+        </partition>
+        <partition>
+            <name length="16" type="string">shrm_b</name>
+            <size_kb length="4">512</size_kb>
+            <pad_kb length="4">512</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+            <img_name type="string">shrm.elf</img_name>
+        </partition>
+        <partition>
+            <name length="16" type="string">cpucpfw_b</name>
+            <size_kb length="4">512</size_kb>
+            <pad_kb length="4">512</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+            <img_name type="string">cpucp.elf</img_name>
+        </partition>
+        <partition>
+            <name length="16" type="string">boot</name>
+            <size_kb length="4">23552</size_kb>
+            <pad_kb length="4">1024</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+            <img_name type="string">boot.img</img_name>
+        </partition>
+        <partition>
+            <name length="16" type="string">system</name>
+            <size_kb length="4">101376</size_kb>
+            <pad_kb length="4">1024</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+            <img_name type="string">sysfs.ubi</img_name>
+        </partition>
+        <partition>
+            <name length="16" type="string">modem</name>
+            <size_kb length="4">101376</size_kb>
+            <pad_kb length="4">1024</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+            <img_name type="string">NON-HLOS.ubi</img_name>
+        </partition>
+        <partition>
+            <name length="16" type="string">boot_b</name>
+            <size_kb length="4">23552</size_kb>
+            <pad_kb length="4">1024</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+            <img_name type="string">boot.img</img_name>
+        </partition>
+        <partition>
+            <name length="16" type="string">system_b</name>
+            <size_kb length="4">101376</size_kb>
+            <pad_kb length="4">1024</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+            <img_name type="string">sysfs.ubi</img_name>
+        </partition>
+        <partition>
+            <name length="16" type="string">modem_b</name>
+            <size_kb length="4">101376</size_kb>
+            <pad_kb length="4">1024</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+            <img_name type="string">NON-HLOS.ubi</img_name>
+        </partition>
+        <partition>
+            <name length="16" type="string">oemapp</name>
+            <size_kb length="4">60416</size_kb>
+            <pad_kb length="4">1024</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+            <img_name type="string">oemapp.ubi</img_name>
+        </partition>
+        <partition>
+            <name length="16" type="string">oemapp_b</name>
+            <size_kb length="4">60416</size_kb>
+            <pad_kb length="4">1024</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+            <img_name type="string">oemapp.ubi</img_name>
+        </partition>
+        <partition>
+            <name length="16" type="string">quecrw</name>
+            <size_kb length="4">22528</size_kb>
+            <pad_kb length="4">1024</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+            <img_name type="string">quecrw.ubi</img_name>
+        </partition>
+        <partition>
+            <name length="16" type="string">usrdata</name>
+            <size_kb length="4">0xFFFFFFFF</size_kb>
+            <pad_kb length="4">0xFFFF</pad_kb>
+            <which_flash>0</which_flash>
+            <attr>0xFF</attr>
+            <attr>0x01</attr>
+            <attr>0x00</attr>
+            <attr>0xFF</attr>
+            <img_name type="string">usrdata.ubi</img_name>
+        </partition>
+    </partitions>
+</nandboot>

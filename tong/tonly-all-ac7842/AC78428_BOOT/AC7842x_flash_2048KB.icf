@@ -1,0 +1,252 @@
+/*###ICF### Section handled by ICF editor, don't touch! ****/
+/*-Editor annotation file-*/
+/* IcfEditorFile="$TOOLKIT_DIR$/config/ide/IcfEditor/cortex_v1_4.xml" */
+/*-Specials-*/
+define symbol __ICFEDIT_intvec_start__ = 0x00000000;
+/*-Memory Regions-*/
+define symbol __ICFEDIT_region_IROM1_start__ = 0x00000000;
+define symbol __ICFEDIT_region_IROM1_end__   = 0x000FFFFF;
+define symbol __ICFEDIT_region_IROM2_start__ = 0x00100000;
+define symbol __ICFEDIT_region_IROM2_end__   = 0x001FFFFF;
+define symbol __ICFEDIT_region_EROM1_start__ = 0x0;
+define symbol __ICFEDIT_region_EROM1_end__   = 0x0;
+define symbol __ICFEDIT_region_EROM2_start__ = 0x0;
+define symbol __ICFEDIT_region_EROM2_end__   = 0x0;
+define symbol __ICFEDIT_region_EROM3_start__ = 0x0;
+define symbol __ICFEDIT_region_EROM3_end__   = 0x0;
+define symbol __ICFEDIT_region_IRAM1_start__ = 0x1FFE0000;
+define symbol __ICFEDIT_region_IRAM1_end__   = 0x1FFF7FFF;
+define symbol __ICFEDIT_region_IRAM1_STANDBY_start__ = 0x1FFF8000;
+define symbol __ICFEDIT_region_IRAM1_STANDBY_end__   = 0x1FFFFFFF;
+define symbol __ICFEDIT_region_IRAM2_start__ = 0x20000000;
+define symbol __ICFEDIT_region_IRAM2_end__   = 0x2001EFFF;
+define symbol __ICFEDIT_region_ERAM1_start__ = 0x14000000;
+define symbol __ICFEDIT_region_ERAM1_end__   = 0x14000FFF;
+define symbol __ICFEDIT_region_ERAM2_start__ = 0x0;
+define symbol __ICFEDIT_region_ERAM2_end__   = 0x0;
+define symbol __ICFEDIT_region_ERAM3_start__ = 0x0;
+define symbol __ICFEDIT_region_ERAM3_end__   = 0x0;
+/*-Sizes-*/
+define symbol __ICFEDIT_size_cstack__     = 0x2000;
+define symbol __ICFEDIT_size_proc_stack__ = 0x0;
+define symbol __ICFEDIT_size_heap__       = 0x0;
+/**** End of ICF editor section. ###ICF###*/
+
+
+/* ========================================================================= */
+/*                              Flash 分区规划                               */
+/* ========================================================================= */
+
+/*-BOOT Regions-*/
+define symbol FLASH_BASE                 = __ICFEDIT_region_IROM1_start__;
+define symbol BOOT_BASE                  = FLASH_BASE;
+define symbol FLASH_BOOT_TOTAL_SIZE      = 0x00040000; /* 256KB */
+define symbol BOOT_INFO_SIZE             = 0x00002000;
+define symbol BOOT_INFO_BASE             = (BOOT_BASE + FLASH_BOOT_TOTAL_SIZE - BOOT_INFO_SIZE);
+define symbol BOOT_CODE_END              = (BOOT_INFO_BASE - 1);
+define symbol BOOT_END                   = BOOT_BASE + FLASH_BOOT_TOTAL_SIZE - 1;
+
+/*-META Regions-*/
+define symbol META_BASE                  = BOOT_BASE + FLASH_BOOT_TOTAL_SIZE;
+define symbol FLASH_META_DATA_TOTAL_SIZE = 0x00010000; /* 64KB */
+define symbol META_END                   = META_BASE + FLASH_META_DATA_TOTAL_SIZE - 1;
+
+/*-APP Regions-*/
+define symbol APP_BASE                   = META_BASE + FLASH_META_DATA_TOTAL_SIZE;
+define symbol APP_FLAG_BASE              = APP_BASE;
+define symbol APP_FLAG_SIZE              = 0x00002000;
+define symbol APP_FLAG_END               = (APP_FLAG_BASE   + APP_FLAG_SIZE   - 1);
+define symbol APP_DIGEST_BASE            = APP_BASE + APP_FLAG_SIZE;
+define symbol APP_DIGEST_SIZE            = 0x00002000;
+define symbol APP_DIGEST_END             = (APP_DIGEST_BASE + APP_DIGEST_SIZE - 1);
+define symbol APP_RUN_OFFSET             = (APP_FLAG_SIZE + APP_DIGEST_SIZE);
+define symbol APP_RUN_BASE               = APP_BASE + APP_RUN_OFFSET;
+define symbol FLASH_APP_SINGLE_SIZE      = 0x000B0000; /* 704KB */
+define symbol APP_END                    = APP_BASE + FLASH_APP_SINGLE_SIZE - 1;
+
+/* ========================================================================= */
+
+
+define memory mem with size = 4G;
+
+define symbol use_IROM1 = (__ICFEDIT_region_IROM1_start__ != 0x0 || __ICFEDIT_region_IROM1_end__ != 0x0);
+define symbol use_IROM2 = (__ICFEDIT_region_IROM2_start__ != 0x0 || __ICFEDIT_region_IROM2_end__ != 0x0);
+define symbol use_EROM1 = (__ICFEDIT_region_EROM1_start__ != 0x0 || __ICFEDIT_region_EROM1_end__ != 0x0);
+define symbol use_EROM2 = (__ICFEDIT_region_EROM2_start__ != 0x0 || __ICFEDIT_region_EROM2_end__ != 0x0);
+define symbol use_EROM3 = (__ICFEDIT_region_EROM3_start__ != 0x0 || __ICFEDIT_region_EROM3_end__ != 0x0);
+define symbol use_IRAM1 = (__ICFEDIT_region_IRAM1_start__ != 0x0 || __ICFEDIT_region_IRAM1_end__ != 0x0);
+define symbol use_IRAM1_STANDBY = (__ICFEDIT_region_IRAM1_STANDBY_start__ != 0x0 || __ICFEDIT_region_IRAM1_STANDBY_end__ != 0x0);
+define symbol use_IRAM2 = (__ICFEDIT_region_IRAM2_start__ != 0x0 || __ICFEDIT_region_IRAM2_end__ != 0x0);
+define symbol use_ERAM1 = (__ICFEDIT_region_ERAM1_start__ != 0x0 || __ICFEDIT_region_ERAM1_end__ != 0x0);
+define symbol use_ERAM2 = (__ICFEDIT_region_ERAM2_start__ != 0x0 || __ICFEDIT_region_ERAM2_end__ != 0x0);
+define symbol use_ERAM3 = (__ICFEDIT_region_ERAM3_start__ != 0x0 || __ICFEDIT_region_ERAM3_end__ != 0x0);
+
+if (use_IROM1)
+{
+  define region IROM1_region = mem:[from __ICFEDIT_region_IROM1_start__ to __ICFEDIT_region_IROM1_end__];
+}
+else
+{
+  define region IROM1_region = [];
+}
+
+if (use_IROM2)
+{
+  define region IROM2_region = mem:[from __ICFEDIT_region_IROM2_start__ to __ICFEDIT_region_IROM2_end__];
+}
+else
+{
+  define region IROM2_region = [];
+}
+define region IROM_region = IROM1_region | IROM2_region;
+
+if (use_EROM1)
+{
+  define region EROM1_region = mem:[from __ICFEDIT_region_EROM1_start__ to __ICFEDIT_region_EROM1_end__];
+}
+else
+{
+  define region EROM1_region = [];
+}
+if (use_EROM2)
+{
+  define region EROM2_region = mem:[from __ICFEDIT_region_EROM2_start__ to __ICFEDIT_region_EROM2_end__];
+}
+else
+{
+  define region EROM2_region = [];
+}
+if (use_EROM3)
+{
+  define region EROM3_region = mem:[from __ICFEDIT_region_EROM3_start__ to __ICFEDIT_region_EROM3_end__];
+}
+else
+{
+  define region EROM3_region = [];
+}
+define region EROM_region = EROM1_region | EROM2_region | EROM3_region;
+
+
+if (use_IRAM1)
+{
+  define region IRAM1_region = mem:[from __ICFEDIT_region_IRAM1_start__ to __ICFEDIT_region_IRAM1_end__];
+}
+else
+{
+  define region IRAM1_region = [];
+}
+if (use_IRAM1_STANDBY)
+{
+  define region IRAM1_STANDBY_region = mem:[from __ICFEDIT_region_IRAM1_STANDBY_start__ to __ICFEDIT_region_IRAM1_STANDBY_end__];
+}
+else
+{
+  define region IRAM1_STANDBY_region = [];
+}
+if (use_IRAM2)
+{
+  define region IRAM2_region = mem:[from __ICFEDIT_region_IRAM2_start__ to __ICFEDIT_region_IRAM2_end__];
+}
+else
+{
+  define region IRAM2_region = [];
+}
+define region IRAM_region = IRAM1_region | IRAM1_STANDBY_region | IRAM2_region;
+
+if (use_ERAM1)
+{
+  define region ERAM1_region = mem:[from __ICFEDIT_region_ERAM1_start__ to __ICFEDIT_region_ERAM1_end__];
+}
+else
+{
+  define region ERAM1_region = [];
+}
+if (use_ERAM2)
+{
+  define region ERAM2_region = mem:[from __ICFEDIT_region_ERAM2_start__ to __ICFEDIT_region_ERAM2_end__];
+}
+else
+{
+  define region ERAM2_region = [];
+}
+if (use_ERAM3)
+{
+  define region ERAM3_region = mem:[from __ICFEDIT_region_ERAM3_start__ to __ICFEDIT_region_ERAM3_end__];
+}
+else
+{
+  define region ERAM3_region = [];
+}
+define region ERAM_region = ERAM1_region | ERAM2_region | ERAM3_region;
+
+
+/* ========================================================================= */
+/*                          构建目标重定向逻辑                               */
+/* ========================================================================= */
+define region BOOT_region     = mem:[from BOOT_BASE to BOOT_CODE_END];
+define region APP_CODE_region = mem:[from APP_RUN_BASE to APP_END];
+
+if (isdefinedsymbol(__BUILD_TARGET__)) 
+{
+    if (__BUILD_TARGET__ == 0) {
+        define symbol __INTVEC_ADDR__    = BOOT_BASE;
+        define region ACTIVE_CODE_FLASH  = BOOT_region;
+    }
+    else if (__BUILD_TARGET__ == 1) {
+        define symbol __INTVEC_ADDR__    = APP_RUN_BASE;
+        define region ACTIVE_CODE_FLASH  = APP_CODE_region;
+    }
+    else if (__BUILD_TARGET__ == 2) {
+        define symbol __INTVEC_ADDR__    = __ICFEDIT_intvec_start__;
+        define region ACTIVE_CODE_FLASH  = IROM_region;
+    }
+    else {
+        error "Invalid __BUILD_TARGET__. Use 0(Boot)/1(Release/App)/2(Debug).";
+    }
+} 
+else 
+{
+    /* 如果工程没有定义 __BUILD_TARGET__，默认回退为原始的全片Flash方案 */
+    define symbol __INTVEC_ADDR__    = __ICFEDIT_intvec_start__;
+    define region ACTIVE_CODE_FLASH  = IROM_region;
+}
+/* ========================================================================= */
+
+do not initialize  { section .noinit };
+initialize by copy { readwrite };
+
+if (isdefinedsymbol(__USE_DLIB_PERTHREAD))
+{
+  // Required in a multi-threaded application
+  initialize by copy with packing = none { section __DLIB_PERTHREAD };
+}
+
+place at address mem:__INTVEC_ADDR__ { readonly section .intvec };
+
+if (!isempty(ACTIVE_CODE_FLASH))
+{
+  place in ACTIVE_CODE_FLASH  { readonly };
+}
+
+if (!isempty(EROM_region))
+{
+  place in EROM_region  { readonly section application_specific_ro };
+}
+
+if (!isempty(IRAM_region))
+{
+  define block CSTACK     with alignment = 8, size = __ICFEDIT_size_cstack__     { };
+  define block PROC_STACK with alignment = 8, size = __ICFEDIT_size_proc_stack__ { };
+  define block HEAP       with alignment = 8, size = __ICFEDIT_size_heap__       { };
+  place in IRAM_region  { readwrite, block CSTACK, block PROC_STACK, block HEAP };
+}
+
+if (!isempty(IRAM1_STANDBY_region))
+{
+  place in IRAM1_STANDBY_region  { readwrite section .standby_ram };
+}
+
+if (!isempty(ERAM_region))
+{
+  place in ERAM_region  { readwrite section application_specific_rw };
+}

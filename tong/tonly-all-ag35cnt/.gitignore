@@ -1,0 +1,13 @@
+**/server-out
+**/out
+**/build
+oemapp/lib
+oemapp/servers
+oemapp/apps/
+oemapp/demo/
+oemapp/third_lib/
+oemapp/version/
+oemapp/version.txt
+mkimage
+.vscode
+

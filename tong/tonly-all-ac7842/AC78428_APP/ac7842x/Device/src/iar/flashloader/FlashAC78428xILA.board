@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flash_board>
+    <pass>
+        <loader>$TOOLKIT_DIR$/config/flashloader/AutoChips/BANK0FlashAC78428xILA.flash</loader>
+        <range>CODE 0x00000000 0x000fffff</range>
+    </pass>
+    <pass>
+        <loader>$TOOLKIT_DIR$/config/flashloader/AutoChips/BANK1FlashAC78428xILA.flash</loader>
+        <range>CODE 0x00100000 0x001fffff</range>
+    </pass>
+    <pass>
+        <loader>$TOOLKIT_DIR$/config/flashloader/AutoChips/DFlashAC78428xILA.flash</loader>
+        <range>CODE 0x01000000 0x0101ffff</range>
+    </pass>
+</flash_board>

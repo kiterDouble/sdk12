@@ -1,0 +1,7 @@
+build_with_no_undefined.patch
+dh-autoreconf
+
+# CVE-2014-6272
+# https://security-tracker.debian.org/tracker/CVE-2014-6272
+# https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=774645
+20d6d445.patch

@@ -1,0 +1,183 @@
+{
+	"version": 101,
+	"project": "Tonly_TBOX",
+	"canIdFilter": [
+		"0x1830B021",
+		"0x1884EFF3",
+		"0x18F101D0",
+		"0x18F117D1",
+		"0x18F115D0",
+		"0x0CF00400",
+		"0x0CFF0008",
+		"0x142FFE95",
+		"0x142FFF95"
+	],
+	"structs": [
+		{
+			"msgname": "TonlyAllCanSignal",
+			"comment": "同力所有CAN信号集合",
+			"SignalContents": [
+				{
+					"name": "Q2V_SOC",
+					"comment": "Q2V-电池包SOC",
+					"type": "float",
+					"signal": "Q2V_SOC.Q2V_ST2_SOC"
+				},
+				{
+					"name": "BMS_SOC",
+					"comment": "BMS-电池包SOC",
+					"type": "float",
+					"signal": "BMS_SOC.BMS_ST2_SOC"
+				},
+				{
+					"name": "gear",
+					"comment": "档位信息",
+					"type": "uint8",
+					"signal": "DB_EngSpd.Tx_DB_GearNum"
+				},
+				{
+					"name": "vehicle_speed",
+					"comment": "车速",
+					"type": "float",
+					"signal": "DB_EngSpd.Tx_DB_VehicleSpeed"
+				},
+				{
+					"name": "acc_pedal",
+					"comment": "油门开度",
+					"type": "float",
+					"signal": "DB_EngSpd.Tx_DB_AccPed"
+				},
+				{
+					"name": "brake_pedal",
+					"comment": "制动踏板开度",
+					"type": "float",
+					"signal": "DB_EngSpd.Tx_DB_BrakePedal"
+				},
+				{
+					"name": "PKB_status",
+					"comment": "PKB状态",
+					"type": "uint8",
+					"signal": "DB_EngSpd.Tx_DB_PKB"
+				},
+				{
+					"name": "max_error_level",
+					"comment": "最大故障等级",
+					"type": "uint8",
+					"signal": "DB_EngSpd.Tx_DB_MaxErrLevel"
+				},
+				{
+					"name": "key_position",
+					"comment": "钥匙开关位置",
+					"type": "uint8",
+					"signal": "VCU_KeySw.VCU_KeyPosnSt"
+				},
+				{
+					"name": "battery_voltage",
+					"comment": "蓄电池电压",
+					"type": "float",
+					"signal": "DB_LowBatVolt.Tx_DB_BattVolt"
+				},
+				{
+					"name": "engine_speed",
+					"comment": "发动机实际转速",
+					"type": "float",
+					"signal": "EEC_ActSpd.Eng_EEC1_ActSpd"
+				},
+				{
+					"name": "motor_speed",
+					"comment": "电机转速",
+					"type": "int16",
+					"signal": "MCU1_MotSpd.Rx_MCU1_MotSpd"
+				},
+				{
+					"name": "controller_bus_voltage_1",
+					"comment": "控制器母线电压-1",
+					"type": "float",
+					"signal": "SteerPUmpCtrl1.Rx_SteerPumpCtrl1_BusVolt"
+				},
+				{
+					"name": "controller_bus_voltage_2",
+					"comment": "控制器母线电压-2",
+					"type": "float",
+					"signal": "SteerPUmpCtrl2.Rx_SteerPumpCtrl2_BusVolt"
+				}
+			],
+			"period": 1000,
+			"msgid": "0x3FF0"
+		},
+		{
+			"msgname": "MonitorCanSignalData",
+			"comment": "终端管理平台CAN信号数据结构体",
+			"SignalContents": [
+				{
+					"name": "vehicle_status",
+					"comment": "车辆状态: 0x01:车辆启动状态, 0x02:熄火, 0x03:其他状态, 0xFE:异常, 0xFF:无效",
+					"type": "uint8",
+					"signal": "VCU_RMON_1.VCU_T_VhlSts"
+				},
+				{
+					"name": "gear",
+					"comment": "点火档位位置: 0x0:Initial, 0x1:OFF, 0x2:ACC, 0x3:ON, 0x4:Start, 0xF:Invalid",
+					"type": "uint8",
+					"signal": "PEPS_CtrlDisp.PEPS_PDUPosition"
+				},
+				{
+					"name": "vehicle_speed",
+					"comment": "车辆速度(km/h)",
+					"type": "float",
+					"signal": "VCU_VCUSts1.VCU_VhclSpd"
+				},
+				{
+					"name": "drive_motor_speed",
+					"comment": "驱动电机转速(r/min)",
+					"type": "int32",
+					"signal": "MCU_MST4.MCU_T_DrvMtrSpd"
+				},
+				{
+					"name": "HV_ready_status",
+					"comment": "整车Ready状态: 0x0:WAIT 0x1:READY",
+					"type": "uint8",
+					"signal": "VCU_VCUSts1.VCU_VhclSts"
+				},
+				{
+					"name": "motor_status",
+					"comment": "电机运行状态: 0x1:耗电, 0x2:发电, 0x3:关闭状态, 0x4:准备状态, 0xFE:异常, 0xFF:无效",
+					"type": "uint8",
+					"signal": "MCU_MCUFLT.MCU_MotWorkSts"
+				},
+				{
+					"name": "BMS_fault_Lv",
+					"comment": "BMS故障等级: 0x0:无故障, 0x1:一级级故障, 0x2:二级级故障, 0x3:三级级故障, 0x4:四级故障",
+					"type": "uint8",
+					"signal": "BMS_BMSSts.BMS_BMSFltLv"
+				},
+				{
+					"name": "VCU_sys_DTC",
+					"comment": "VCU系统故障码: 0x0:无故障, 0x1~0x32:三级故障, 0x33~0x96:二级故障, 0x97~0xFA:一级故障, 0xFE:异常, 0xFF:无效",
+					"type": "uint8",
+					"signal": "VCU_VCUSts1.VCU_SysDTC"
+				},
+				{
+					"name": "BMS_status",
+					"comment": "BMS状态: 0x0:上电状态, 0x1:预留, 0x2:高压断开状态, 0x3:充电状态, 0x4:标定与诊断, 0x5:预留, 0x6:预留, 0x7:驻车加热状态",
+					"type": "uint8",
+					"signal": "BMS_BMSSts.BMS_BMSSts"
+				},
+				{
+					"name": "driver_departure_alarm",
+					"comment": "驾驶员离座报警: 0x0:正常, 0x1:离开座位",
+					"type": "uint8",
+					"signal": "IC_DIA.IC_DrvrDepAlrm"
+				},
+				{
+					"name": "remote_cmd_exec_status",
+					"comment": "远程命令执行状态: 0x0:无, 0x1:握手校验, 0x2:车门解锁, 0x3:车门闭锁, 0x4:一键开窗, 0x5:一键关窗, 0x6:远程寻车, 0x7:一键启动, 0x8:一键熄火, 0x9:快速制冷, 0xA:快速制热, 0xB:关闭空调, 0x10:车辆上低压电, 0x11:电池预约加热",
+					"type": "uint8",
+					"signal": "VCU_RCV.VCU_RemoteCmdExecSts"
+				}
+			],
+			"period": 1000,
+			"msgid": "0x3FEF"
+		}
+	]
+}

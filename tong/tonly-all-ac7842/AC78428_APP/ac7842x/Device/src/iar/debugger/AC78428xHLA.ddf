@@ -1,0 +1,35 @@
+
+;; Architecture extensions
+#include weak "../ARM/ARMv7-M-MPU.ddf"
+#include weak "../ARM/ARMv7-M-ETM.ddf"
+#include weak "../ARM/ARMv7-M-TPIU.ddf"
+
+;; Memory information ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; Used to define address zones within the ARM address space (Memory).
+;;
+;;   Name      may be almost anything
+;;   AdrSpace  must be Memory
+;;   StartAdr  start of memory block
+;;   EndAdr    end of memory block
+;;   AccType   type of access, read-only (R), read-write (RW) or SFR (W)
+
+[Memory]
+;;         Name             AdrSpace    StartAdr    EndAdr      AccType   Width
+Memory =  CSE_PRAM         Memory      0x14001000  0x1400107F  W  
+Memory =  Periph           Memory      0x40000000  0x400FFFFF  W  
+Memory =  SystemSFR        Memory      0xE0000000  0xE00FFFFF  W  
+Memory =  PFlash0          Memory      0x00000000  0x000BFFFF  R  
+Memory =  PFlash1          Memory      0x00100000  0x001BFFFF  R  
+Memory =  PFlash-Info      Memory      0x00200000  0x00203FFF  R  
+Memory =  DFlash           Memory      0x01000000  0x0101FFFF  W  
+Memory =  DFlash-Info      Memory      0x01020000  0x010247FF  W  
+Memory =  FlexRAM          Memory      0x14000000  0x14000FFF  RW 
+Memory =  SRAML            Memory      0x1FFE8000  0x1FFFFFFF  RW 
+Memory =  SRAMU            Memory      0x20000000  0x20016FFF  RW 
+
+TrustedRanges = true
+UseSfrFilter = true
+
+[SfrInclude]
+File = AC7842x.svd

@@ -1,0 +1,74 @@
+{
+    "modules": [
+        {
+            "name": "wifi",
+            "support_mode": ["sleep","poweroff", "work"],
+            "tbox_awake": "work",
+            "tbox_sleep": "poweroff",
+            "tbox_deep_sleep": "poweroff",
+            "pins": {
+                "power_pin": {
+                    "pin_num": 123,
+                    "active": 1
+                },
+                "sleep_pin": {
+                    "pin_num": 127,
+                    "active": 1
+                }
+            }
+        },
+        {
+            "name": "eth",
+            "support_mode": ["sleep","poweroff","work"],
+            "tbox_awake": "work",
+            "tbox_sleep": "poweroff",
+            "tbox_deep_sleep": "poweroff",
+            "pins": {
+                "power_pin": {
+                    "pin_num": 11,
+                    "active": 1
+                },
+                "sleep_pin": {
+                    "pin_num": 122,
+                    "active": 1
+                }
+            }
+        },
+        {
+            "name": "codec",
+            "support_mode": ["poweroff", "work"],
+            "tbox_awake": "work",
+            "tbox_sleep": "poweroff",
+            "tbox_deep_sleep": "poweroff",
+            "pins": {
+                "power_pin": {
+                    "pin_num": 37,
+                    "active": 1
+                },
+                "sleep_pin": {
+                    "pin_num": 0,
+                    "active": 1
+                }
+            }
+        },
+        {
+            "name": "HSE",
+            "support_mode": ["work"],
+            "tbox_awake": "work",
+            "tbox_sleep": "poweroff",
+            "tbox_deep_sleep": "poweroff",
+            "pins": {
+                "power_pin": {
+                    "pin_num": 0,
+                    "active": 1
+                },
+                "sleep_pin": {
+                    "pin_num": 0,
+                    "active": 1
+                }
+            }
+        }
+    ],
+    "mcu_wake": 39,
+    "sms_wake_mode": 0
+}

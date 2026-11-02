@@ -1,0 +1,83 @@
+stages:
+- test_statictools
+- test_statictools_postReadme
+- test_statictools_postStatus
+variables:
+  STATIC_SERVER_IP: "47.110.48.81"
+  STATIC_PROJECT_KEY: "ZEIOSCPUMPUAPP"
+  STATIC_PROJECT_URL: "http://47.110.48.81/project/ZEIOSCPUMPUAPP/overview"
+static-code-quality-job:
+  stage: test_statictools
+  image:
+    name: sirun-registry-vpc.cn-hangzhou.cr.aliyuncs.com/tbox/ag591ecnea:r01a09_dazhong_staticcheck
+    entrypoint:
+    - ''
+  rules:
+    - if: "$CODE_QUALITY_DISABLED"
+      when: never
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_PROTECTED == "true"
+  script:
+    - echo "check the code..."
+    - echo "codespace:$CI_PROJECT_DIR"
+    - cp -a ${CI_PROJECT_DIR}/staticcheck/common_inc ${CI_PROJECT_DIR}/../
+    - cd ${CI_PROJECT_DIR}/staticcheck
+    - tar -zxf thrid_utils.tgz -C ${CI_PROJECT_DIR}/../
+    - tar -zxf server_out.tgz -C ${CI_PROJECT_DIR}/../
+    - cd ${CI_PROJECT_DIR}
+    - source /opt/ql_crosstools/pvm-crosstool-env-init && source /root/.profile && ./build_all.sh AG591
+    - cp ${CI_PROJECT_DIR}/staticcheck/.STATICFILE ${CI_PROJECT_DIR}/build/
+    - cp ${CI_PROJECT_DIR}/staticcheck/parser.sconf ${CI_PROJECT_DIR}/build/
+    - cd ${CI_PROJECT_DIR}/build
+    - source /opt/ql_crosstools/pvm-crosstool-env-init && make clean
+    - source /opt/ql_crosstools/pvm-crosstool-env-init && source /root/.profile && csbuild capture make
+    - source /opt/ql_crosstools/pvm-crosstool-env-init && source /root/.profile && csbuild valid all || true
+    - source /opt/ql_crosstools/pvm-crosstool-env-init && source /root/.profile && csbuild upload || true
+    - |
+      echo "[
+        {
+          \"description\": \"${CI_PIPELINE_ID}:See the full analysis report here: ${STATIC_PROJECT_URL}\",
+          \"fingerprint\": \"unique-fingerprint-for-this-entry\",
+          \"severity\": \"info\",
+          \"location\": {
+            \"path\": \"gl-code-quality-report.json\",
+            \"lines\": {
+              \"begin\": 1
+            }
+          }
+        }
+      ]" > ${CI_PROJECT_DIR}/gl-code-quality-report.json
+  variables:
+    REPORT_FORMAT: html
+  artifacts:
+    reports:
+      codequality: ${CI_PROJECT_DIR}/gl-code-quality-report.json
+post-readme-of-static-code-quality-job:
+  stage: test_statictools_postReadme
+  image: sirun-registry-vpc.cn-hangzhou.cr.aliyuncs.com/tbox/curl
+  script:
+    - |
+      COMMENT="$(cat ${CI_PROJECT_DIR}/staticcheck/postreadme)"
+      curl --request POST \
+           --header "PRIVATE-TOKEN: glpat-Rbs_EDEouV1y5izP2DUY" \
+           --form "body=${COMMENT}" \
+           "https://${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/merge_requests/${CI_MERGE_REQUEST_IID}/discussions"
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_PROTECTED == "true"
+post-status-of-static-code-quality-job:
+  stage: test_statictools_postStatus
+  image: sirun-registry-vpc.cn-hangzhou.cr.aliyuncs.com/tbox/codechecker:0.1
+  script:
+    - echo "checking..." && pwd && ls -l
+    # 确保在正确的工作目录执行
+    - cd /builds/TBox/zelos/cpu/mpu/app || echo "目录不存在，使用当前目录"
+    - pwd
+    - /root/checker/check_defects.sh ${STATIC_PROJECT_KEY}
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_PROTECTED == "true"
+      allow_failure: false
+  artifacts:
+    paths:
+      - failure.md
+      - "*.log"
+    expire_in: 1 week
+    when: always

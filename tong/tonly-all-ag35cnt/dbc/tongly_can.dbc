@@ -1,0 +1,300 @@
+VERSION ""
+
+
+NS_ : 
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIG_VALTYPE_
+	SIGTYPE_VALTYPE_
+	BO_TX_BU_
+	BA_DEF_REL_
+	BA_REL_
+	BA_DEF_DEF_REL_
+	BU_SG_REL_
+	BU_EV_REL_
+	BU_BO_REL_
+	SG_MUL_VAL_
+
+BS_:
+
+BU_: 
+
+
+BO_ 2553327649 Q2V_SOC: 8 Vector__XXX
+ SG_ Q2V_ST2_SOC : 0|8@1+ (0.4,0) [0|100] "%" Vector__XXX
+
+BO_ 2558849011 BMS_SOC: 8 Vector__XXX
+ SG_ BMS_ST2_SOC : 0|8@1+ (0.4,0) [0|100] "%" Vector__XXX
+
+BO_ 2565931472 DB_EngSpd: 8 Vector__XXX
+ SG_ Tx_DB_MaxErrLevel : 61|3@1+ (1,0) [0|7] "" Vector__XXX
+ SG_ Tx_DB_PKB : 52|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Tx_DB_BrakePedal : 40|8@1+ (0.4,0) [0|255] "%" Vector__XXX
+ SG_ Tx_DB_AccPed : 32|8@1+ (0.4,0) [0|255] "%" Vector__XXX
+ SG_ Tx_DB_VehicleSpeed : 8|16@1+ (0.00390625,0) [0|65535] "Km/h" Vector__XXX
+ SG_ Tx_DB_GearNum : 0|4@1+ (1,0) [0|15] "" Vector__XXX
+
+BO_ 2565937105 VCU_KeySw: 8 Vector__XXX
+ SG_ VCU_KeyPosnSt : 0|4@1+ (1,0) [0|7] "" Vector__XXX
+
+BO_ 2565936592 DB_LowBatVolt: 8 Vector__XXX
+ SG_ Tx_DB_BattVolt : 32|16@1+ (0.1,0) [0|27] "V" Vector__XXX
+
+BO_ 2364539904 EEC_ActSpd: 8 Vector__XXX
+ SG_ Eng_EEC1_ActSpd : 24|16@1+ (0.03125,-273) [-273|1734.96875] "rpm" Vector__XXX
+
+BO_ 2365521928 MCU1_MotSpd: 8 Vector__XXX
+ SG_ Rx_MCU1_MotSpd : 0|16@1+ (1,-15000) [-15000|15000] "rpm" Vector__XXX
+
+BO_ 2486173333 SteerPUmpCtrl2: 8 Vector__XXX
+ SG_ Rx_SteerPumpCtrl2_BusVolt : 16|16@1+ (0.1,0) [0|6553.5] "V" Vector__XXX
+
+BO_ 2486173589 SteerPUmpCtrl1: 8 Vector__XXX
+ SG_ Rx_SteerPumpCtrl1_BusVolt : 16|16@1+ (0.1,0) [0|6553.5] "V" Vector__XXX
+
+BO_ 2566652160 VCU_Seed: 8 Vector__XXX
+ SG_ Rx_VcuSeedValue : 0|24@1+ (1,0) [0|16777215] "" Vector__XXX
+
+BO_ 2566654208 VCU_LockVehicle: 8 Vector__XXX
+ SG_ Rx_VcuResponse : 48|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ Rx_KeyOkState : 27|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Rx_LockState : 26|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Rx_ActiveState : 25|1@1+ (1,0) [0|1] "" Vector__XXX
+
+BO_ 2566866420 B2TM_Info: 8 Vector__XXX
+ SG_ B2T_RQ_SetMode_A : 1|2@0+ (1,0) [0|3] "" Vector__XXX
+
+BO_ 2565935568 Tx_DB_VehicleParaG: 8 Vector__XXX
+ SG_ Tx_DB_FaultCode : 0|16@1+ (1,0) [0|65535] "" Vector__XXX
+
+BO_ 2566903036 TBOX_ActiveCmd: 8 Vector__XXX
+ SG_ T_Box_ActiveCmd : 0|16@1+ (1,0) [0|65535] "" Vector__XXX
+
+BO_ 2566903292 TBOX_TxKey: 8 Vector__XXX
+ SG_ T_Box_TxKey : 0|64@1+ (1,0) [0|65535] "" Vector__XXX
+
+BO_ 2566903548 TBOX_LockCmd: 8 Vector__XXX
+ SG_ T_Box_LockCmd : 0|16@1+ (1,0) [0|65535] "" Vector__XXX
+
+BO_ 2566840343 Rx_DB_vehiclePara4: 8 Vector__XXX
+ SG_ Rx_DB_Trip_ODO : 32|32@1+ (0.125,0) [0|536870911.9] "km" Vector__XXX
+
+BO_ 2566843408 VCU_BrodcastVin: 8 Vector__XXX
+ SG_ VCU_VINTOCANBUS_B7_14 : 56|8@1+ (1,0) [0|90] "" Vector__XXX
+ SG_ VCU_VINTOCANBUS_B6_13 : 48|8@1+ (1,0) [0|90] "" Vector__XXX
+ SG_ VCU_VINTOCANBUS_B5_12 : 40|8@1+ (1,0) [0|90] "" Vector__XXX
+ SG_ VCU_VINTOCANBUS_B4_11 : 32|8@1+ (1,0) [0|90] "" Vector__XXX
+ SG_ VCU_VINTOCANBUS_B3_10_17 : 24|8@1+ (1,0) [0|90] "" Vector__XXX
+ SG_ VCU_VINTOCANBUS_B2_9_16 : 16|8@1+ (1,0) [0|90] "" Vector__XXX
+ SG_ VCU_VINTOCANBUS_B1_8_15 : 8|8@1+ (1,0) [0|90] "" Vector__XXX
+ SG_ VCU_VersionNo : 3|5@1+ (1,0) [1|18] "" Vector__XXX
+ SG_ VCU_VINTOCANBUS_FrameNo : 0|3@1+ (1,0) [1|3] "" Vector__XXX
+
+BO_ 2566843641 TBOX_BrodcastVin: 8 Vector__XXX
+ SG_ TBOX_VIN_B7_14 : 56|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TBOX_VIN_B6_13 : 48|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TBOX_VIN_B5_12 : 40|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TBOX_VIN_B4_11 : 32|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TBOX_VIN_B3_10_17 : 24|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TBOX_VIN_B2_9_16 : 16|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TBOX_VIN_B1_8_15 : 8|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ TBOX_VINLockState : 4|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TBOX_ForceLockFlag : 3|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ TBOX_VIN_FrameNo : 0|3@1+ (1,0) [1|3] "" Vector__XXX
+
+
+
+
+CM_ SG_ 2553327649 Q2V_ST2_SOC "电池包SOC";
+CM_ SG_ 2558849011 BMS_ST2_SOC "电池包SOC";
+CM_ SG_ 2565931472 Tx_DB_MaxErrLevel "整车故障等级";
+CM_ SG_ 2565931472 Tx_DB_PKB "PKB状态";
+CM_ SG_ 2565931472 Tx_DB_BrakePedal "制动踏板开度";
+CM_ SG_ 2565931472 Tx_DB_AccPed "油门开度";
+CM_ SG_ 2565931472 Tx_DB_VehicleSpeed "车速";
+CM_ SG_ 2565931472 Tx_DB_GearNum "档位信息";
+CM_ SG_ 2565937105 VCU_KeyPosnSt "钥匙开关位置";
+CM_ SG_ 2565936592 Tx_DB_BattVolt "蓄电池电压";
+CM_ SG_ 2364539904 Eng_EEC1_ActSpd "发动机实际转速";
+CM_ SG_ 2365521928 Rx_MCU1_MotSpd "电机转速";
+CM_ SG_ 2486173333 Rx_SteerPumpCtrl2_BusVolt "控制器母线电压2";
+CM_ SG_ 2486173589 Rx_SteerPumpCtrl1_BusVolt "控制器母线电压1";
+CM_ SG_ 2566652160 Rx_VcuSeedValue "vcu seed种子";
+CM_ SG_ 2566654208 Rx_VcuResponse "VCU应答帧";
+CM_ SG_ 2566654208 Rx_KeyOkState "Key 值正确状态";
+CM_ SG_ 2566654208 Rx_LockState "车辆实际锁车状态";
+CM_ SG_ 2566654208 Rx_ActiveState "锁车功能激活状态";
+CM_ SG_ 2566866420 B2T_RQ_SetMode_A "BMS请求BTMS模式";
+CM_ SG_ 2565935568 Tx_DB_FaultCode "VCU故障码";
+CM_ SG_ 2566903036 T_Box_ActiveCmd "tbox激活指令";
+CM_ SG_ 2566903292 T_Box_TxKey "key值";
+CM_ SG_ 2566903548 T_Box_LockCmd "锁车指令";
+CM_ SG_ 2566840343 Rx_DB_Trip_ODO "总里程数";
+CM_ SG_ 2566843408 VCU_VINTOCANBUS_B7_14 "车辆VIN码7，14字符(ASCII码)";
+CM_ SG_ 2566843408 VCU_VINTOCANBUS_B6_13 "车辆VIN码6，13字符(ASCII码)";
+CM_ SG_ 2566843408 VCU_VINTOCANBUS_B5_12 "车辆VIN码5，12字符(ASCII码)";
+CM_ SG_ 2566843408 VCU_VINTOCANBUS_B4_11 "车辆VIN码4，11字符(ASCII码)";
+CM_ SG_ 2566843408 VCU_VINTOCANBUS_B3_10_17 "车辆VIN码3，10，17字符(ASCII码)";
+CM_ SG_ 2566843408 VCU_VINTOCANBUS_B2_9_16 "车辆VIN码2，9，16字符(ASCII码)";
+CM_ SG_ 2566843408 VCU_VINTOCANBUS_B1_8_15 "车辆VIN码1，8，15字符(ASCII码)";
+CM_ SG_ 2566843408 VCU_VersionNo "协议版本号";
+CM_ SG_ 2566843408 VCU_VINTOCANBUS_FrameNo "VIN帧序号";
+CM_ SG_ 2566843641 TBOX_VIN_B7_14 "车辆VIN码7，14字符(ASCII码)";
+CM_ SG_ 2566843641 TBOX_VIN_B6_13 "车辆VIN码6，13字符(ASCII码)";
+CM_ SG_ 2566843641 TBOX_VIN_B5_12 "车辆VIN码5，12字符(ASCII码)";
+CM_ SG_ 2566843641 TBOX_VIN_B4_11 "车辆VIN码4，11字符(ASCII码)";
+CM_ SG_ 2566843641 TBOX_VIN_B3_10_17 "车辆VIN码3，10，17字符(ASCII码)";
+CM_ SG_ 2566843641 TBOX_VIN_B2_9_16 "车辆VIN码2，9，16字符(ASCII码)";
+CM_ SG_ 2566843641 TBOX_VIN_B1_8_15 "车辆VIN码1，8，15字符(ASCII码)";
+CM_ SG_ 2566843641 TBOX_VINLockState "VIN锁存状态";
+CM_ SG_ 2566843641 TBOX_ForceLockFlag "VIN强制锁存标志";
+CM_ SG_ 2566843641 TBOX_VIN_FrameNo "VIN帧序号";
+BA_DEF_ BO_  "VFrameFormat" ENUM  "StandardCAN","ExtendedCAN","reserved","J1939PG","reserved","reserved","reserved","reserved","reserved","reserved","reserved","reserved","reserved","reserved","StandardCAN_FD","ExtendedCAN_FD";
+BA_DEF_ BO_  "CANFD_BRS" ENUM  "0","1";
+BA_DEF_ BO_  "GenMsgCycleTime" INT 0 65535;
+BA_DEF_ SG_  "GenSigStartValue" FLOAT 0 100000000000;
+BA_DEF_DEF_  "VFrameFormat" "StandardCAN";
+BA_DEF_DEF_  "CANFD_BRS" "1";
+BA_DEF_DEF_  "GenMsgCycleTime" 0;
+BA_DEF_DEF_  "GenSigStartValue" 0;
+BA_ "GenMsgCycleTime" BO_ 2553327649 100;
+BA_ "VFrameFormat" BO_ 2553327649 1;
+BA_ "GenSigStartValue" SG_ 2553327649 Q2V_ST2_SOC 0;
+BA_ "GenMsgCycleTime" BO_ 2558849011 200;
+BA_ "VFrameFormat" BO_ 2558849011 1;
+BA_ "GenSigStartValue" SG_ 2558849011 BMS_ST2_SOC 0;
+BA_ "GenMsgCycleTime" BO_ 2565931472 100;
+BA_ "VFrameFormat" BO_ 2565931472 1;
+BA_ "GenSigStartValue" SG_ 2565931472 Tx_DB_MaxErrLevel 0;
+BA_ "GenSigStartValue" SG_ 2565931472 Tx_DB_PKB 0;
+BA_ "GenSigStartValue" SG_ 2565931472 Tx_DB_BrakePedal 0;
+BA_ "GenSigStartValue" SG_ 2565931472 Tx_DB_AccPed 0;
+BA_ "GenSigStartValue" SG_ 2565931472 Tx_DB_VehicleSpeed 0;
+BA_ "GenSigStartValue" SG_ 2565931472 Tx_DB_GearNum 0;
+BA_ "GenMsgCycleTime" BO_ 2565937105 100;
+BA_ "VFrameFormat" BO_ 2565937105 1;
+BA_ "GenSigStartValue" SG_ 2565937105 VCU_KeyPosnSt 0;
+BA_ "GenMsgCycleTime" BO_ 2565936592 500;
+BA_ "VFrameFormat" BO_ 2565936592 1;
+BA_ "GenSigStartValue" SG_ 2565936592 Tx_DB_BattVolt 0;
+BA_ "GenMsgCycleTime" BO_ 2364539904 10;
+BA_ "VFrameFormat" BO_ 2364539904 1;
+BA_ "GenSigStartValue" SG_ 2364539904 Eng_EEC1_ActSpd 0;
+BA_ "GenMsgCycleTime" BO_ 2365521928 10;
+BA_ "VFrameFormat" BO_ 2365521928 1;
+BA_ "GenSigStartValue" SG_ 2365521928 Rx_MCU1_MotSpd 0;
+BA_ "GenMsgCycleTime" BO_ 2486173333 1000;
+BA_ "VFrameFormat" BO_ 2486173333 1;
+BA_ "GenSigStartValue" SG_ 2486173333 Rx_SteerPumpCtrl2_BusVolt 0;
+BA_ "GenMsgCycleTime" BO_ 2486173589 1000;
+BA_ "VFrameFormat" BO_ 2486173589 1;
+BA_ "GenSigStartValue" SG_ 2486173589 Rx_SteerPumpCtrl1_BusVolt 0;
+BA_ "VFrameFormat" BO_ 2566652160 1;
+BA_ "GenSigStartValue" SG_ 2566652160 Rx_VcuSeedValue 0;
+BA_ "GenMsgCycleTime" BO_ 2566654208 100;
+BA_ "VFrameFormat" BO_ 2566654208 1;
+BA_ "GenSigStartValue" SG_ 2566654208 Rx_VcuResponse 0;
+BA_ "GenSigStartValue" SG_ 2566654208 Rx_KeyOkState 0;
+BA_ "GenSigStartValue" SG_ 2566654208 Rx_LockState 0;
+BA_ "GenSigStartValue" SG_ 2566654208 Rx_ActiveState 0;
+BA_ "GenMsgCycleTime" BO_ 2566866420 500;
+BA_ "VFrameFormat" BO_ 2566866420 1;
+BA_ "GenSigStartValue" SG_ 2566866420 B2T_RQ_SetMode_A 0;
+BA_ "GenMsgCycleTime" BO_ 2565935568 200;
+BA_ "VFrameFormat" BO_ 2565935568 1;
+BA_ "GenSigStartValue" SG_ 2565935568 Tx_DB_FaultCode 0;
+BA_ "VFrameFormat" BO_ 2566903036 1;
+BA_ "GenSigStartValue" SG_ 2566903036 T_Box_ActiveCmd 0;
+BA_ "VFrameFormat" BO_ 2566903292 1;
+BA_ "GenSigStartValue" SG_ 2566903292 T_Box_TxKey 0;
+BA_ "VFrameFormat" BO_ 2566903548 1;
+BA_ "GenSigStartValue" SG_ 2566903548 T_Box_LockCmd 0;
+BA_ "GenMsgCycleTime" BO_ 2566840343 100;
+BA_ "VFrameFormat" BO_ 2566840343 1;
+BA_ "GenSigStartValue" SG_ 2566840343 Rx_DB_Trip_ODO 0;
+BA_ "GenMsgCycleTime" BO_ 2566843408 1000;
+BA_ "VFrameFormat" BO_ 2566843408 1;
+BA_ "GenSigStartValue" SG_ 2566843408 VCU_VINTOCANBUS_B7_14 0;
+BA_ "GenSigStartValue" SG_ 2566843408 VCU_VINTOCANBUS_B6_13 0;
+BA_ "GenSigStartValue" SG_ 2566843408 VCU_VINTOCANBUS_B5_12 0;
+BA_ "GenSigStartValue" SG_ 2566843408 VCU_VINTOCANBUS_B4_11 0;
+BA_ "GenSigStartValue" SG_ 2566843408 VCU_VINTOCANBUS_B3_10_17 0;
+BA_ "GenSigStartValue" SG_ 2566843408 VCU_VINTOCANBUS_B2_9_16 0;
+BA_ "GenSigStartValue" SG_ 2566843408 VCU_VINTOCANBUS_B1_8_15 0;
+BA_ "GenSigStartValue" SG_ 2566843408 VCU_VersionNo 0;
+BA_ "GenSigStartValue" SG_ 2566843408 VCU_VINTOCANBUS_FrameNo 0;
+BA_ "GenMsgCycleTime" BO_ 2566843641 1000;
+BA_ "VFrameFormat" BO_ 2566843641 1;
+BA_ "GenSigStartValue" SG_ 2566843641 TBOX_VIN_B7_14 0;
+BA_ "GenSigStartValue" SG_ 2566843641 TBOX_VIN_B6_13 0;
+BA_ "GenSigStartValue" SG_ 2566843641 TBOX_VIN_B5_12 0;
+BA_ "GenSigStartValue" SG_ 2566843641 TBOX_VIN_B4_11 0;
+BA_ "GenSigStartValue" SG_ 2566843641 TBOX_VIN_B3_10_17 0;
+BA_ "GenSigStartValue" SG_ 2566843641 TBOX_VIN_B2_9_16 0;
+BA_ "GenSigStartValue" SG_ 2566843641 TBOX_VIN_B1_8_15 0;
+BA_ "GenSigStartValue" SG_ 2566843641 TBOX_VINLockState 0;
+BA_ "GenSigStartValue" SG_ 2566843641 TBOX_ForceLockFlag 0;
+BA_ "GenSigStartValue" SG_ 2566843641 TBOX_VIN_FrameNo 0;
+VAL_ 2553327649 Q2V_ST2_SOC  ;
+VAL_ 2558849011 BMS_ST2_SOC  ;
+VAL_ 2565931472 Tx_DB_MaxErrLevel  ;
+VAL_ 2565931472 Tx_DB_PKB  ;
+VAL_ 2565931472 Tx_DB_BrakePedal  ;
+VAL_ 2565931472 Tx_DB_AccPed  ;
+VAL_ 2565931472 Tx_DB_VehicleSpeed  ;
+VAL_ 2565931472 Tx_DB_GearNum  ;
+VAL_ 2565937105 VCU_KeyPosnSt  ;
+VAL_ 2565936592 Tx_DB_BattVolt  ;
+VAL_ 2364539904 Eng_EEC1_ActSpd  ;
+VAL_ 2365521928 Rx_MCU1_MotSpd  ;
+VAL_ 2486173333 Rx_SteerPumpCtrl2_BusVolt  ;
+VAL_ 2486173589 Rx_SteerPumpCtrl1_BusVolt  ;
+VAL_ 2566652160 Rx_VcuSeedValue  ;
+VAL_ 2566654208 Rx_VcuResponse  ;
+VAL_ 2566654208 Rx_KeyOkState  ;
+VAL_ 2566654208 Rx_LockState  ;
+VAL_ 2566654208 Rx_ActiveState  ;
+VAL_ 2566866420 B2T_RQ_SetMode_A  ;
+VAL_ 2565935568 Tx_DB_FaultCode  ;
+VAL_ 2566903036 T_Box_ActiveCmd  ;
+VAL_ 2566903292 T_Box_TxKey  ;
+VAL_ 2566903548 T_Box_LockCmd  ;
+VAL_ 2566840343 Rx_DB_Trip_ODO  ;
+VAL_ 2566843408 VCU_VINTOCANBUS_B7_14  ;
+VAL_ 2566843408 VCU_VINTOCANBUS_B6_13  ;
+VAL_ 2566843408 VCU_VINTOCANBUS_B5_12  ;
+VAL_ 2566843408 VCU_VINTOCANBUS_B4_11  ;
+VAL_ 2566843408 VCU_VINTOCANBUS_B3_10_17  ;
+VAL_ 2566843408 VCU_VINTOCANBUS_B2_9_16  ;
+VAL_ 2566843408 VCU_VINTOCANBUS_B1_8_15  ;
+VAL_ 2566843408 VCU_VersionNo  ;
+VAL_ 2566843408 VCU_VINTOCANBUS_FrameNo  ;
+VAL_ 2566843641 TBOX_VIN_B7_14  ;
+VAL_ 2566843641 TBOX_VIN_B6_13  ;
+VAL_ 2566843641 TBOX_VIN_B5_12  ;
+VAL_ 2566843641 TBOX_VIN_B4_11  ;
+VAL_ 2566843641 TBOX_VIN_B3_10_17  ;
+VAL_ 2566843641 TBOX_VIN_B2_9_16  ;
+VAL_ 2566843641 TBOX_VIN_B1_8_15  ;
+VAL_ 2566843641 TBOX_VINLockState  ;
+VAL_ 2566843641 TBOX_ForceLockFlag  ;
+VAL_ 2566843641 TBOX_VIN_FrameNo  ;
+
+
+

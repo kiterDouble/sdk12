@@ -1,0 +1,15 @@
+{
+    "task_id": "",
+    "task_name": "",
+    "task_info": "",
+    "upgrade_mode": 0,
+    "is_upload_log": 0,
+    "log_upload_addr": "",
+    "task_duration": 0,
+    "task_start_time": 0,
+    "ota_state" : 0,
+    "high_volt_ecus":[
+    ],
+    "low_volt_ecus":[
+    ]
+}

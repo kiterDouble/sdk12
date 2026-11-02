@@ -1,0 +1,11 @@
+prefix=/mnt/thrid-lib/thrid-lib-out
+exec_prefix=/mnt/thrid-lib/thrid-lib-out
+libdir=/mnt/thrid-lib/thrid-lib-out/lib
+includedir=/mnt/thrid-lib/thrid-lib-out/include
+
+Name: 
+Description: New SOME/IP stack, feature complete
+Version: 3.1.37
+Libs: -L${libdir} -lvsomeip3
+Cflags: -I${includedir}
+
