@@ -1,0 +1,4 @@
+# Ignore parameter folder and all its contents
+parameter/
+app-out/
+build/

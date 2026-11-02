@@ -1,0 +1,57 @@
+{
+  "REANALYZE": false,
+  "STATIC_SERVER_ADDRESS": "47.110.48.81",
+  "STATIC_SERVER_PORT": 80,
+  "TOOLCHAIN_FILENAME": "parser.sconf",
+  "PROJECT_KEY": "ZEIOSCPUMPUAPP",
+  "WORKING_DIR": "/builds/TBox/zelos/cpu/mpu/app/build/.staticdata",
+  "COMMAND": [],
+  "STATICFILE_DIR_PATH": "/builds/TBox/zelos/cpu/mpu/app/build",
+  "PARSING": {
+    "C": {
+      "include": [],
+      "conf": [],
+      "removes": []
+    },
+    "CPP": {
+      "include": [],
+      "conf": [],
+      "removes": []
+    }
+  },
+  "COMPILER_INSTALLATION_PATH": [],
+  "USER_DEFINED_EXTENSIONS": {
+    "header": [],
+    "source": [],
+    "object": []
+  },
+  "ALIGN_PATH_MODE": "ALL",
+  "INCLUDE_GNU_PREINCLUDE": false,
+  "EXCLUSIONS": [
+  "**/otamodem1/**"
+  ],
+  "EXTRA_OPTIONS": {
+    "ASSIGN_TO_COMMITTER": {
+      "enable": false,
+      "path_replace_map": [
+        {
+          "from": "",
+          "to": ""
+        }
+      ]
+    },
+    "TOOLCHAIN_COMPILER_PREFIX": "",
+    "MODULE_WHITELIST_FOR_ANALYZE": [],
+    "USER_DEFINED_ENVIRONMENTS": {
+      "CSBUILD_ENVIRONMENT_EXAMPLE": "EXAMPLE"
+    },
+    "LANGUAGE_EXTENSION_PAIR": {
+      "C": [],
+      "CPP": []
+    },
+    "SPECIFIED_ANALYSIS_AGENT_VERSION": "",
+    "USE_CAPTURE_BATCH": true,
+    "split_project_mode": false,
+    "ALIGN_PATH_MODE": "ALL"
+  }
+}

@@ -1,0 +1,607 @@
+#include <glib.h>
+#include <stdio.h>
+#include <stdint.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <arpa/inet.h>
+#include <sys/socket.h>
+#include "sr_log.h"
+#include "err_code.h"
+#include "audio_common.h"
+#include "audio_control.h"
+
+GHashTable *g_hashTable = NULL;
+static char g_configBuff[1024] = {0};
+static char g_statusBuff[1024] = {0};
+static char g_ttsBuff[1024] = {0};
+static char g_devicesBuff[1024] = {0};
+
+static AudioCmdHandle_t g_AudioCmd[] = {
+    {.cmdName = "#[GET]11111111111", .callBack = NULL},\
+    {.cmdName = "#[GET]get_config", .callBack = GetGetConfig},\
+    {.cmdName = "#[GET]get_device_info", .callBack = GetGetDeviceInfo},\
+    {.cmdName = "#[GET]get_status", .callBack = GetGetStatus},\
+    {.cmdName = "#[GET]get_tts", .callBack = GetGetTts},\
+    {.cmdName = "#[CONFIG]device_addr=", .callBack = ConfigDeviceAddr},\
+    {.cmdName = "#[CONFIG]control_port=", .callBack = ConfigControlPort},\
+    {.cmdName = "#[CONFIG]shout_port", .callBack = ConfigShoutPort},\
+    {.cmdName = "#[CONFIG]shout_audio_codec", .callBack = ConfigShoutAudioCodec},\
+    {.cmdName = "#[CONFIG]shout_audio_sample", .callBack = ConfigShoutAudioSample},\
+    {.cmdName = "#[CONFIG]shout_audio_bit", .callBack = ConfigShoutAudioBit},\
+    {.cmdName = "#[CONFIG]shout_volum", .callBack = ConfigShoutVolum},\
+    {.cmdName = "#[CONFIG]mic_send_ip", .callBack = ConfigMicSendIp},\
+    {.cmdName = "#[CONFIG]mic_send_port", .callBack = ConfigMicSendPort},\
+    {.cmdName = "#[CONFIG]mic_audio_codec", .callBack = ConfigMicAudioCodec},\
+    {.cmdName = "#[CONFIG]mic_audio_sample", .callBack = ConfigMicAudioSample},\
+    {.cmdName = "#[CONFIG]mic_audio_bit", .callBack = ConfigMicAudioBit},\
+    {.cmdName = "#[CONFIG]mic_frame_size", .callBack = ConfigMicFrameSize},\
+    {.cmdName = "#[CONFIG]launch_tts", .callBack = ConfigLaunchTts},\
+    {.cmdName = "#[CONFIG]upload_port", .callBack = ConfigUploadPort},\
+    {.cmdName = "#[CONFIG]power_on_tts", .callBack = ConfigPowerOnTts},\
+    {.cmdName = "#[CMD]open_shout", .callBack = CmdOpenShout},\
+    {.cmdName = "#[CMD]close_shout", .callBack = CmdCloseShout},\
+    {.cmdName = "#[CMD]open_mic", .callBack = CmdOpenMic},\
+    {.cmdName = "#[CMD]close_mic", .callBack = CmdCloseMic},\
+    {.cmdName = "#[CMD]reset", .callBack = CmdReset},\
+    {.cmdName = "#[CMD]volum", .callBack = CmdVolum},\
+    {.cmdName = "#[TTS]times", .callBack = TTSTimes},\
+    {.cmdName = "#[TTS]interval", .callBack = TTSinterval},\
+    {.cmdName = "#[TTS]codec", .callBack = TTSCodec},\
+    {.cmdName = "#[TTS]m", .callBack = TTSM},\
+    {.cmdName = "#[TTS]n", .callBack = TTSN},\
+    {.cmdName = "#[TTS]p", .callBack = TTSP},\
+    {.cmdName = "#[TTS]s", .callBack = TTSS},\
+    {.cmdName = "#[TTS]v", .callBack = TTSV},\
+    {.cmdName = "#[TTS]y", .callBack = TTSY},\
+    {.cmdName = "#[TTS]=", .callBack = TTSDD},\
+    {.cmdName = "#[TTS]b", .callBack = TTSB},\
+    {.cmdName = "#[TTS]AW", .callBack = TTSAW}};
+
+int32_t AudioCmdHashInit()
+{
+    int32_t arraySize = sizeof(g_AudioCmd) / sizeof(AudioCmdHandle_t);
+    int32_t count = 0;
+
+    if(NULL == g_hashTable)
+    {
+        g_hashTable = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);;
+    }
+
+    for(count = 0; count < arraySize; count++) 
+    {
+        char *key_copy = g_strdup(g_AudioCmd[count].cmdName);
+        if (key_copy == NULL) 
+        {
+            LOG_Error("g_strdup failed");
+            return RET_ERR;
+        }
+        g_strstrip(key_copy);
+        g_hash_table_insert(g_hashTable, (gpointer)key_copy, GINT_TO_POINTER(count));
+    }
+}
+
+int32_t AudioCmdHashDestroy()
+{
+    if(NULL != g_hashTable)
+    {
+        g_hash_table_destroy(g_hashTable);
+    }
+}
+
+// 打印字符串的十六进制表示
+void print_hex(const char *str, const char *label) {
+    if (str == NULL) {
+        LOG_Error("%s: (null)", label);
+        return;
+    }
+    LOG_Error("%s: '%s' at %p, hex:", label, str, (void*)str);
+    for (int i = 0; str[i] != '\0'; i++) {
+        if (i % 16 == 0 && i > 0) LOG_Error(""); // 换行
+        LOG_Error(" %02x", (unsigned char)str[i]);
+    }
+    LOG_Error(" 00\n"); // 显示终止符
+}
+void print_entry (gpointer key, gpointer value, gpointer user_data)
+{
+    // 假设 key 和 value 都是字符串
+    const char *k = (const char *)key;
+    // const char *v = (const char *)value;
+    // const char *prefix = (const char *)user_data; // 可选的用户数据
+
+    print_hex(k, "Stored Key");
+}
+void print_entry_with_comparison(gpointer key, gpointer value, gpointer user_data)
+{
+    const char *stored_key = (const char *)key;
+    const char *lookup_key = (const char *)user_data;
+    
+    if (strncmp(stored_key, lookup_key, strlen(lookup_key)) == 0) {
+        LOG_Error("发现部分匹配的键: '%s'", stored_key);
+    }
+    
+    if (strcmp(stored_key, lookup_key) == 0) {
+        LOG_Error("!!! 发现完全匹配的键但查找失败: '%s'", stored_key);
+    }
+}
+int32_t GetCmdIndexFromHash(const char *cmdStr)
+{
+    int32_t arrayIndex = -1;
+    gpointer result = NULL;
+    GHashTable *hashTable = NULL;
+
+    int32_t arraySize = sizeof(g_AudioCmd) / sizeof(AudioCmdHandle_t);
+    int32_t count = 0;
+
+    if(NULL == hashTable)
+    {
+        hashTable = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);;
+    }
+
+    for(count = 0; count < arraySize; count++) 
+    {
+        char *key_copy = g_strdup(g_AudioCmd[count].cmdName);
+        if (key_copy == NULL) 
+        {
+            LOG_Error("g_strdup failed");
+            return RET_ERR;
+        }
+        g_strstrip(key_copy);
+        g_hash_table_insert(hashTable, (gpointer)key_copy, GINT_TO_POINTER(count));
+    }
+
+    if(NULL == g_hashTable)
+    {
+        LOG_Error("g_hashTable is NULL");
+        return RET_ERR;
+    }
+    print_hex(cmdStr, "Looking up: ");
+    char *normalized_cmd = g_strdup(cmdStr);
+    g_strstrip(normalized_cmd); // 去除前后空白
+    result = g_hash_table_lookup(hashTable, normalized_cmd);
+    if (result != NULL) 
+    {
+        arrayIndex = GPOINTER_TO_INT(result);
+    } 
+    else 
+    {
+        LOG_Error("未找到CMD: %s\n", cmdStr);
+        g_hash_table_foreach (hashTable, print_entry_with_comparison, (gpointer)cmdStr);
+    }
+    g_free(normalized_cmd);
+    return arrayIndex;
+}
+
+int32_t GetAudioCmdHandleFromArray(int32_t index, AudioCmdHandle_t *audioCmdHandle)
+{
+    if(NULL == audioCmdHandle)
+    {
+        LOG_Error("%s argv is NULL", __FUNCTION__);
+        return RET_ERR;
+    }
+
+    if(index >= (sizeof(g_AudioCmd) / sizeof(AudioCmdHandle_t)) || index < 0)
+    {
+        LOG_Error("%s index error", __FUNCTION__);
+        return RET_ERR;
+    }
+
+    audioCmdHandle->cmdName = g_AudioCmd[index].cmdName;
+    audioCmdHandle->callBack = g_AudioCmd[index].callBack;
+
+    return RET_OK;
+}
+
+int32_t ConfigDeviceAddr(const char *cmdStr, const char *cmdValue)
+{
+    return SetConfigJsonValueAsStr(cmdStr, cmdValue);
+}
+int32_t ConfigControlPort(const char *cmdStr, const char *cmdValue)
+{
+    return SetConfigJsonValueAsInt(cmdStr, atoi(cmdValue));
+}
+
+int32_t ConfigShoutPort(const char *cmdStr, const char *cmdValue)
+{
+    return SetConfigJsonValueAsInt(cmdStr, atoi(cmdValue));
+}
+int32_t ConfigShoutAudioCodec(const char *cmdStr, const char *cmdValue)
+{
+    return SetConfigJsonValueAsStr(cmdStr, cmdValue);
+}
+int32_t ConfigShoutAudioSample(const char *cmdStr, const char *cmdValue)
+{
+    return SetConfigJsonValueAsInt(cmdStr, atoi(cmdValue));
+}
+int32_t ConfigShoutAudioBit(const char *cmdStr, const char *cmdValue)
+{
+    return SetConfigJsonValueAsInt(cmdStr, atoi(cmdValue));
+}
+int32_t ConfigShoutVolum(const char *cmdStr, const char *cmdValue)
+{
+    return SetConfigJsonValueAsInt(cmdStr, atoi(cmdValue));
+}
+int32_t ConfigMicSendIp(const char *cmdStr, const char *cmdValue)
+{
+    return SetConfigJsonValueAsStr(cmdStr, cmdValue);
+}
+int32_t ConfigMicSendPort(const char *cmdStr, const char *cmdValue)
+{
+    return SetConfigJsonValueAsInt(cmdStr, atoi(cmdValue));
+}
+int32_t ConfigMicAudioCodec(const char *cmdStr, const char *cmdValue)
+{
+    return SetConfigJsonValueAsStr(cmdStr, cmdValue);
+}
+int32_t ConfigMicAudioSample(const char *cmdStr, const char *cmdValue)
+{
+    return SetConfigJsonValueAsInt(cmdStr, atoi(cmdValue));
+}
+int32_t ConfigMicAudioBit(const char *cmdStr, const char *cmdValue)
+{
+    return SetConfigJsonValueAsInt(cmdStr, atoi(cmdValue));
+}
+int32_t ConfigMicFrameSize(const char *cmdStr, const char *cmdValue)
+{
+    return SetConfigJsonValueAsInt(cmdStr, atoi(cmdValue));
+}
+int32_t ConfigLaunchTts(const char *cmdStr, const char *cmdValue)
+{
+    return SetConfigJsonValueAsStr(cmdStr, cmdValue);
+}
+int32_t ConfigUploadPort(const char *cmdStr, const char *cmdValue)
+{
+    return SetConfigJsonValueAsInt(cmdStr, atoi(cmdValue));
+}
+int32_t ConfigPowerOnTts(const char *cmdStr, const char *cmdValue)
+{
+    return SetConfigJsonValueAsInt(cmdStr, atoi(cmdValue));
+}
+int32_t CmdOpenShout(const char *cmdStr, const char *cmdValue)
+{
+    return SetStatusJsonValueAsInt(cmdStr, atoi(cmdValue));
+}
+int32_t CmdCloseShout(const char *cmdStr, const char *cmdValue)
+{
+    return SetStatusJsonValueAsInt(cmdStr, atoi(cmdValue));
+}
+int32_t CmdOpenMic(const char *cmdStr, const char *cmdValue)
+{
+    return SetStatusJsonValueAsInt(cmdStr, atoi(cmdValue));
+}
+int32_t CmdCloseMic(const char *cmdStr, const char *cmdValue)
+{
+    return SetStatusJsonValueAsInt(cmdStr, atoi(cmdValue));
+}
+int32_t CmdReset(const char *cmdStr, const char *cmdValue)
+{
+    return SetStatusJsonValueAsInt(cmdStr, atoi(cmdValue));
+}
+int32_t CmdVolum(const char *cmdStr, const char *cmdValue)
+{
+    return SetStatusJsonValueAsInt(cmdStr, atoi(cmdValue));
+}
+int32_t GetGetConfig(const char *cmdStr, const char *cmdValue)
+{
+    return GetConfigJsonKeyValue(g_configBuff, 1024);
+}
+int32_t GetGetDeviceInfo(const char *cmdStr, const char *cmdValue)
+{
+    return GetDeviceInfoJsonKeyValue(g_devicesBuff, 1024);
+}
+int32_t GetGetStatus(const char *cmdStr, const char *cmdValue)
+{
+    return GetStatusJsonKeyValue(g_statusBuff, 1024);
+}
+int32_t GetGetTts(const char *cmdStr, const char *cmdValue)
+{
+    return GetTTSJsonKeyValue(g_ttsBuff, 1024);
+}
+
+int32_t GetIndexCmdRetStr(int32_t index, char *retBuff, int32_t buffLen)
+{
+    if(NULL == retBuff || buffLen < 1024)
+    {
+        LOG_Error("%s cmd is NULL", __FUNCTION__);
+        return RET_ERR;
+    }
+
+    switch(index)
+    {
+        case 0:
+            memcpy(retBuff, g_configBuff, 1024);
+            break;
+        case 1:
+            memcpy(retBuff, g_devicesBuff, 1024);
+            break;
+        case 2:
+            memcpy(retBuff, g_statusBuff, 1024);
+            break;
+        case 3:
+            memcpy(retBuff, g_ttsBuff, 1024);
+            break;
+    }
+    
+    return RET_OK;
+}
+
+int32_t TTSTimes(const char *cmdStr, const char *cmdValue)
+{
+    return SetTTSJsonValueAsInt(cmdStr, atoi(cmdValue));
+}
+int32_t TTSinterval(const char *cmdStr, const char *cmdValue)
+{
+    return SetTTSJsonValueAsInt(cmdStr, atoi(cmdValue));
+}
+int32_t TTSCodec(const char *cmdStr, const char *cmdValue)
+{
+    return SetTTSJsonValueAsStr(cmdStr, cmdValue);
+}
+int32_t TTSM(const char *cmdStr, const char *cmdValue)
+{
+    return SetTTSJsonValueAsInt(cmdStr, atoi(cmdValue));
+}
+int32_t TTSN(const char *cmdStr, const char *cmdValue)
+{
+    return SetTTSJsonValueAsInt(cmdStr, atoi(cmdValue));
+}
+int32_t TTSP(const char *cmdStr, const char *cmdValue)
+{
+    return SetTTSJsonValueAsInt(cmdStr, atoi(cmdValue));
+}
+int32_t TTSS(const char *cmdStr, const char *cmdValue)
+{
+    return SetTTSJsonValueAsInt(cmdStr, atoi(cmdValue));
+}
+int32_t TTSV(const char *cmdStr, const char *cmdValue)
+{
+    return SetTTSJsonValueAsInt(cmdStr, atoi(cmdValue));
+}
+int32_t TTSY(const char *cmdStr, const char *cmdValue)
+{
+    return SetTTSJsonValueAsInt(cmdStr, atoi(cmdValue));
+}
+int32_t TTSDD(const char *cmdStr, const char *cmdValue)
+{
+    return SetTTSJsonValueAsInt(cmdStr, atoi(cmdValue));
+}
+int32_t TTSB(const char *cmdStr, const char *cmdValue)
+{
+    return SetTTSJsonValueAsInt(cmdStr, atoi(cmdValue));
+}
+int32_t TTSAW(const char *cmdStr, const char *cmdValue)
+{
+    return SetTTSJsonValueAsInt(cmdStr, atoi(cmdValue));
+}
+// int32_t (const char *cmdStr, const char *cmdValue)
+// {
+//     int32_t retValue = RET_ERR;
+
+//     return retValue;
+// }
+// int32_t (const char *cmdStr, const char *cmdValue)
+// {
+//     int32_t retValue = RET_ERR;
+
+//     return retValue;
+// }
+// int32_t (const char *cmdStr, const char *cmdValue)
+// {
+//     int32_t retValue = RET_ERR;
+
+//     return retValue;
+// }
+// int32_t (const char *cmdStr, const char *cmdValue)
+// {
+//     int32_t retValue = RET_ERR;
+
+//     return retValue;
+// }
+
+/**
+ * UDP 发送函数
+ * @param dest_ip   目标IP地址（字符串形式，如 "127.0.0.1"）
+ * @param dest_port 目标端口号
+ * @param message   要发送的消息
+ * @param msg_len   消息长度
+ * @return 0 成功，-1 失败
+ */
+int32_t AudioUdpSend(const char *destIp, int destPort, const char *message, int32_t msgLen) 
+{
+    int32_t sockFd;
+    struct sockaddr_in destAddr;
+
+    sockFd = socket(AF_INET, SOCK_DGRAM, 0);
+    if (sockFd < 0) 
+    {
+        LOG_Error("Socket 创建失败");
+        return RET_ERR;
+    }
+
+    memset(&destAddr, 0, sizeof(destAddr));
+    destAddr.sin_family = AF_INET;
+    destAddr.sin_port = htons(destPort);
+    if (inet_aton(destIp, &destAddr.sin_addr) == 0) 
+    {
+        LOG_Error("无效的IP地址: %s", destIp);
+        close(sockFd);
+        return RET_ERR;
+    }
+
+    ssize_t sentBytes = sendto(sockFd, message, msgLen, 0,
+                    (struct sockaddr*)&destAddr, sizeof(destAddr));
+    if (sentBytes < 0) 
+    {
+        LOG_Error("发送失败");
+        close(sockFd);
+        return RET_ERR;
+    }
+
+    LOG_Debug("已发送 %zd 字节到 %s:%d\n", sentBytes, destIp, destPort);
+    close(sockFd);  // 发送完即可关闭
+    return RET_OK;
+}
+
+/**
+ * UDP 发送函数
+ * @param dest_ip   目标IP地址（字符串形式，如 "127.0.0.1"）
+ * @param dest_port 目标端口号
+ * @param message   要发送的消息
+ * @param msg_len   消息长度
+ * @return 0 成功，-1 失败
+ */
+int32_t AudioUdpSendWithFd(int32_t socketFd, const char *destIp, int destPort, const char *message, int32_t msgLen) 
+{
+    struct sockaddr_in destAddr;
+
+    memset(&destAddr, 0, sizeof(destAddr));
+    destAddr.sin_family = AF_INET;
+    destAddr.sin_port = htons(destPort);
+    if (inet_aton(destIp, &destAddr.sin_addr) == 0) 
+    {
+        LOG_Error("无效的IP地址: %s", destIp);
+        return RET_ERR;
+    }
+
+    ssize_t sentBytes = sendto(socketFd, message, msgLen, 0,
+                    (struct sockaddr*)&destAddr, sizeof(destAddr));
+    if (sentBytes < 0) 
+    {
+        LOG_Error("发送失败");
+        return RET_ERR;
+    }
+
+    LOG_Debug("已发送 %zd 字节到 %s:%d\n", sentBytes, destIp, destPort);
+    return RET_OK;
+}
+
+
+int32_t AudioUdpBindPort(int32_t listenPort) 
+{
+    int32_t sockFd;
+    struct sockaddr_in localAddr;
+
+    sockFd = socket(AF_INET, SOCK_DGRAM, 0);
+    if (sockFd < 0) 
+    {
+        LOG_Error("Socket 创建失败");
+        return RET_ERR;
+    }
+
+    memset(&localAddr, 0, sizeof(localAddr));
+    localAddr.sin_family = AF_INET;
+    localAddr.sin_addr.s_addr = htonl(INADDR_ANY);  // 监听所有网卡
+    localAddr.sin_port = htons(listenPort);
+
+    if (bind(sockFd, (struct sockaddr*)&localAddr, sizeof(localAddr)) < 0) 
+    {
+        LOG_Error("Bind 失败");
+        close(sockFd);
+        return RET_ERR;
+    }
+
+    return sockFd;
+}
+
+
+int32_t AudioUdpRecFromFd(int32_t sockFd, char *buffer, int32_t bufLen) 
+{
+    ssize_t recvLen;
+    struct sockaddr_in clientAddr;
+    socklen_t clientLen = sizeof(clientAddr);
+
+    recvLen = recvfrom(sockFd, buffer, bufLen - 1, 0,
+                        (struct sockaddr*)&clientAddr, &clientLen);
+    if (recvLen < 0) 
+    {
+        LOG_Error("接收失败");
+        return RET_ERR;
+    }
+
+    buffer[recvLen] = '\0';  // 确保字符串结束
+
+    LOG_Debug("来自 %s:%d 的消息: %d\n", inet_ntoa(clientAddr.sin_addr),
+                        ntohs(clientAddr.sin_port), recvLen);
+
+    return recvLen;
+}
+
+
+/**
+ * @name SrGetSystemRetValue
+ * @brief  执行shell 命令，并获取返回值
+ * @param 
+ * @return -1 执行命令失败，其他值为命令的返回值
+ */
+int32_t SrGetSystemRetValue(const char *cmd)
+{
+	char cmdBuff[128] = {0};
+	FILE *fileFp;				// 文件指针  
+    int32_t cmdStatus;			// 用于存储命令的退出状态
+	
+	if(NULL == cmd)
+	{
+		LOG_Error("%s cmd is NULL", __FUNCTION__);
+		return RET_ERR;
+	}
+    
+    LOG_Debug("start exec cmd :%s", cmd);
+
+	fileFp = popen(cmd, "r");
+	if(NULL == fileFp)
+	{
+		LOG_Error("%s popen error :%s", __FUNCTION__, strerror(errno));
+		return RET_ERR;
+	}
+	
+	while(fgets(cmdBuff, 128, fileFp) != NULL)
+	{
+		LOG_Debug("get cmd ret: %s", cmdBuff);
+	}
+	
+	cmdStatus = pclose(fileFp);
+	if(-1 == cmdStatus)
+	{
+		LOG_Error("%s pclose error :%s", __FUNCTION__, strerror(errno));
+		return RET_ERR;
+	}
+	
+	if(WIFEXITED(cmdStatus))
+	{  
+        LOG_Debug("Command exited with status %d", WEXITSTATUS(cmdStatus));
+		return WEXITSTATUS(cmdStatus);
+    }
+	else if(WIFSIGNALED(cmdStatus))
+	{  
+        LOG_Error("Command was terminated by signal %d", WTERMSIG(cmdStatus));
+		return RET_ERR;
+    }
+	
+	LOG_Error("Command was terminated not find signal" );
+	return RET_ERR;
+}
+
+int32_t AudioCreateThread(pthread_t *threadId, threadFun fun, void *threadArg)
+{
+	pthread_attr_t attr;
+	int32_t retValue = -1;
+
+	if(NULL == threadId )
+	{
+		LOG_Error("%s argv threadId  is NULL", __FUNCTION__);
+		return RET_ERR;
+	}
+
+	pthread_attr_init(&attr);
+
+	//创建线程
+	retValue = pthread_create(threadId, &attr, fun,(void *)threadArg);
+	if(retValue < 0)
+	{
+		LOG_Error("pthread_create %s\n",strerror(errno));
+		return RET_ERR;
+	}
+
+	LOG_Debug("national  thread success");
+	return RET_OK;
+}

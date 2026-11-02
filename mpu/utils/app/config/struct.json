@@ -1,0 +1,2628 @@
+{
+    "version": 101,
+    "project": "E260LV2",
+    "canIdFilter": [
+		"0X363",
+		"0X573",
+		"0X0E1",
+		"0X107",
+		"0X10F",
+		"0X120",
+		"0X122",
+		"0X125",
+		"0X128",
+		"0X12A",
+		"0X131",
+		"0X140",
+		"0X141",
+		"0X155",
+		"0X165",
+		"0X16C",
+		"0X16E",
+		"0X17D",
+		"0X1C6",
+		"0X1E5",
+		"0X1E9",
+		"0X1F1",
+		"0X230",
+		"0X271",
+		"0X279",
+		"0X284",
+		"0X287",
+		"0X289",
+		"0X28B",
+		"0X28C",
+		"0X295",
+		"0X297",
+		"0X29A",
+		"0X29B",
+		"0X29E",
+		"0X2AE",
+		"0X316",
+		"0X317",
+		"0X319",
+		"0X320",
+		"0X332",
+		"0X335",
+		"0X339",
+		"0X348",
+		"0X34A",
+		"0X350",
+		"0X359",
+		"0X361",
+		"0X36A",
+		"0X36D",
+		"0X36E",
+		"0X3C1",
+		"0X3C4",
+		"0X3C9",
+		"0X406",
+		"0X425",
+		"0X433",
+		"0X43B",
+		"0X486",
+		"0X4A1",
+		"0X4B2",
+		"0X4C5",
+		"0X4C6",
+		"0X4C7",
+		"0X4D5",
+		"0X4F6",
+		"0X527",
+		"0X52A",
+		"0X53B",
+		"0X53D",
+		"0X565",
+		"0X57E",
+		"0X58A",
+		"0X58B",
+		"0X58C",
+		"0X58D",
+		"0X58E",
+		"0X592",
+		"0X593",
+		"0X594",
+		"0X59D",
+		"0X59F",
+		"0X5A1",
+		"0X5A2",
+		"0X5A3",
+		"0X5A4",
+		"0X5A5",
+		"0X5A6",
+		"0X5A7",
+		"0X5A8",
+		"0X5A9",
+		"0X5AA",
+		"0X5AB",
+		"0X5AC",
+		"0X5AD",
+		"0X5AE",
+		"0X5AF",
+		"0X5B0",
+		"0X5B1",
+		"0X5B2",
+		"0X5B3",
+		"0X5B4",
+		"0X5B5",
+		"0X5B6",
+		"0X5B7",
+		"0X5B8",
+		"0X5BB",
+		"0X5BC",
+		"0X5BD",
+		"0X5BE",
+		"0X5BF",
+		"0X5C0",
+		"0X5C1",
+		"0X5C6",
+		"0X5C7",
+		"0X5C8",
+		"0X5C9",
+		"0X5CA",
+		"0X5D6",
+		"0X5D8",
+		"0X5D9",
+		"0X5DA",
+		"0X5DB",
+		"0X5DC",
+		"0x621",
+		"0X651",
+		"0X652",
+		"0X653",
+		"0X654",
+		"0X686",
+        "0X20000686",
+        "0X40000686",
+        "0x600",
+        "0X132",
+        "0X156",
+        "0X1D1",
+        "0X1D2",
+        "0X1D3",
+        "0X1D5",
+        "0X1E1",
+        "0X1E6",
+        "0X1F2",
+        "0X323",
+        "0X329",
+        "0X32A",
+        "0X32B",
+        "0X32C",
+        "0X32D",
+        "0X32E",
+        "0X32F",
+        "0X330",
+        "0x333",
+        "0X336",
+        "0x338",
+        "0X342",
+        "0X343",
+        "0X344",
+        "0X345",
+        "0x346",
+        "0X35B",
+        "0X35C",
+        "0X35D",
+        "0X35E",
+        "0X35F",
+        "0X370",
+        "0X371",
+        "0X372",
+        "0X373",
+        "0X374",
+        "0X375",
+        "0X376",
+        "0X377",
+        "0X378",
+        "0X379",
+        "0X37A",
+        "0X37B",
+        "0X37C",
+        "0x37D",
+        "0X37E",
+        "0X37F",
+        "0X390",
+        "0X391",
+        "0X392",
+        "0X393",
+        "0X394",
+        "0X395",
+        "0X396",
+        "0X398",
+        "0x39E",
+        "0x39F",
+        "0X402",
+        "0X403",
+        "0X404",
+        "0X460",
+        "0X4B1",
+        "0x4BD",
+        "0x4BE",
+        "0x4BF",
+        "0x4C4",
+        "0X534",
+        "0X535",
+        "0X555",
+        "0X561",
+        "0X602",
+        "0X604",
+        "0X605",
+        "0X608",
+        "0X614",
+        "0X615",
+        "0X62A",
+        "0X635",
+        "0X687",
+        "0X449",
+        "0x471"
+    ],
+    "structs": [
+        {
+            "msgname": "NationalVehicleData",
+            "comment": "国标整车数据结构体 根据Sitech_e50_mce.json与通信协议.xlsx来定义的结构体",
+            "SignalContents": [
+                {
+                    "name": "vehicle_status",
+                    "comment": "车辆状态(CANID-0x4C5 StartBit-11 BitLen-2)",
+                    "type": "uint8",
+                    "signal": "VCU_General_Status_1.KyPstn"
+                },
+                {
+                    "name": "charge_discharge_status",
+                    "comment": "充放电状态(CANID-0x155 StartBit-5 BitLen-4)",
+                    "type": "uint8",
+                    "signal": "VCU_Vehicle_Command_State.VecOptMod"
+                },
+                {
+                    "name": "vehicle_speed",
+                    "comment": "车速-单位km/h(CANID-0x36A StartBit-22 BitLen-15)",
+                    "type": "float",
+                    "signal": "VCU_General_Status_2.VehSpdAvgDrvn"
+                },
+                {
+                    "name": "distance_travelled",
+                    "comment": "里程-单位km(CANID-0x120 StartBit-7 BitLen-32)",
+                    "type": "float",
+                    "signal": "Vehicle_Odometer.VehOdo"
+                },
+                {
+                    "name": "overall_voltage",
+                    "comment": "总电压-单位V(CANID-0x29a StartBit-4 BitLen-13)",
+                    "type": "float",
+                    "signal": "BMS_General_Status_5.BatTalVolSm"
+                },
+                {
+                    "name": "overall_current",
+                    "comment": "总电流-单位A(CANID-0x287 StartBit-6 BitLen-15)",
+                    "type": "float",
+                    "signal": "BMS_General_Status_1.BatTalCurr"
+                },
+                {
+                    "name": "SOC",
+                    "comment": "SOC-单位%(CANID-0x36A StartBit-15 BitLen-8)",
+                    "type": "uint8",
+                    "signal": "VCU_General_Status_2.VecSOC"
+                },
+                {
+                    "name": "DCDC_status",
+                    "comment": "DC-DC状态(CANID-0x4C7 StartBit-6 BitLen-1)",
+                    "type": "uint8",
+                    "signal": "VCU_General_Status_3.DCDCEnable"
+                },
+                {
+                    "name": "gear",
+                    "comment": "档位(CANID-0x155 StartBit-35 BitLen-3)",
+                    "type": "uint8",
+                    "signal": "VCU_Vehicle_Command_State.VecActGearSts"
+                },
+                {
+                    "name": "insulation_ohms",
+                    "comment": "绝缘电阻-单位kΩ(CANID-0x287 StartBit-39 BitLen-16)",
+                    "type": "uint16",
+                    "signal": "BMS_General_Status_1.BatIslatRes"
+                },
+                {
+                    "name": "accelerator_pedal_travel",
+                    "comment": "加速踏板行程值-单位%(CANID-0x155 StartBit-23 BitLen-8)",
+                    "type": "uint8",
+                    "signal": "VCU_Vehicle_Command_State.AccActPos"
+                },
+                {
+                    "name": "brake_pedal_travel",
+                    "comment": "制动踏板行程值(CANID-0x155 StartBit-13 BitLen-1)",
+                    "type": "uint8",
+                    "signal": "VCU_Vehicle_Command_State.BrakPedalPos"
+                }
+            ],
+            "period": 1000,
+            "msgid": "0x00110001"
+        },
+        {
+            "msgname": "NationalMotorData",
+            "comment": "国标电机数据结构体 根据Sitech_e50_mce.json与通信协议.xlsx来定义的结构体",
+            "SignalContents": [
+                {
+                    "name": "motor_0_state",
+                    "comment": "电机[0]状态",
+                    "type": "uint8",
+                    "signal": "MCU_General_Status_1.TMActWkSts"
+                },
+                {
+                    "name": "drive_motor_0_controller_temperature",
+                    "comment": "驱动电机[0]控制器温度 ℃",
+                    "type": "int16",
+                    "signal": "MCU_General_Status_3.InvActTemp"
+                },
+                {
+                    "name": "drive_motor_0_speed",
+                    "comment": "驱动电机[0]转速 RPM",
+                    "type": "int16",
+                    "signal": "MCU_General_Status_1.TMActSpd"
+                },
+                {
+                    "name": "drive_motor_0_torque",
+                    "comment": "驱动电机[0]转矩 Nm",
+                    "type": "float",
+                    "signal": "MCU_General_Status_1.TMActTorq"
+                },
+                {
+                    "name": "drive_motor_0_temperature",
+                    "comment": "驱动电机[0]温度 ℃",
+                    "type": "int16",
+                    "signal": "MCU_General_Status_3.TMActTemp"
+                },
+                {
+                    "name": "motor_controller_0_input_voltage",
+                    "comment": "电机控制器[0]输入电压 V",
+                    "type": "uint16",
+                    "signal": "MCU_General_Status_2.InvVol"
+                },
+                {
+                    "name": "motor_controller_0_input_current",
+                    "comment": "电机控制器[0]输入电流 A",
+                    "type": "int16",
+                    "signal": "MCU_General_Status_2.InvrCur"
+                }
+            ],
+            "period": 1000,
+            "msgid": "0x00110002"
+        },
+        {
+            "msgname": "NationalExtremeData",
+            "comment": "国标极值数据结构体 根据Sitech_e50_mce.json与通信协议.xlsx来定义的结构体",
+            "SignalContents": [
+                {
+                    "name": "highest_voltage_battery_cell_id",
+                    "comment": "最高电压电池单体代号",
+                    "type": "uint8",
+                    "signal": "BMS_General_Status_6.BatMaxCelVolPos"
+                },
+                {
+                    "name": "highest_cell_voltage",
+                    "comment": "电池单体电压最高值 mV",
+                    "type": "uint16",
+                    "signal": "BMS_General_Status_6.BatMaxCelVol"
+                },
+                {
+                    "name": "lowest_voltage_battery_cell_id",
+                    "comment": "最低电压电池单体代号",
+                    "type": "uint8",
+                    "signal": "BMS_General_Status_6.BatMiniCelVolPos"
+                },
+                {
+                    "name": "lowest_cell_voltage",
+                    "comment": "电池单体电压最低值 mV",
+                    "type": "uint16",
+                    "signal": "BMS_General_Status_6.BatMiniCelVol"
+                },
+                {
+                    "name": "highest_probe_index",
+                    "comment": "最高温度探针序号",
+                    "type": "uint8",
+                    "signal": "BMS_General_Status_8.BatMaxTempPos"
+                },
+                {
+                    "name": "highest_temperature_value",
+                    "comment": "最高温度值 ℃",
+                    "type": "int16",
+                    "signal": "BMS_General_Status_8.BatMaxTemp"
+                },
+                {
+                    "name": "lowest_probe_index",
+                    "comment": "最低温度探针序号",
+                    "type": "uint8",
+                    "signal": "BMS_General_Status_8.BatMinTempPos"
+                },
+                {
+                    "name": "lowest_temperature_value",
+                    "comment": "最低温度值 ℃",
+                    "type": "int16",
+                    "signal": "BMS_General_Status_8.BatMinTemp"
+                }
+            ],
+            "period": 1000,
+            "msgid": "0x00110003"
+        },
+        {
+            "msgname": "NationalAlarmData",
+            "comment": "国标报警数据结构体 根据Sitech_e50_mce.json与通信协议.xlsx来定义的结构体",
+            "SignalContents": [
+                {
+                    "name": "temperature_difference_alarm",
+                    "comment": "温度差异性报警 电池高温报警",
+                    "type": "uint8",
+                    "signal": "BMS_General_Status_9.BatTempSts"
+                },
+                {
+                    "name": "overvoltage_energy_storage_alarm",
+                    "comment": "车载储能装置类型过压报警 车载储能装置类型欠压报警",
+                    "type": "uint8",
+                    "signal": "BMS_General_Status_9.BatTalVolSts"
+                },
+                {
+                    "name": "low_SOC_alarm",
+                    "comment": "SOC低报警 SOC过高报警",
+                    "type": "uint8",
+                    "signal": "BMS_General_Status_9.BatSOCSTS"
+                },
+                {
+                    "name": "overvoltage_single_cell_alarm",
+                    "comment": "单体电池过压报警 单体电池欠压报警 电池单体一致性差报警 车载储能装置类型过充",
+                    "type": "uint8",
+                    "signal": "BMS_General_Status_9.BatAvgCelVolSts"
+                },
+                {
+                    "name": "insulation_alarm",
+                    "comment": "绝缘报警",
+                    "type": "uint8",
+                    "signal": "BMS_General_Status_9.BatIslateSts"
+                },
+                {
+                    "name": "DCDC_temperature_alarm",
+                    "comment": "DCDC温度报警",
+                    "type": "uint8",
+                    "signal": "DCDC_General_Status_2.DCDCTempWrng"
+                },
+				{
+                    "name": "Braking_status_alarm",
+                    "comment": "制动状态报警",
+                    "type": "uint8",
+                    "signal": "IC_Status_2.BrkLvlLAlm"
+                },
+                {
+                    "name": "DCDC_status_alarm",
+                    "comment": "DCDC状态报警",
+                    "type": "uint8",
+                    "signal": "DCDC_General_Status_2.DCDCStsWrng"
+                },
+                {
+                    "name": "drive_motor_controller_temperature_alarm",
+                    "comment": "驱动电机控制器温度报警",
+                    "type": "uint8",
+                    "signal": "MCU_General_Status_5.MCUHTempWrng"
+                },
+                {
+                    "name": "high_voltage_interlock_status_alarm",
+                    "comment": "高压互锁状态报警",
+                    "type": "uint8",
+                    "signal": "VCU_General_Status_3.PDUHVLock"
+                },
+                {
+                    "name": "drive_motor_temperature_alarm",
+                    "comment": "驱动电机温度报警",
+                    "type": "uint8",
+                    "signal": "MCU_General_Status_5.TMHTempWrng"
+                }
+            ],
+            "period": 1000,
+            "msgid": "0x00110004"
+        },
+        {
+            "msgname": "NationalBatteryVoltageData",
+            "comment": "国标动力电池电压数据结构体 根据Sitech_e50_mce.json与通信协议.xlsx来定义的结构体",
+            "SignalContents": [
+                {
+                    "name": "rechargeable_battery_pack_voltage",
+                    "comment": "可充电储能装置电压",
+                    "type": "float",
+                    "signal": "BMS_General_Status_1.BatExtVol"
+                },
+                {
+                    "name": "rechargeable_battery_pack_current",
+                    "comment": "可充电储能装置电流",
+                    "type": "float",
+                    "signal": "BMS_General_Status_1.BatTalCurr"
+                },
+                {
+                    "name": "cell_voltage_1",
+                    "comment": "单体电池电压[1]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_15.BattCellVoltage_1"
+                },
+                {
+                    "name": "cell_voltage_2",
+                    "comment": "单体电池电压[2]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_15.BattCellVoltage_2"
+                },
+                {
+                    "name": "cell_voltage_3",
+                    "comment": "单体电池电压[3]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_15.BattCellVoltage_3"
+                },
+                {
+                    "name": "cell_voltage_4",
+                    "comment": "单体电池电压[4]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_15.BattCellVoltage_4"
+                },
+                {
+                    "name": "cell_voltage_5",
+                    "comment": "单体电池电压[5]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_16.BattCellVoltage_5"
+                },
+                {
+                    "name": "cell_voltage_6",
+                    "comment": "单体电池电压[6]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_16.BattCellVoltage_6"
+                },
+                {
+                    "name": "cell_voltage_7",
+                    "comment": "单体电池电压[7]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_16.BattCellVoltage_7"
+                },
+                {
+                    "name": "cell_voltage_8",
+                    "comment": "单体电池电压[8]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_16.BattCellVoltage_8"
+                },
+                {
+                    "name": "cell_voltage_9",
+                    "comment": "单体电池电压[9]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_17.BattCellVoltage_9"
+                },
+                {
+                    "name": "cell_voltage_10",
+                    "comment": "单体电池电压[10]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_17.BattCellVoltage_10"
+                },
+                {
+                    "name": "cell_voltage_11",
+                    "comment": "单体电池电压[11]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_17.BattCellVoltage_11"
+                },
+                {
+                    "name": "cell_voltage_12",
+                    "comment": "单体电池电压[12]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_17.BattCellVoltage_12"
+                },
+                {
+                    "name": "cell_voltage_13",
+                    "comment": "单体电池电压[13]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_18.BattCellVoltage_13"
+                },
+                {
+                    "name": "cell_voltage_14",
+                    "comment": "单体电池电压[14]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_18.BattCellVoltage_14"
+                },
+                {
+                    "name": "cell_voltage_15",
+                    "comment": "单体电池电压[15]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_18.BattCellVoltage_15"
+                },
+                {
+                    "name": "cell_voltage_16",
+                    "comment": "单体电池电压[16]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_18.BattCellVoltage_16"
+                },
+                {
+                    "name": "cell_voltage_17",
+                    "comment": "单体电池电压[17]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_19.BattCellVoltage_17"
+                },
+                {
+                    "name": "cell_voltage_18",
+                    "comment": "单体电池电压[18]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_19.BattCellVoltage_18"
+                },
+                {
+                    "name": "cell_voltage_19",
+                    "comment": "单体电池电压[19]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_19.BattCellVoltage_19"
+                },
+                {
+                    "name": "cell_voltage_20",
+                    "comment": "单体电池电压[20]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_19.BattCellVoltage_20"
+                },
+                {
+                    "name": "cell_voltage_21",
+                    "comment": "单体电池电压[21]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_20.BattCellVoltage_21"
+                },
+                {
+                    "name": "cell_voltage_22",
+                    "comment": "单体电池电压[22]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_20.BattCellVoltage_22"
+                },
+                {
+                    "name": "cell_voltage_23",
+                    "comment": "单体电池电压[23]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_20.BattCellVoltage_23"
+                },
+                {
+                    "name": "cell_voltage_24",
+                    "comment": "单体电池电压[24]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_20.BattCellVoltage_24"
+                },
+                {
+                    "name": "cell_voltage_25",
+                    "comment": "单体电池电压[25]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_21.BattCellVoltage_25"
+                },
+                {
+                    "name": "cell_voltage_26",
+                    "comment": "单体电池电压[26]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_21.BattCellVoltage_26"
+                },
+                {
+                    "name": "cell_voltage_27",
+                    "comment": "单体电池电压[27]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_21.BattCellVoltage_27"
+                },
+                {
+                    "name": "cell_voltage_28",
+                    "comment": "单体电池电压[28]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_21.BattCellVoltage_28"
+                },
+                {
+                    "name": "cell_voltage_29",
+                    "comment": "单体电池电压[29]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_22.BattCellVoltage_29"
+                },
+                {
+                    "name": "cell_voltage_30",
+                    "comment": "单体电池电压[30]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_22.BattCellVoltage_30"
+                },
+                {
+                    "name": "cell_voltage_31",
+                    "comment": "单体电池电压[31]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_22.BattCellVoltage_31"
+                },
+                {
+                    "name": "cell_voltage_32",
+                    "comment": "单体电池电压[32]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_22.BattCellVoltage_32"
+                },
+                {
+                    "name": "cell_voltage_33",
+                    "comment": "单体电池电压[33]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_23.BattCellVoltage_33"
+                },
+                {
+                    "name": "cell_voltage_34",
+                    "comment": "单体电池电压[34]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_23.BattCellVoltage_34"
+                },
+                {
+                    "name": "cell_voltage_35",
+                    "comment": "单体电池电压[35]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_23.BattCellVoltage_35"
+                },
+                {
+                    "name": "cell_voltage_36",
+                    "comment": "单体电池电压[36]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_23.BattCellVoltage_36"
+                },
+                {
+                    "name": "cell_voltage_37",
+                    "comment": "单体电池电压[37]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_34.BattCellVoltage_37"
+                },
+                {
+                    "name": "cell_voltage_38",
+                    "comment": "单体电池电压[38]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_34.BattCellVoltage_38"
+                },
+                {
+                    "name": "cell_voltage_39",
+                    "comment": "单体电池电压[39]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_34.BattCellVoltage_39"
+                },
+                {
+                    "name": "cell_voltage_40",
+                    "comment": "单体电池电压[40]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_34.BattCellVoltage_40"
+                },
+				{
+                    "name": "cell_voltage_41",
+                    "comment": "单体电池电压[41]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_35.BattCellVoltage_41"
+                },
+                {
+                    "name": "cell_voltage_42",
+                    "comment": "单体电池电压[42]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_35.BattCellVoltage_42"
+                },
+                {
+                    "name": "cell_voltage_43",
+                    "comment": "单体电池电压[43]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_35.BattCellVoltage_43"
+                },
+                {
+                    "name": "cell_voltage_44",
+                    "comment": "单体电池电压[44]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_35.BattCellVoltage_44"
+                },
+                {
+                    "name": "cell_voltage_45",
+                    "comment": "单体电池电压[45]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_36.BattCellVoltage_45"
+                },
+                {
+                    "name": "cell_voltage_46",
+                    "comment": "单体电池电压[46]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_36.BattCellVoltage_46"
+                },
+                {
+                    "name": "cell_voltage_47",
+                    "comment": "单体电池电压[47]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_36.BattCellVoltage_47"
+                },
+                {
+                    "name": "cell_voltage_48",
+                    "comment": "单体电池电压[48]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_36.BattCellVoltage_48"
+                },
+                {
+                    "name": "cell_voltage_49",
+                    "comment": "单体电池电压[49]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_37.BattCellVoltage_49"
+                },
+                {
+                    "name": "cell_voltage_50",
+                    "comment": "单体电池电压[50]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_37.BattCellVoltage_50"
+                },
+                {
+                    "name": "cell_voltage_51",
+                    "comment": "单体电池电压[51]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_37.BattCellVoltage_51"
+                },
+                {
+                    "name": "cell_voltage_52",
+                    "comment": "单体电池电压[52]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_37.BattCellVoltage_52"
+                },
+                {
+                    "name": "cell_voltage_53",
+                    "comment": "单体电池电压[53]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_38.BattCellVoltage_53"
+                },
+                {
+                    "name": "cell_voltage_54",
+                    "comment": "单体电池电压[54]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_38.BattCellVoltage_54"
+                },
+                {
+                    "name": "cell_voltage_55",
+                    "comment": "单体电池电压[55]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_38.BattCellVoltage_55"
+                },
+                {
+                    "name": "cell_voltage_56",
+                    "comment": "单体电池电压[56]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_38.BattCellVoltage_56"
+                },
+                {
+                    "name": "cell_voltage_57",
+                    "comment": "单体电池电压[57]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_39.BattCellVoltage_57"
+                },
+                {
+                    "name": "cell_voltage_58",
+                    "comment": "单体电池电压[58]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_39.BattCellVoltage_58"
+                },
+                {
+                    "name": "cell_voltage_59",
+                    "comment": "单体电池电压[59]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_39.BattCellVoltage_59"
+                },
+                {
+                    "name": "cell_voltage_60",
+                    "comment": "单体电池电压[60]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_39.BattCellVoltage_60"
+                },
+                {
+                    "name": "cell_voltage_61",
+                    "comment": "单体电池电压[61]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_40.BattCellVoltage_61"
+                },
+                {
+                    "name": "cell_voltage_62",
+                    "comment": "单体电池电压[22]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_40.BattCellVoltage_62"
+                },
+                {
+                    "name": "cell_voltage_63",
+                    "comment": "单体电池电压[63]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_40.BattCellVoltage_63"
+                },
+                {
+                    "name": "cell_voltage_64",
+                    "comment": "单体电池电压[64]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_40.BattCellVoltage_64"
+                },
+                {
+                    "name": "cell_voltage_65",
+                    "comment": "单体电池电压[65]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_41.BattCellVoltage_65"
+                },
+                {
+                    "name": "cell_voltage_66",
+                    "comment": "单体电池电压[66]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_41.BattCellVoltage_66"
+                },
+                {
+                    "name": "cell_voltage_67",
+                    "comment": "单体电池电压[67]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_41.BattCellVoltage_67"
+                },
+                {
+                    "name": "cell_voltage_68",
+                    "comment": "单体电池电压[68]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_41.BattCellVoltage_68"
+                },
+                {
+                    "name": "cell_voltage_69",
+                    "comment": "单体电池电压[69]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_42.BattCellVoltage_69"
+                },
+                {
+                    "name": "cell_voltage_70",
+                    "comment": "单体电池电压[70]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_42.BattCellVoltage_70"
+                },
+                {
+                    "name": "cell_voltage_71",
+                    "comment": "单体电池电压[71]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_42.BattCellVoltage_71"
+                },
+                {
+                    "name": "cell_voltage_72",
+                    "comment": "单体电池电压[72]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_42.BattCellVoltage_72"
+                },
+                {
+                    "name": "cell_voltage_73",
+                    "comment": "单体电池电压[73]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_43.BattCellVoltage_73"
+                },
+                {
+                    "name": "cell_voltage_74",
+                    "comment": "单体电池电压[74]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_43.BattCellVoltage_74"
+                },
+                {
+                    "name": "cell_voltage_75",
+                    "comment": "单体电池电压[75]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_43.BattCellVoltage_75"
+                },
+                {
+                    "name": "cell_voltage_76",
+                    "comment": "单体电池电压[76]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_43.BattCellVoltage_76"
+                },
+                {
+                    "name": "cell_voltage_77",
+                    "comment": "单体电池电压[77]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_44.BattCellVoltage_77"
+                },
+                {
+                    "name": "cell_voltage_78",
+                    "comment": "单体电池电压[78]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_44.BattCellVoltage_78"
+                },
+                {
+                    "name": "cell_voltage_79",
+                    "comment": "单体电池电压[79]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_44.BattCellVoltage_79"
+                },
+                {
+                    "name": "cell_voltage_80",
+                    "comment": "单体电池电压[80]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_44.BattCellVoltage_80"
+                },
+				                {
+                    "name": "cell_voltage_81",
+                    "comment": "单体电池电压[81]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_45.BattCellVoltage_81"
+                },
+                {
+                    "name": "cell_voltage_82",
+                    "comment": "单体电池电压[82]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_45.BattCellVoltage_82"
+                },
+                {
+                    "name": "cell_voltage_83",
+                    "comment": "单体电池电压[83]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_45.BattCellVoltage_83"
+                },
+                {
+                    "name": "cell_voltage_84",
+                    "comment": "单体电池电压[84]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_45.BattCellVoltage_84"
+                },
+                {
+                    "name": "cell_voltage_85",
+                    "comment": "单体电池电压[85]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_46.BattCellVoltage_85"
+                },
+                {
+                    "name": "cell_voltage_86",
+                    "comment": "单体电池电压[86]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_46.BattCellVoltage_86"
+                },
+                {
+                    "name": "cell_voltage_87",
+                    "comment": "单体电池电压[87]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_46.BattCellVoltage_87"
+                },
+                {
+                    "name": "cell_voltage_88",
+                    "comment": "单体电池电压[88]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_46.BattCellVoltage_88"
+                },
+                {
+                    "name": "cell_voltage_89",
+                    "comment": "单体电池电压[89]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_47.BattCellVoltage_89"
+                },
+                {
+                    "name": "cell_voltage_90",
+                    "comment": "单体电池电压[90]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_47.BattCellVoltage_90"
+                },
+                {
+                    "name": "cell_voltage_91",
+                    "comment": "单体电池电压[91]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_47.BattCellVoltage_91"
+                },
+                {
+                    "name": "cell_voltage_92",
+                    "comment": "单体电池电压[92]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_47.BattCellVoltage_92"
+                },
+                {
+                    "name": "cell_voltage_93",
+                    "comment": "单体电池电压[93]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_48.BattCellVoltage_93"
+                },
+                {
+                    "name": "cell_voltage_94",
+                    "comment": "单体电池电压[94]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_48.BattCellVoltage_94"
+                },
+                {
+                    "name": "cell_voltage_95",
+                    "comment": "单体电池电压[95]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_48.BattCellVoltage_95"
+                },
+                {
+                    "name": "cell_voltage_96",
+                    "comment": "单体电池电压[96]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_48.BattCellVoltage_96"
+                },
+                {
+                    "name": "cell_voltage_97",
+                    "comment": "单体电池电压[97]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_49.BattCellVoltage_97"
+                },
+                {
+                    "name": "cell_voltage_98",
+                    "comment": "单体电池电压[98]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_49.BattCellVoltage_98"
+                },
+                {
+                    "name": "cell_voltage_99",
+                    "comment": "单体电池电压[99]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_49.BattCellVoltage_99"
+                },
+                {
+                    "name": "cell_voltage_100",
+                    "comment": "单体电池电压[100]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_49.BattCellVoltage_100"
+                },
+                {
+                    "name": "cell_voltage_101",
+                    "comment": "单体电池电压[101]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_50.BattCellVoltage_101"
+                },
+                {
+                    "name": "cell_voltage_102",
+                    "comment": "单体电池电压[102]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_50.BattCellVoltage_102"
+                },
+                {
+                    "name": "cell_voltage_103",
+                    "comment": "单体电池电压[103]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_50.BattCellVoltage_103"
+                },
+                {
+                    "name": "cell_voltage_104",
+                    "comment": "单体电池电压[104]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_50.BattCellVoltage_104"
+                },
+                {
+                    "name": "cell_voltage_105",
+                    "comment": "单体电池电压[105]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_51.BattCellVoltage_105"
+                },
+                {
+                    "name": "cell_voltage_106",
+                    "comment": "单体电池电压[106]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_51.BattCellVoltage_106"
+                },
+                {
+                    "name": "cell_voltage_107",
+                    "comment": "单体电池电压[107]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_51.BattCellVoltage_107"
+                },
+                {
+                    "name": "cell_voltage_108",
+                    "comment": "单体电池电压[108]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_51.BattCellVoltage_108"
+                },
+                {
+                    "name": "cell_voltage_109",
+                    "comment": "单体电池电压[109]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_52.BattCellVoltage_109"
+                },
+                {
+                    "name": "cell_voltage_110",
+                    "comment": "单体电池电压[110]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_52.BattCellVoltage_110"
+                },
+                {
+                    "name": "cell_voltage_111",
+                    "comment": "单体电池电压[111]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_52.BattCellVoltage_111"
+                },
+                {
+                    "name": "cell_voltage_112",
+                    "comment": "单体电池电压[112]",
+                    "type": "float",
+                    "signal": "BMS_General_Status_52.BattCellVoltage_112"
+                },
+                {
+                    "name": "cell_voltage_113",
+                    "comment": "单体电池电压[113]",
+                    "type": "float",
+                    "signal": "BMS__CellBattery_Status_29.BattCellVoltage_113"
+                },
+                {
+                    "name": "cell_voltage_114",
+                    "comment": "单体电池电压[114]",
+                    "type": "float",
+                    "signal": "BMS__CellBattery_Status_29.BattCellVoltage_114"
+                },
+                {
+                    "name": "cell_voltage_115",
+                    "comment": "单体电池电压[115]",
+                    "type": "float",
+                    "signal": "BMS__CellBattery_Status_29.BattCellVoltage_115"
+                },
+                {
+                    "name": "cell_voltage_116",
+                    "comment": "单体电池电压[116]",
+                    "type": "float",
+                    "signal": "BMS__CellBattery_Status_29.BattCellVoltage_116"
+                },
+                {
+                    "name": "cell_voltage_117",
+                    "comment": "单体电池电压[117]",
+                    "type": "float",
+                    "signal": "BMS__CellBattery_Status_30.BattCellVoltage_117"
+                },
+                {
+                    "name": "cell_voltage_118",
+                    "comment": "单体电池电压[118]",
+                    "type": "float",
+                    "signal": "BMS__CellBattery_Status_30.BattCellVoltage_118"
+                },
+                {
+                    "name": "cell_voltage_119",
+                    "comment": "单体电池电压[119]",
+                    "type": "float",
+                    "signal": "BMS__CellBattery_Status_30.BattCellVoltage_119"
+                },
+                {
+                    "name": "cell_voltage_120",
+                    "comment": "单体电池电压[120]",
+                    "type": "float",
+                    "signal": "BMS__CellBattery_Status_30.BattCellVoltage_120"
+                }
+            ],
+            "period": 1000,
+            "msgid": "0x00110005"
+        },
+        {
+            "msgname": "NationalBatCelTempData",
+            "comment": "国标动力蓄电池包温度数据结构体 根据Sitech_e50_mce.json与通信协议.xlsx来定义的结构体",
+            "SignalContents": [
+                {
+                    "name": "battery_cell_temp_1",
+                    "comment": "探针温度值1",
+                    "type": "int16",
+                    "signal": "BMS_General_Status_11.BatCelTemp1"
+                },
+                {
+                    "name": "battery_cell_temp_2",
+                    "comment": "探针温度值2",
+                    "type": "int16",
+                    "signal": "BMS_General_Status_11.BatCelTemp2"
+                },
+                {
+                    "name": "battery_cell_temp_3",
+                    "comment": "探针温度值3",
+                    "type": "int16",
+                    "signal": "BMS_General_Status_11.BatCelTemp3"
+                },
+                {
+                    "name": "battery_cell_temp_4",
+                    "comment": "探针温度值4",
+                    "type": "int16",
+                    "signal": "BMS_General_Status_11.BatCelTemp4"
+                },
+                {
+                    "name": "battery_cell_temp_5",
+                    "comment": "探针温度值5",
+                    "type": "int16",
+                    "signal": "BMS_General_Status_11.BatCelTemp5"
+                },
+                {
+                    "name": "battery_cell_temp_6",
+                    "comment": "探针温度值6",
+                    "type": "int16",
+                    "signal": "BMS_General_Status_11.BatCelTemp6"
+                },
+                {
+                    "name": "battery_cell_temp_7",
+                    "comment": "探针温度值7",
+                    "type": "int16",
+                    "signal": "BMS_General_Status_11.BatCelTemp7"
+                },
+                {
+                    "name": "battery_cell_temp_8",
+                    "comment": "探针温度值8",
+                    "type": "int16",
+                    "signal": "BMS_General_Status_11.BatCelTemp8"
+                },
+                {
+                    "name": "battery_cell_temp_9",
+                    "comment": "探针温度值9",
+                    "type": "int16",
+                    "signal": "BMS_General_Status_12.BatCelTemp9"
+                },
+                {
+                    "name": "battery_cell_temp_10",
+                    "comment": "探针温度值10",
+                    "type": "int16",
+                    "signal": "BMS_General_Status_12.BatCelTemp10"
+                },
+                {
+                    "name": "battery_cell_temp_11",
+                    "comment": "探针温度值11",
+                    "type": "int16",
+                    "signal": "BMS_General_Status_12.BatCelTemp11"
+                },
+                {
+                    "name": "battery_cell_temp_12",
+                    "comment": "探针温度值12",
+                    "type": "int16",
+                    "signal": "BMS_General_Status_12.BatCelTemp12"
+                },
+                {
+                    "name": "battery_cell_temp_13",
+                    "comment": "探针温度值13",
+                    "type": "int16",
+                    "signal": "BMS_General_Status_12.BatCelTemp13"
+                },
+                {
+                    "name": "battery_cell_temp_14",
+                    "comment": "探针温度值14",
+                    "type": "int16",
+                    "signal": "BMS_General_Status_12.BatCelTemp14"
+                },
+                {
+                    "name": "battery_cell_temp_15",
+                    "comment": "探针温度值15",
+                    "type": "int16",
+                    "signal": "BMS_General_Status_12.BatCelTemp15"
+                },
+                {
+                    "name": "battery_cell_temp_16",
+                    "comment": "探针温度值16",
+                    "type": "int16",
+                    "signal": "BMS_General_Status_12.BatCelTemp16"
+                },
+                {
+                    "name": "battery_cell_temp_17",
+                    "comment": "探针温度值17",
+                    "type": "int16",
+                    "signal": "BMS_General_Status_13.BatCelTemp17"
+                },
+                {
+                    "name": "battery_cell_temp_18",
+                    "comment": "探针温度值18",
+                    "type": "int16",
+                    "signal": "BMS_General_Status_13.BatCelTemp18"
+                },
+                {
+                    "name": "battery_cell_temp_19",
+                    "comment": "探针温度值19",
+                    "type": "int16",
+                    "signal": "BMS_General_Status_13.BatCelTemp19"
+                },
+                {
+                    "name": "battery_cell_temp_20",
+                    "comment": "探针温度值20",
+                    "type": "int16",
+                    "signal": "BMS_General_Status_13.BatCelTemp20"
+                },
+                {
+                    "name": "battery_cell_temp_21",
+                    "comment": "探针温度值21",
+                    "type": "int16",
+                    "signal": "BMS_General_Status_13.BatCelTemp21"
+                },
+                {
+                    "name": "battery_cell_temp_22",
+                    "comment": "探针温度值22",
+                    "type": "int16",
+                    "signal": "BMS_General_Status_13.BatCelTemp22"
+                },
+                {
+                    "name": "battery_cell_temp_23",
+                    "comment": "探针温度值23",
+                    "type": "int16",
+                    "signal": "BMS_General_Status_13.BatCelTemp23"
+                },
+                {
+                    "name": "battery_cell_temp_24",
+                    "comment": "探针温度值24",
+                    "type": "int16",
+                    "signal": "BMS_General_Status_13.BatCelTemp24"
+                },
+				{
+                    "name": "battery_cell_temp_25",
+                    "comment": "探针温度值25",
+                    "type": "int16",
+                    "signal": "BMS_General_Status_31.BatCelTemp25"
+                },
+                {
+                    "name": "battery_cell_temp_26",
+                    "comment": "探针温度值26",
+                    "type": "int16",
+                    "signal": "BMS_General_Status_31.BatCelTemp26"
+                },
+                {
+                    "name": "battery_cell_temp_27",
+                    "comment": "探针温度值27",
+                    "type": "int16",
+                    "signal": "BMS_General_Status_31.BatCelTemp27"
+                },
+                {
+                    "name": "battery_cell_temp_28",
+                    "comment": "探针温度值28",
+                    "type": "int16",
+                    "signal": "BMS_General_Status_31.BatCelTemp28"
+                },
+                {
+                    "name": "battery_cell_temp_29",
+                    "comment": "探针温度值29",
+                    "type": "int16",
+                    "signal": "BMS_General_Status_31.BatCelTemp29"
+                },
+                {
+                    "name": "battery_cell_temp_30",
+                    "comment": "探针温度值30",
+                    "type": "int16",
+                    "signal": "BMS_General_Status_31.BatCelTemp30"
+                },
+                {
+                    "name": "battery_cell_temp_31",
+                    "comment": "探针温度值31",
+                    "type": "int16",
+                    "signal": "BMS_General_Status_31.BatCelTemp31"
+                },
+                {
+                    "name": "battery_cell_temp_32",
+                    "comment": "探针温度值32",
+                    "type": "int16",
+                    "signal": "BMS_General_Status_31.BatCelTemp32"
+                },
+                {
+                    "name": "battery_cell_temp_33",
+                    "comment": "探针温度值33",
+                    "type": "int16",
+                    "signal": "BMS_General_Status_32.BatCelTemp33"
+                },
+                {
+                    "name": "battery_cell_temp_34",
+                    "comment": "探针温度值34",
+                    "type": "int16",
+                    "signal": "BMS_General_Status_32.BatCelTemp34"
+                },
+                {
+                    "name": "battery_cell_temp_35",
+                    "comment": "探针温度值35",
+                    "type": "int16",
+                    "signal": "BMS_General_Status_32.BatCelTemp35"
+                },
+                {
+                    "name": "battery_cell_temp_36",
+                    "comment": "探针温度值36",
+                    "type": "int16",
+                    "signal": "BMS_General_Status_32.BatCelTemp36"
+                },
+                {
+                    "name": "battery_cell_temp_37",
+                    "comment": "探针温度值37",
+                    "type": "int16",
+                    "signal": "BMS_General_Status_32.BatCelTemp37"
+                },
+                {
+                    "name": "battery_cell_temp_38",
+                    "comment": "探针温度值38",
+                    "type": "int16",
+                    "signal": "BMS_General_Status_32.BatCelTemp38"
+                },
+                {
+                    "name": "battery_cell_temp_39",
+                    "comment": "探针温度值39",
+                    "type": "int16",
+                    "signal": "BMS_General_Status_32.BatCelTemp39"
+                },
+                {
+                    "name": "battery_cell_temp_40",
+                    "comment": "探针温度值40",
+                    "type": "int16",
+                    "signal": "BMS_General_Status_32.BatCelTemp40"
+                },
+                {
+                    "name": "battery_cell_temp_41",
+                    "comment": "探针温度值17",
+                    "type": "int16",
+                    "signal": "BMS_General_Status_33.BatCelTemp41"
+                },
+                {
+                    "name": "battery_cell_temp_42",
+                    "comment": "探针温度值42",
+                    "type": "int16",
+                    "signal": "BMS_General_Status_33.BatCelTemp42"
+                },
+                {
+                    "name": "battery_cell_temp_43",
+                    "comment": "探针温度值43",
+                    "type": "int16",
+                    "signal": "BMS_General_Status_33.BatCelTemp43"
+                },
+                {
+                    "name": "battery_cell_temp_44",
+                    "comment": "探针温度值44",
+                    "type": "int16",
+                    "signal": "BMS_General_Status_33.BatCelTemp44"
+                },
+                {
+                    "name": "battery_cell_temp_45",
+                    "comment": "探针温度值45",
+                    "type": "int16",
+                    "signal": "BMS_General_Status_33.BatCelTemp45"
+                },
+                {
+                    "name": "battery_cell_temp_46",
+                    "comment": "探针温度值46",
+                    "type": "int16",
+                    "signal": "BMS_General_Status_33.BatCelTemp46"
+                },
+                {
+                    "name": "battery_cell_temp_47",
+                    "comment": "探针温度值47",
+                    "type": "int16",
+                    "signal": "BMS_General_Status_33.BatCelTemp47"
+                },
+                {
+                    "name": "battery_cell_temp_48",
+                    "comment": "探针温度值48",
+                    "type": "int16",
+                    "signal": "BMS_General_Status_33.BatCelTemp48"
+                }
+            ],
+            "period": 1000,
+            "msgid": "0x00110006"
+        },
+        {
+            "msgname": "Data_1000_1019",
+            "comment": "自定义数据结构体 根据Sitech_e50_mce.json 数据项1000-1019定义的结构体",
+            "SignalContents": [
+                {
+                    "name": "data1000",
+                    "comment": "",
+                    "type": "uint8",
+                    "signal": "VCU_General_Status_1.KyPstn"
+                },
+                {
+                    "name": "data1001",
+                    "comment": "",
+                    "type": "uint8",
+                    "signal": "VCU_Vehicle_Command_State.VecOptMod"
+                },
+                {
+                    "name": "data1002",
+                    "comment": "",
+                    "type": "uint8",
+                    "signal": "VCU_Vehicle_Command_State.VecActGearSts"
+                },
+                {
+                    "name": "data1003",
+                    "comment": "",
+                    "type": "float",
+                    "signal": "VCU_General_Status_2.VehSpdAvgDrvn"
+                },
+                {
+                    "name": "data1004",
+                    "comment": "",
+                    "type": "uint8",
+                    "signal": "VCU_General_Status_2.VecSOC"
+                },
+                {
+                    "name": "LowBatVol",
+                    "comment": "低压蓄电池电压",
+                    "type": "float",
+                    "signal": "VCU_General_Status_3.LowBatVol"
+                },
+                {
+                    "name": "BatFltLvl",
+                    "comment": "电池包告警级别",
+                    "type": "uint8",
+                    "signal": "BMS_General_Status_9.BatFltLvl"
+                },
+                {
+                    "name": "VehRdySts",
+                    "comment": "车辆启动状态g_vehicalStatusValueB",
+                    "type": "uint8",
+                    "signal": "VCU_General_Status_1.VecStatRdy"
+                },
+                {
+                    "name": "data1008",
+                    "comment": "",
+                    "type": "uint8",
+                    "signal": "VCU_General_Status_1.KyPstn"
+                },
+                {
+                    "name": "VecChrgRqst",
+                    "comment": "充电请求",
+                    "type": "uint8",
+                    "signal": "VCU_Vehicle_Command_State.VecChrgRqst"
+                },
+                {
+                    "name": "CCSts",
+                    "comment": "慢充充电连接状态",
+                    "type": "uint8",
+                    "signal": "OBC_General_Status_2.CCSts"
+                },
+                {
+                    "name": "data1011",
+                    "comment": "",
+                    "type": "uint8",
+                    "signal": "VCU_General_Status_1.VecStatRdy"
+                },
+                {
+                    "name": "data1012",
+                    "comment": "",
+                    "type": "uint8",
+                    "signal": "VCU_General_Status_1.VecChrgingSts"
+                },
+                {
+                    "name": "data1013",
+                    "comment": "",
+                    "type": "uint8",
+                    "signal": "VCU_General_Status_1.VecChrgStsIndOn"
+                },
+                {
+                    "name": "BatSOC",
+                    "comment": "电池电量",
+                    "type": "uint8",
+                    "signal": "BMS_General_Status_2.BatSOC"
+                },
+                {
+                    "name": "VecFltIndOn",
+                    "comment": "整车故障指示",
+                    "type": "uint8",
+                    "signal": "VCU_General_Status_1.VecFltIndOn"
+                },
+                {
+                    "name": "DCDCInternalTemp",
+                    "comment": "直流/直流变换器内部温度",
+                    "type": "uint8",
+                    "signal": "OBC_General_Status_3.DCDCInternalTemp"
+                },
+                {
+                    "name": "DrivStOccSt",
+                    "comment": "主驾驶座占用状态",
+                    "type": "uint8",
+                    "signal": "Airbag_Impact_Data.DrivStOccSt"
+                },
+                {
+                    "name": "BatOthFltNum",
+                    "comment": "动力蓄电池其他故障总数",
+                    "type": "uint8",
+                    "signal": "BMS_General_Status_8.BatOthFltNum"
+                }
+            ],
+            "period": 1000,
+            "msgid": "0x00110007"
+        },
+        {
+            "msgname": "penetrateData_81",
+            "comment": "自定义数据结构体 广播的消息结构中包含了原始的CAN数据",
+            "rawCan": {
+                "is": true,
+                "comment": "",
+                "data": [
+					{
+                        "type": "uint8[12]",
+                        "canId": "0X284"
+                    },
+					{
+                        "type": "uint8[12]",
+                        "canId": "0X287"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X297"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X28C"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X28B"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X29A"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X29B"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X295"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X289"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X29E"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X5D6"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X5C6"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X5C7"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X5C8"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X5C9"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X5CA"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X5D8"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X59F"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X5B0"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X5B1"
+                    },
+                        {
+                        "type": "uint8[12]",
+                        "canId": "0X5B2"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X5B3"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X5B4"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X5B5"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X5B6"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X5B7"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X5B8"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X5A1"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X5A2"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X5A3"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X5A4"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X5A5"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X5A6"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X5A7"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X5A8"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X5A9"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X5AA"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X5AB"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X5AC"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X5AD"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X5AE"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X5AF"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X5BB"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X5BC"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X5BD"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X5BE"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X5BF"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X5C0"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X5D9"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X5DA"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X5DB"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X5DC"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X58A"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X58B"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X58C"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X58D"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X58E"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X59D"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X4A1"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X3C4"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X652"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X165"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X3C1"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X4C6"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X271"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X155"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X4C5"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X36A"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X4C7"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X36D"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X36E"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X651"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X16C"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X16E"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X2AE"
+                    },
+                    {   
+                        "type": "uint8[12]",
+                        "canId": "0X4B2"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X592"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X593"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X653"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X4F6"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X486"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X4D5"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X5C1"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X361"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X594"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X654"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X120"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X565"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X12A"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X3C9"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X57E"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X279"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X335"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X1E9"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X348"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X34A"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X17D"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X1C6"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X128"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X230"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X1E5"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X0E1"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X332"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X363"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X359"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X140"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X317"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X125"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X1F1"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X319"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X320"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X53B"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X52A"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X43B"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X122"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X433"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X107"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X339"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X527"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X141"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X350"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X10F"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0x621"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X425"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X316"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X406"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X573"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X53D"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X131"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X686"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X600"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X132"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X156"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X1D1"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X1D2"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X1D3"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X1D5"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X1E1"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X1E6"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X1F2"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X323"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X329"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X32A"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X32B"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X32C"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X32D"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X32E"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X32F"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X330"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0x333"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X336"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0x338"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X342"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X343"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X344"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X345"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0x346"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X35B"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X35C"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X35D"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X35E"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X35F"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X370"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X371"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X372"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X373"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X374"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X375"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X376"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X377"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X378"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X379"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X37A"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X37B"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X37C"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0x37D"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X37E"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X37F"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X390"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X391"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X392"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X393"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X394"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X395"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X396"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X398"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0x39E"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0x39F"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X402"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X403"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X404"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X460"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X4B1"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0x4BD"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0x4BE"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0x4BF"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0x4C4"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X534"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X535"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X555"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X561"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X602"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X604"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X605"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X608"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X614"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X615"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X62A"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X635"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X20000686"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X40000686"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X471"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X449"
+                    },
+                    {
+                        "type": "uint8[12]",
+                        "canId": "0X687"
+                    }
+                ]
+            },
+            "SignalContents": [
+            ],
+            "period": 1000,
+            "msgid": "0x00110008"
+        },
+        {
+            "msgname": "TemperatureProbeArray",
+            "comment": "温度探针个数和单体个数",
+            "SignalContents": [
+                {
+                    "name": "totalCelNum",
+                    "comment": "单体蓄电池总数",
+                    "type": "uint8",
+                    "signal": "BMS_General_Status_57.TotalCelNum"
+                },
+                {
+                    "name": "batPakTemNum",
+                    "comment": "该包动力蓄电池温度探针总数",
+                    "type": "uint8",
+                    "signal": "BMS_General_Status_10.BatPakTemNum"
+                }
+            ],
+            "period": 1000,
+            "msgid": "0x00110009"
+        },
+		{
+            "msgname": "Data_Carota",
+            "comment": "柯洛达所需信号项",
+            "SignalContents": [
+                {
+                    "name": "BMSCC2Sts",
+                    "comment": "电池管理系统检测快充连接状态",
+                    "type": "uint8",
+                    "signal": "BMS_General_Status_1.BMSCC2Sts"
+                },
+                {
+                    "name": "CCSts",
+                    "comment": "慢充充电连接状态",
+                    "type": "uint8",
+                    "signal": "OBC_General_Status_2.CCSts"
+                },
+                {
+                    "name": "VecStatRdy",
+                    "comment": "整车高压状态",
+                    "type": "uint8",
+                    "signal": "VCU_General_Status_1.VecStatRdy"
+                },
+                {
+                    "name": "VecChrgingSts",
+                    "comment": "充电线连接状态",
+                    "type": "uint8",
+                    "signal": "VCU_General_Status_1.VecChrgingSts"
+                },
+                {
+                    "name": "VecChrgStsIndOn",
+                    "comment": "充电状态",
+                    "type": "uint8",
+                    "signal": "VCU_General_Status_1.VecChrgStsIndOn"
+                },
+                {
+                    "name": "VehSpdAvgDrvn",
+                    "comment": "车速",
+                    "type": "float",
+                    "signal": "VCU_General_Status_2.VehSpdAvgDrvn"
+                },
+                {
+                    "name": "VecSOC",
+                    "comment": "整车电池电量",
+                    "type": "uint8",
+                    "signal": "VCU_General_Status_2.VecSOC"
+                },
+                {
+                    "name": "BatExtVol",
+                    "comment": "电池包外侧总电压",
+                    "type": "float",
+                    "signal": "VCU_General_Status_3.LowBatVol"
+                },
+                {
+                    "name": "VecActGearSts",
+                    "comment": "整车当前档位状态",
+                    "type": "uint8",
+                    "signal": "VCU_Vehicle_Command_State.VecActGearSts"
+                },
+                {
+                    "name": "KyPstn",
+                    "comment": "整车钥匙状态",
+                    "type": "uint8",
+                    "signal": "VCU_General_Status_1.KyPstn"
+                },
+                {
+                    "name": "HandBrkSts",
+                    "comment": "电子手刹状态",
+                    "type": "uint8",
+                    "signal": "Electric_Park_Brake_Status.ElecPrkBrkStat"
+                },
+                {
+                    "name": "AnThWaSt",
+                    "comment": "设防的警告状态",
+                    "type": "uint8",
+                    "signal": "LS_Device_Information.AnThWaSt"
+                },
+                {
+                    "name": "SysPowMode",
+                    "comment": "整车电源模式",
+                    "type": "uint8",
+                    "signal": "PEPS_General_Status.SysPowMode"
+                }
+            ],
+            "period": 1000,
+            "msgid": "0x00110010"
+        }
+    ]
+}
+
+
+
+
+
+
+
+
+
+
+
+

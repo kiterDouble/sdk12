@@ -1,0 +1,331 @@
+{
+	"arrayNum" : 18,
+	"array" : 
+	[
+		{
+			"typeId" : "0x81",
+			"typeArray" :
+			[
+				{ "canId" : "0X284" },
+				{ "canId" : "0X287" },
+				{ "canId" : "0X289" },
+				{ "canId" : "0X28B" },
+				{ "canId" : "0X28C" },
+				{ "canId" : "0X295" },
+				{ "canId" : "0X297" },
+				{ "canId" : "0X29A" },
+				{ "canId" : "0X29B" },
+				{ "canId" : "0X29E" },
+				{ "canId" : "0X3C4" },
+				{ "canId" : "0X4A1" },
+				{ "canId" : "0X58A" },
+				{ "canId" : "0X58B" },
+				{ "canId" : "0X58C" },
+				{ "canId" : "0X58D" },
+				{ "canId" : "0X58E" },
+				{ "canId" : "0X59D" },
+				{ "canId" : "0X59F" },
+				{ "canId" : "0X5A1" },
+				{ "canId" : "0X5A2" },
+				{ "canId" : "0X5A3" },
+				{ "canId" : "0X5A4" },
+				{ "canId" : "0X5A5" },
+				{ "canId" : "0X5A6" },
+				{ "canId" : "0X5A7" },
+				{ "canId" : "0X5A8" },
+				{ "canId" : "0X5A9" },
+				{ "canId" : "0X5AA" },
+				{ "canId" : "0X5AB" },
+				{ "canId" : "0X5AC" },
+				{ "canId" : "0X5AD" },
+				{ "canId" : "0X5AE" },
+				{ "canId" : "0X5AF" },
+				{ "canId" : "0X5B0" },
+				{ "canId" : "0X5B1" },
+				{ "canId" : "0X5B2" },
+				{ "canId" : "0X5B3" },
+				{ "canId" : "0X5B4" },
+				{ "canId" : "0X5B5" },
+				{ "canId" : "0X5B6" },
+				{ "canId" : "0X5B7" },
+				{ "canId" : "0X5B8" },
+				{ "canId" : "0X5BB" },
+				{ "canId" : "0X5BC" },
+				{ "canId" : "0X5BD" },
+				{ "canId" : "0X5BE" },
+				{ "canId" : "0X5BF" },
+				{ "canId" : "0X5C0" },
+				{ "canId" : "0X5C6" },
+				{ "canId" : "0X5C7" },
+				{ "canId" : "0X5C8" },
+				{ "canId" : "0X5C9" },
+				{ "canId" : "0X5CA" },
+				{ "canId" : "0X5D6" },
+				{ "canId" : "0X5D8" },
+				{ "canId" : "0X5D9" },
+				{ "canId" : "0X5DA" },
+				{ "canId" : "0X5DB" },
+				{ "canId" : "0X5DC" },
+				{ "canId" : "0X652" }
+			]
+		},
+		
+		{
+			"typeId" : "0x82",
+			"typeArray" :
+			[
+				{ "canId" : "0X155" },
+				{ "canId" : "0X165" },
+				{ "canId" : "0X271" },
+				{ "canId" : "0X36A" },
+				{ "canId" : "0X36D" },
+				{ "canId" : "0X36E" },
+				{ "canId" : "0X449" },
+				{ "canId" : "0X4C5" },
+				{ "canId" : "0X4C6" },
+				{ "canId" : "0X4C7" },
+				{ "canId" : "0X651" }
+			]
+		},
+		
+		{	"typeId" : "0x83",
+			"typeArray" :
+			[
+				{ "canId" : "0X16C" },
+				{ "canId" : "0X16E" },
+				{ "canId" : "0X2AE" },
+				{ "canId" : "0X4B1" },
+				{ "canId" : "0X4B2" },
+				{ "canId" : "0X592" },
+				{ "canId" : "0X593" },
+				{ "canId" : "0X653" }
+			]
+		},
+		
+		{	"typeId" : "0x84",
+			"typeArray" :
+			[
+				{ "canId" : "0X361" },
+				{ "canId" : "0X486" },
+				{ "canId" : "0X4D5" },
+				{ "canId" : "0X4F6" },
+				{ "canId" : "0X594" },
+				{ "canId" : "0X5C1" },
+				{ "canId" : "0X654" }
+			]
+		},
+		
+		{	"typeId" : "0x85",
+			"typeArray" :
+			[
+				{ "canId" : "0X1F2" },
+				{ "canId" : "0X608" }
+			]
+		},
+
+		{	"typeId" : "0x86",
+			"typeArray" :
+			[
+				{ "canId" : "0X131" },
+				{ "canId" : "0X316" },
+				{ "canId" : "0X406" },
+				{ "canId" : "0X425" },
+				{ "canId" : "0X53D" },
+				{ "canId" : "0X573" },
+				{ "canId" : "0X686" },
+				{ "canId" : "0X20000686" },
+				{ "canId" : "0X40000686" }
+			]
+		},
+		
+		{	"typeId" : "0x87",
+			"typeArray" :
+			[
+				{ "canId" : "0X0E1" },
+				{ "canId" : "0X12A" },
+				{ "canId" : "0X140" },
+				{ "canId" : "0X319" },
+				{ "canId" : "0X320" },
+				{ "canId" : "0X600" }
+			]
+		},
+		
+		{	"typeId" : "0x88",
+			"typeArray" :
+			[
+				{ "canId" : "0X120" },
+				{ "canId" : "0X332" },
+				{ "canId" : "0X363" },
+				{ "canId" : "0X471" },
+				{ "canId" : "0X614" }
+			]
+		},
+		
+		{	"typeId" : "0x89",
+			"typeArray" :
+			[
+				{ "canId" : "0X107" },
+				{ "canId" : "0X122" },
+				{ "canId" : "0X330" },
+				{ "canId" : "0X335" },
+				{ "canId" : "0X336" },
+				{ "canId" : "0X339" },
+				{ "canId" : "0X342" },
+				{ "canId" : "0X343" },
+				{ "canId" : "0X344" },
+				{ "canId" : "0X345" },
+				{ "canId" : "0x346" },
+				{ "canId" : "0X350" },
+				{ "canId" : "0X402" },
+				{ "canId" : "0X403" },
+				{ "canId" : "0X404" },
+				{ "canId" : "0X460" },
+				{ "canId" : "0X527" },
+				{ "canId" : "0X52A" },
+				{ "canId" : "0X561" },
+				{ "canId" : "0X615" }
+			]
+		},
+		
+		{	"typeId" : "0x8A",
+			"typeArray" :
+			[
+				{ "canId" : "0X279" },
+				{ "canId" : "0X433" },
+				{ "canId" : "0X43B" },
+				{ "canId" : "0X57E" },
+				{ "canId" : "0X635" }
+			]
+		},
+		
+		{	"typeId" : "0x8F",
+			"typeArray" :
+			[
+				{ "canId" : "0x62A" }
+			]
+		},
+		
+		{	"typeId" : "0x91",
+			"typeArray" :
+			[
+				{ "canId" : "0X1C6" },
+				{ "canId" : "0X1E1" },
+				{ "canId" : "0X1E5" },
+				{ "canId" : "0X1E6" },
+				{ "canId" : "0X1E9" },
+				{ "canId" : "0X1F1" },
+				{ "canId" : "0X3C1" },
+				{ "canId" : "0X3C9" },
+				{ "canId" : "0X53B" },
+				{ "canId" : "0X605" }
+			]
+		},
+		
+		{	"typeId" : "0x92",
+			"typeArray" :
+			[
+				{ "canId" : "0X128" },
+				{ "canId" : "0X17D" },
+				{ "canId" : "0X230" },
+				{ "canId" : "0X348" },
+				{ "canId" : "0X34A" },
+				{ "canId" : "0X602" }
+			]
+		},
+		
+		{	"typeId" : "0x93",
+			"typeArray" :
+			[
+				{ "canId" : "0x132" },
+				{ "canId" : "0x156" }
+			]
+		},
+		
+		{	"typeId" : "0x94",
+			"typeArray" :
+			[
+				{ "canId" : "0x141" },
+				{ "canId" : "0x604" }
+			]
+		},
+		
+		{	"typeId" : "0x95",
+			"typeArray" :
+			[
+				{ "canId" : "0X1D1" },
+				{ "canId" : "0X1D2" },
+				{ "canId" : "0X1D3" },
+				{ "canId" : "0X1D5" },
+				{ "canId" : "0X323" },
+				{ "canId" : "0X329" },
+				{ "canId" : "0X32A" },
+				{ "canId" : "0X32B" },
+				{ "canId" : "0X32C" },
+				{ "canId" : "0X32D" },
+				{ "canId" : "0X32E" },
+				{ "canId" : "0X32F" },
+				{ "canId" : "0x333" },
+				{ "canId" : "0x338" },
+				{ "canId" : "0X35B" },
+				{ "canId" : "0X35C" },
+				{ "canId" : "0X35D" },
+				{ "canId" : "0X35E" },
+				{ "canId" : "0X35F" },
+				{ "canId" : "0X370" },
+				{ "canId" : "0X371" },
+				{ "canId" : "0X372" },
+				{ "canId" : "0X373" },
+				{ "canId" : "0X374" },
+				{ "canId" : "0X375" },
+				{ "canId" : "0X376" },
+				{ "canId" : "0X377" },
+				{ "canId" : "0X378" },
+				{ "canId" : "0X379" },
+				{ "canId" : "0X37A" },
+				{ "canId" : "0X37B" },
+				{ "canId" : "0X37C" },
+				{ "canId" : "0x37D" },
+				{ "canId" : "0X37E" },
+				{ "canId" : "0X37F" },
+				{ "canId" : "0X390" },
+				{ "canId" : "0X391" },
+				{ "canId" : "0X392" },
+				{ "canId" : "0X393" },
+				{ "canId" : "0X394" },
+				{ "canId" : "0X395" },
+				{ "canId" : "0X396" },
+				{ "canId" : "0X398" },
+				{ "canId" : "0x39E" },
+				{ "canId" : "0x39F" },
+				{ "canId" : "0x4BD" },
+				{ "canId" : "0x4BE" },
+				{ "canId" : "0x4BF" },
+				{ "canId" : "0x4C4" },
+				{ "canId" : "0X534" },
+				{ "canId" : "0X535" },
+				{ "canId" : "0X687" }
+			]
+		},
+		
+		{	"typeId" : "0x97",
+			"typeArray" :
+			[
+				{ "canId" : "0X10F" },
+				{ "canId" : "0X555" },
+				{ "canId" : "0x621" }
+			]
+		},
+		
+		{	"typeId" : "0x98",
+			"typeArray" :
+			[
+				{ "canId" : "0x125" },
+				{ "canId" : "0x317" },
+				{ "canId" : "0x359" },
+				{ "canId" : "0x565" }
+			]
+		}
+	]
+}
+
+

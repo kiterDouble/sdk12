@@ -1,0 +1,42 @@
+{
+    "unicast": "192.168.1.2",
+    "netmask": "255.255.255.0",
+
+    "logging": {
+        "level": "debug",
+        "console": "true",
+        "file": {
+            "enable": "false",
+            "path": "/oemdata/log/tbox_someip_client.log"
+        },
+        "dlt": "false"
+    },
+
+    "applications": [
+        {
+            "name": "tbox_someip_client",
+            "id": "0x1313"
+        }
+    ],
+
+    "clients": [
+		{
+			 "service": "0x0204",
+			 "instance": "0x0001",
+			 "unreliable": "51000"
+		}
+    ],
+    "service-discovery": {
+	"enable" : "true",                 
+        "multicast" : "239.5.1.1",   
+        "port" : "30490",                  
+        "protocol" : "udp",                
+        "initial_delay_min" : "0",        
+        "initial_delay_max" : "100",       
+        "repetitions_base_delay" : "30",  
+        "repetitions_max" : "3",           
+        "ttl" : "3",                       
+        "cyclic_offer_delay" : "1000",     
+        "request_response_delay" : "500"
+    }
+}

@@ -1,0 +1,24 @@
+stages:
+- test
+code-quality-job:
+  stage: test
+  image:
+    name: cppcheck:latest
+    entrypoint:
+    - ''
+  rules:
+    - if: "$CODE_QUALITY_DISABLED"
+      when: never
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_TAG
+  script:
+    - echo "cppcheck the code..."
+    - cppcheck --version
+    - cppcheck --xml -f --enable=all ./ 2> cppcheck.xml
+    - python3 -m cppcheck_codequality --input-file=cppcheck.xml --output-file=gl-code-quality-report.json
+  variables:
+    REPORT_FORMAT: html
+  artifacts:
+    reports:
+      codequality: gl-code-quality-report.json
